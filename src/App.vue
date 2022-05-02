@@ -1,61 +1,58 @@
 <template>
   <v-app>
-    <!-- <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+    <v-app-bar class="light-blue lighten-2 white--text text-sm-h4" clipped-left max-height="10vh">
+      <v-app-bar-nav-icon class="white--text" variant="text" @click="drawer = !drawer"/>
+      <v-toolbar-title>Vuetify Practice</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar> -->
+    </v-app-bar>
 
-    <v-main>
-      <mSM></mSM>
-    </v-main>
+    <v-navigation-drawer v-model="drawer" temporary absolute clipped>
+      <v-list-item-group v-model="group" active-class="light-blue lighten-5 text--accent-4">
+          <v-list-item>
+            <v-list-item-title>Foo</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Bar</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Fizz</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Buzz</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+    </v-navigation-drawer>
+
+      <v-main height="90vh">
+        <!-- <Calender /> -->
+        <ClientIndex />
+      </v-main>
   </v-app>
+
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld';
-import mSM from './components/mSM.vue';
+// import Calender from './components/Calender/Calender.vue'
+import ClientIndex from './components/Client/ClientIndex.vue'
+// import ClientIndex from './components/Client/ClientIndex2.vue'
+// import ClientIndex from './components/Client/ClientIndex3.vue'
 
 export default {
   name: 'App',
 
   components: {
-    mSM,
+    // Calender,
+    ClientIndex
   },
 
   data: () => ({
-    //
+    drawer: null,
   }),
 };
 </script>
