@@ -8,8 +8,8 @@
       <v-col cols="3" sm="3"></v-col>
       <v-col cols="4" sm="5" align="center">
           <v-btn color="green" class="ml-5 mx-2 white--text">案件一覧</v-btn>
-          <v-btn color="red" class="mx-2 white--text">削除</v-btn>
-          <v-btn color="primary" class="mx-2">編集</v-btn>
+          <v-btn color="red" class="mx-2 white--text" @click="deleteClient">削除</v-btn>
+          <v-btn color="primary" class="mx-2" @click="openEditor">編集</v-btn>
       </v-col>
     </v-row>
         
@@ -61,5 +61,20 @@ export default {
       },
     };
   },
+  methods: {
+    openEditor() {
+      console.log("客家")
+      this.$router.push({ path: '/clients/edit' })
+    },
+    deleteClient() {
+      if(confirm('本当に削除しますか？')){
+        // this.$router.back()
+
+        // 削除処理
+        
+        window.close()
+      }
+    }
+  }
 };
 </script>
