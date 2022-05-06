@@ -31,22 +31,34 @@
 
       <v-main height="90vh">
         <!-- <Calender /> -->
-        <ClientIndex />
+        <!-- <ClientList /> -->
+        <!-- <ActivityList /> -->
+        <!-- <EmployeeList_Admin /> -->
+        <!-- <EmployeeList_User /> -->
+        <ProjectList />
       </v-main>
   </v-app>
 </template>
 
 <script>
 // import Calender from './components/Calender/Calender.vue'
-import ClientIndex from './components/Client/ClientIndex.vue'
+// import ClientList from './components/Client/ClientList.vue'
+// import ActivityList from './components/Activity/ActivityList.vue'
+// import EmployeeList_Admin from './components/Employee/Admin/';
+// import EmployeeList_User from './components/Employee/User/EmployeeList.vue';
+import ProjectList from './components/Project/ProjectList.vue';
 
 export default {
   name: 'App',
 
   components: {
     // Calender,
-    ClientIndex
-  },
+    // ClientList,
+    // ActivityList,
+    // EmployeeList_Admin,
+    // EmployeeList_User,
+    ProjectList,
+},
 
   data: () => ({
     drawer: null,
