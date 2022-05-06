@@ -80,13 +80,23 @@ import axios from 'axios'
     },
     methods: {
     showClientDetail(data) {
-      console.log(data.id)
+      console.log(data)
       let resolvedRoute = this.$router.resolve({
         name: 'client_detail',
-        query: { data: data.id}
+        query: {
+          id: data.id,
+          name: data.title,
+          name_kana: data.title,
+          postal_code: data.title,
+          address: data.title,
+          phone_number: data.title,
+          email: data.title,
+          created_at: data.title,
+          updated_at: data.title,
+        }
       })
 
-      window.open( resolvedRoute.href,"_blank")
+      window.open( resolvedRoute.href, null, "_blank")
     }
   },
     created() {

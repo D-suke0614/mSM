@@ -1,67 +1,65 @@
 <template>
-  <div class="about">
-    <h2>Clinet Detail</h2>
-    <p>{{ this.$route.query }}</p>
-    <v-btn @click="Test"></v-btn>
-  </div>
+  <v-container>
+    
+    <v-row class="my-2">
+      <v-col cols="5" sm="4" align="center">
+          <p class="text-h4 d-inline">Client</p>
+      </v-col>
+      <v-col cols="3" sm="3"></v-col>
+      <v-col cols="4" sm="5" align="center">
+          <v-btn color="green" class="ml-5 mx-2 white--text">案件一覧</v-btn>
+          <v-btn color="red" class="mx-2 white--text">削除</v-btn>
+          <v-btn color="primary" class="mx-2">編集</v-btn>
+      </v-col>
+    </v-row>
+        
+    <v-row class="my-2">
+      <v-col cols="12">
+        <v-simple-table class="mx-auto">
+          <template>
+            <tbody>
+              <tr v-for="(key, value) in th_list" :key="value.id" >
+                <th class="text-center text-h5">{{ key }}</th>
+                <td class="text-center text-h6">{{ client[value] }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </v-col>
+    </v-row>
+
+</v-container>
 </template>
 
 <script>
-import axios from 'axios'
+
 export default {
   name: "ClientIndex",
   data() {
     return {
-      loading: true,
-      errored: false,
-      error: null,
-      todos: null,
-      sa: 1,
-      headers: [
-          {
-            text: '会社名',
-            align: 'start',
-            sortable: false,
-            value: 'id',
-          },
-          { text: 'カイシャメイ', value: 'title' },
-          { text: '住所', value: 'fat' },
-          { text: '電話番号', value: 'carbs' },
-          { text: 'メールアドレス', value: 'protein' },
-          { text: '登録日', value: 'iron' },
-          { text: '更新日', value: 'iron' },
-        ],
+      th_list: { 
+        id: "顧客ID",
+        name: "顧客名",
+        name_kana: "コキャクメイ",
+        postal_code: "郵便番号",
+        address: "住所",
+        phone_number: "電話番号",
+        email: "メールアドレス",
+        created_at: "登録日",
+        updated_at: "更新日",
+      },
+      client: { 
+        id: this.$route.query.id,
+        name: this.$route.query.name,
+        name_kana: this.$route.query.name,
+        postal_code: this.$route.query.name,
+        address: this.$route.query.name,
+        phone_number: this.$route.query.name,
+        email: this.$route.query.name,
+        created_at: this.$route.query.name,
+        updated_at: this.$route.query.name,
+      },
     };
   },
-  methods: {
-    Test() {
-      window.open()
-    }
-  },
-  created() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos", {
-        params: {
-          userId: "1"
-        }
-      })
-      .then(response => {
-        this.todos = response.data;
-      })
-      .catch(err => {
-        (this.errored = true), (this.error = err);
-      })
-      .finally(() => (this.loading = false));
-  }
 };
 </script>
-
-<style>
-[v-cloak] {
-  display: none;
-}
-h1 {
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-</style>
