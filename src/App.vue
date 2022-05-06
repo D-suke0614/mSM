@@ -11,21 +11,36 @@
 
     <v-navigation-drawer v-model="drawer" temporary absolute clipped>
       <v-list-item-group v-model="group" active-class="light-blue lighten-5 text--accent-4">
-          <v-list-item>
-            <v-list-item-title>Foo</v-list-item-title>
-          </v-list-item>
+          <router-link :to="{path: '/'}" class="text-decoration-none black--text">
+            <v-list-item>
+              <v-list-item-title>Calender</v-list-item-title>
+            </v-list-item>
+          </router-link>
 
-          <v-list-item>
-            <v-list-item-title>Bar</v-list-item-title>
-          </v-list-item>
+          <router-link :to="{path: '/clients'}" class="text-decoration-none black--text">
+            <v-list-item>
+              <v-list-item-title>Client</v-list-item-title>
+            </v-list-item>
+          </router-link>
 
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
-          </v-list-item>
+          <router-link :to="{path: '/projects'}" class="text-decoration-none black--text">
+            <v-list-item>
+              <v-list-item-title>Project</v-list-item-title>
+            </v-list-item>
+          </router-link>
 
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
-          </v-list-item>
+          <router-link :to="{path: '/activities'}" class="text-decoration-none black--text">
+            <v-list-item>
+              <v-list-item-title>Activities</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
+          <router-link :to="{path: '/employees'}" class="text-decoration-none black--text">
+            <v-list-item>
+              <v-list-item-title>Employee</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
         </v-list-item-group>
     </v-navigation-drawer>
 
