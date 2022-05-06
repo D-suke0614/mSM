@@ -8,13 +8,14 @@ import vuetify from './plugins/vuetify'
 // import VueAxios from 'vue-axios' //追記
 
 // 使うときにコメントインして
-// import router from './router'
+import router from './router.js'
 
 Vue.config.productionTip = false
 
 // Vue.use(VueAxios, axios)
 
 new Vue({
+  router,
   vuetify,
   render: h => h(App)
 }).$mount('#app')

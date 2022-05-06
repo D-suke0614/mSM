@@ -33,6 +33,7 @@
                 class="elevation-5"
                 v-for="todo in sa" :key="todo.id"
                 v-cloak
+                @click:row="showClientDetail"
                 >
                 {{todo.title}}
               </v-data-table>
@@ -77,6 +78,17 @@ import axios from 'axios'
         ],
       }
     },
+    methods: {
+    showClientDetail(data) {
+      console.log(data.id)
+      let resolvedRoute = this.$router.resolve({
+        name: 'client_detail',
+        query: { data: data.id}
+      })
+
+      window.open( resolvedRoute.href,"_blank")
+    }
+  },
     created() {
     axios
       .get("https://jsonplaceholder.typicode.com/todos", {
