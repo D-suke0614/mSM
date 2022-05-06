@@ -77,11 +77,7 @@ import axios from 'axios'
     },
     created() {
     axios
-      .get("https://jsonplaceholder.typicode.com/todos", {
-        params: {
-          userId: "1"
-        }
-      })
+      .get("https://jsonplaceholder.typicode.com/todos")
       .then(response => {
         this.todos = response.data;
       })
