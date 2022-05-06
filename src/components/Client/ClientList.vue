@@ -15,27 +15,26 @@
         </v-tabs>
 
         <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="item in items"
-        :key="item"
-      >
-        <v-card flat>
-          <div class="list">
-            <!-- <h1>This is Project list display</h1> -->
-            <p v-if="errored" v-cloak>{{ error }}</p>
-            <p v-if="loading" v-cloak>Loading...</p>
+          <v-tab-item
+            v-for="item in items"
+            :key="item"
+          >
+            <v-card flat>
+              <div class="list">
+                <p v-if="errored" v-cloak>{{ error }}</p>
+                <p v-if="loading" v-cloak>Loading...</p>
 
-            <div v-else>
-              <v-data-table
-                :headers="headers"
-                :items="todos"
-                :items-per-page="10"
-                class="elevation-5"
-                v-for="todo in sa" :key="todo.id"
-                v-cloak
-                @click:row="showClientDetail"
-                >
-                {{todo.title}}
+                <div v-else>
+                  <v-data-table
+                    :headers="headers"
+                    :items="todos"
+                    :items-per-page="10"
+                    class="elevation-5"
+                    v-for="todo in sa" :key="todo.id"
+                    v-cloak
+                  @click:row="showClientDetail"
+                  >
+                    {{todo.title}}
               </v-data-table>
             </div>
           </div>
