@@ -1,32 +1,13 @@
 <template>
   <div class="about">
-    <h1>This is list display</h1>
-    <p v-if="errored" v-cloak>{{ error }}</p>
-    <p v-if="loading" v-cloak>Loading...</p>
-
-    <div v-else>
-        <v-data-table
-        :headers="headers"
-        :items="todos"
-        :items-per-page="10"
-        class="elevation-5"
-        v-for="todo in sa" :key="todo.id"
-        v-cloak
-        @click:row="showClientDetail"
-        >
-        {{todo.title}}
-        </v-data-table>
-    </div>
+    <h2>Clinet Detail</h2>
+    <p>{{ this.$route.query }}</p>
     <v-btn @click="Test"></v-btn>
-    <p>{{ $route.params }}</p>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-
-// const url = "http://localhost:8080/msm_client/api/"
-
 export default {
   name: "ClientIndex",
   data() {
@@ -53,14 +34,8 @@ export default {
     };
   },
   methods: {
-    showClientDetail(data) {
-      console.log(data.id)
-      let resolvedRoute = this.$router.resolve({
-        name: 'client_detail',
-        query: { data: data.id}
-      })
-
-      window.open( resolvedRoute.href,"_blank")
+    Test() {
+      window.open()
     }
   },
   created() {

@@ -31,21 +31,19 @@
 
       <v-main height="90vh">
         <!-- <Calender /> -->
-        <ClientIndex />
+        <router-view></router-view>
       </v-main>
   </v-app>
 </template>
 
 <script>
 // import Calender from './components/Calender/Calender.vue'
-import ClientIndex from './components/Client/ClientIndex.vue'
+// import ClientIndex from './components/Client/ClientIndex.vue'
 
 export default {
   name: 'App',
-
   components: {
     // Calender,
-    ClientIndex
   },
 
   data: () => ({
