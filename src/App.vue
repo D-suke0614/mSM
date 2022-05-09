@@ -35,7 +35,7 @@
             </v-list-item>
           </router-link>
 
-          <router-link :to="{path: '/employees'}" class="text-decoration-none black--text">
+          <router-link :to="{path: '/admin'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-list-item-title>Employee</v-list-item-title>
             </v-list-item>

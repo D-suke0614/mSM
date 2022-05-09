@@ -9,6 +9,7 @@ import ProjectList from './components/Project/ProjectList.vue'
 import ActivityList from './components/Activity/ActivityList.vue'
 import EmployeeList from './components/Employee/User/EmployeeList.vue'
 import AdminList from './components/Employee/Admin/AdminList.vue'
+import AdminSubstrate from './components/Employee/Admin/AdminSubstrate.vue'
 import ProjectSubstrate from './components/Project/ProjectSubstrate.vue'
 
 Vue.use(Router)
@@ -58,6 +59,11 @@ export default new Router({
     },
     {
       path: '/admin',
+      name: 'adminSubstrate',
+      component: AdminSubstrate,
+    },
+    {
+      path: '/admin/list',
       name: 'admin',
       component: AdminList,
     },

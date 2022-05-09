@@ -34,31 +34,85 @@
       <!-- 登録タブ -->
         <v-tab-item>
           <form >
+            <!-- lastName -->
             <v-text-field
             class="input"
-              v-model="pjName"
-              :error-messages="pjNameErrors"
+              v-model="lastName"
+              :error-messages="lastNameErrors"
               :counter="10"
-              label="案件名"
+              label="性"
               required
-              @input="$v.pjName.$touch()"
-              @blur="$v.pjName.$touch()"
+              @input="$v.lastName.$touch()"
+              @blur="$v.lastName.$touch()"
             ></v-text-field>
+            <!-- firstName -->
             <v-text-field
             class="input"
-              v-model="pjContent"
-              :error-messages="pjContentErrors"
-              label="内容"
+              v-model="firstName"
+              :error-messages="firstNameErrors"
+              :counter="10"
+              label="名"
               required
-              @input="$v.pjContent.$touch()"
-              @blur="$v.pjContent.$touch()"
+              @input="$v.firstName.$touch()"
+              @blur="$v.firstName.$touch()"
             ></v-text-field>
+            <!-- KlastName -->
             <v-text-field
-            v-model="pj_id"
-            label="案件ID"
             class="input"
-            >
-            </v-text-field>
+              v-model="KlastName"
+              :error-messages="KlastNameErrors"
+              :counter="20"
+              label="セイ"
+              required
+              @input="$v.KlastName.$touch()"
+              @blur="$v.KlastName.$touch()"
+            ></v-text-field>
+            <!-- KfirstName -->
+            <v-text-field
+            class="input"
+              v-model="KfirstName"
+              :error-messages="KfirstNameErrors"
+              :counter="20"
+              label="セイ"
+              required
+              @input="$v.KfirstName.$touch()"
+              @blur="$v.KfirstName.$touch()"
+            ></v-text-field>
+            <!-- password -->
+            <v-text-field
+            v-bind:type="showPassword ? 'text' : 'password'"
+            @click:append="showPassword = !showPassword"
+            v-bind:append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            class="input"
+              v-model="password"
+              :error-messages="passwordErrors"
+              label="パスワード"
+              required
+              @input="$v.password.$touch()"
+              @blur="$v.password.$touch()"
+            ></v-text-field>
+            <!-- Profile pic -->
+            <v-file-input
+            class="input"
+              v-model="profilePic"
+              :error-messages="profilePicErrors"
+              label="プロフィール画像"
+              required
+              @input="$v.profilePic.$touch()"
+              @blur="$v.profilePic.$touch()"
+            ></v-file-input>
+            <!-- 電話番号 -->
+            <v-text-field
+            class="input"
+              v-model="PhoneNumber"
+              :error-messages="PhoneNumberErrors"
+              :counter="11"
+              label="電話番号"
+              required
+              @input="$v.PhoneNumber.$touch()"
+              @blur="$v.PhoneNumber.$touch()"
+            ></v-text-field>
+            <!-- email -->
             <v-text-field
             class="input"
               v-model="email"
@@ -68,6 +122,49 @@
               @input="$v.email.$touch()"
               @blur="$v.email.$touch()"
             ></v-text-field>
+            <!-- department -->
+            <v-text-field
+            class="input"
+              v-model="department"
+              :error-messages="departmentErrors"
+              label="部署"
+              required
+              @input="$v.department.$touch()"
+              @blur="$v.department.$touch()"
+            ></v-text-field>
+            <!-- position -->
+            <v-text-field
+            class="input"
+              v-model="position"
+              :error-messages="positionErrors"
+              label="役職"
+              required
+              @input="$v.position.$touch()"
+              @blur="$v.position.$touch()"
+            ></v-text-field>
+            <!-- birthday -->
+            <v-text-field
+            type="date"
+            class="input"
+              v-model="birthday"
+              :error-messages="birthdayErrors"
+              label="生年月日"
+              required
+              @input="$v.birthday.$touch()"
+              @blur="$v.birthday.$touch()"
+            ></v-text-field>
+            <!-- hire_date -->
+            <v-text-field
+            type="date"
+            class="input"
+              v-model="hire_date"
+              :error-messages="hire_dateErrors"
+              label="入社日"
+              required
+              @input="$v.hire_date.$touch()"
+              @blur="$v.hire_date.$touch()"
+            ></v-text-field>
+
             <v-btn
               class="mr-4 button"
               color="primary"
@@ -84,16 +181,27 @@
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, maxLength, email } from 'vuelidate/lib/validators'
+  import { required, maxLength, email, } from 'vuelidate/lib/validators'
 
   export default {
     name: 'ProjectSearch',
     mixins: [validationMixin],
 
     validations: {
-      pjName: { required, maxLength: maxLength(10) },
-      pjContent: { required },
+      lastName: { required, maxLength: maxLength(10) },
+      firstName: { required, maxLength: maxLength(10) },
+      KlastName: { maxLength: maxLength(20) },
+      KfirstName: { maxLength: maxLength(20) },
+      password: { required },
+      profilePic: { maxLength: maxLength(255) },
+      PhoneNumber: { maxLength: maxLength(11) },
       email: { required, email },
+      department: { maxLength: maxLength(255) },
+      position: { maxLength: maxLength(255) },
+      birthday: { required },
+      hire_date: { required },
+
+
     },
 
     data: () => ({
@@ -103,48 +211,115 @@
           { id: 0 , tab: '検索'},
           { id: 1 , tab: '登録'},
         ],
-        headers: [
-          {
-            text: '案件ID',
-            align: 'start',
-            value: 'id',
-          },
-          { text: '案件名', value: 'title' },
-          { text: '顧客名', value: 'title' },
-          { text: '内容', value: 'title' },
-          { text: '登録者', value: 'title' },
-          { text: '更新者', value: 'title' },
-          { text: '登録日', value: 'title' },
-          { text: '更新日', value: 'title' },
-        ],
 
-      // validation
-      pjName: '',
-      pjContent: '',
+      // v-model
+      lastName: '',
+      firstName: '',
+      KlastName: '',
+      KfirstName: '',
+      password: '',
+      profilePic: '',
       email: '',
+      department: '',
+      position: '',
+      birthday: '',
+      hire_date: '',
+
+      // password
+      showPassword: false,
+
     }),
 
     computed: {
-      pjNameErrors () {
+      // エラーメッセージ
+      // lastName
+      lastNameErrors () {
         const errors = []
-        if (!this.$v.pjName.$dirty) return errors
-        !this.$v.pjName.maxLength && errors.push('Name must be at most 10 characters long')
-        !this.$v.pjName.required && errors.push('案件名を入力してください！')
+        if (!this.$v.lastName.$dirty) return errors
+        !this.$v.lastName.maxLength && errors.push('名字は１０文字以内で入力してください！')
+        !this.$v.lastName.required && errors.push('名字を入力してください！')
         return errors
       },
-      pjContentErrors () {
+      // firstName
+      firstNameErrors () {
         const errors = []
-        if (!this.$v.pjContent.$dirty) return errors
-        !this.$v.pjContent.required && errors.push('案件名を入力してください！')
+        if (!this.$v.firstName.$dirty) return errors
+        !this.$v.lastName.maxLength && errors.push('名前は１０文字以内で入力してください！')
+        !this.$v.firstName.required && errors.push('名前を入力してください！')
         return errors
       },
+      // カナlastName
+      KlastNameErrors () {
+        const errors = []
+        if (!this.$v.firstName.$dirty) return errors
+        !this.$v.KlastName.maxLength && errors.push('セイは２０文字以内で入力してください！')
+        return errors
+      },
+      // カナfirstName
+      KfirstNameErrors () {
+        const errors = []
+        if (!this.$v.KfirstName.$dirty) return errors
+        !this.$v.KfirstName.maxLength && errors.push('ナマエは２０文字以内で入力してください！')
+        return errors
+      },
+      // password
+      passwordErrors () {
+        const errors = []
+        if (!this.$v.password.$dirty) return errors
+        !this.$v.password.required && errors.push('パスワードを入力してください！')
+        return errors
+      },
+      // profilePic
+      profilePicErrors () {
+        const errors = []
+        if (!this.$v.profilePic.$dirty) return errors
+        !this.$v.profilePic.maxLength && errors.push('ファイルのPATHが長すぎます！')
+        return errors
+      },
+      // PhoneNumber
+      PhoneNumberErrors () {
+        const errors = []
+        if (!this.$v.PhoneNumber.$dirty) return errors
+        !this.$v.PhoneNumber.maxLength && errors.push('電話番号は１１文字以内で入力してください！')
+        return errors
+      },
+      // email
       emailErrors () {
         const errors = []
         if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
+        !this.$v.email.email && errors.push('正しい形式で入力してください！')
+        !this.$v.email.required && errors.push('メールアドレスを入力してください！')
         return errors
       },
+      // department
+      departmentErrors () {
+        const errors = []
+        if (!this.$v.department.$dirty) return errors
+        !this.$v.PhoneNumber.maxLength && errors.push('部署名が長すぎます！')
+        return errors
+      },
+      // position
+      positionErrors () {
+        const errors = []
+        if (!this.$v.position.$dirty) return errors
+        !this.$v.position.maxLength && errors.push('役職名が長すぎます！')
+        return errors
+      },
+      // birthday
+      birthdayErrors () {
+        const errors = []
+        if (!this.$v.birthday.$dirty) return errors
+        !this.$v.firstName.required && errors.push('生年月日を正しくを入力してください！')
+        return errors
+      },
+      // hire_date
+      hire_dateyErrors () {
+        const errors = []
+        if (!this.$v.hire_date.$dirty) return errors
+        !this.$v.hire_date.required && errors.push('入社日を正しくを入力してください！')
+        return errors
+      },
+
     },
 
     methods: {

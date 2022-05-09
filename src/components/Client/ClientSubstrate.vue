@@ -201,8 +201,8 @@
       emailErrors () {
         const errors = []
         if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
+        !this.$v.email.email && errors.push('正しい形式で入力してください！')
+        !this.$v.email.required && errors.push('メールアドレスを入力してください！')
         return errors
       },
     },
