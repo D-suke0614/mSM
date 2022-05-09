@@ -14,7 +14,6 @@
             {{ item.tab }}
           </v-tab>
       </v-tabs>
-      <h2>Project</h2>
       <v-tabs-items v-model="tab">
         <!-- 検索タブ -->
         <v-tab-item>
@@ -35,28 +34,40 @@
       <!-- 登録タブ -->
         <v-tab-item>
           <form >
-            <!-- 案件名 -->
             <v-text-field
             class="input"
               v-model="pjName"
               :error-messages="pjNameErrors"
-              :counter="255"
+              :counter="10"
               label="案件名"
               required
               @input="$v.pjName.$touch()"
               @blur="$v.pjName.$touch()"
             ></v-text-field>
-            <!-- 案件内容 -->
-            <v-textarea
-              rows="7"
-              class="input"
+            <v-text-field
+            class="input"
               v-model="pjContent"
               :error-messages="pjContentErrors"
               label="内容"
               required
               @input="$v.pjContent.$touch()"
               @blur="$v.pjContent.$touch()"
-            ></v-textarea>
+            ></v-text-field>
+            <v-text-field
+            v-model="pj_id"
+            label="案件ID"
+            class="input"
+            >
+            </v-text-field>
+            <v-text-field
+            class="input"
+              v-model="email"
+              :error-messages="emailErrors"
+              label="E-mail"
+              required
+              @input="$v.email.$touch()"
+              @blur="$v.email.$touch()"
+            ></v-text-field>
             <v-btn
               class="mr-4 button"
               color="primary"
@@ -73,17 +84,16 @@
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, maxLength } from 'vuelidate/lib/validators'
+  import { required, maxLength, email } from 'vuelidate/lib/validators'
 
   export default {
     name: 'ProjectSearch',
     mixins: [validationMixin],
 
     validations: {
-      // 案件名：必須入力、２５５文字以内
-      pjName: { required, maxLength: maxLength(255) },
-      // 案件内容：必須入力
+      pjName: { required, maxLength: maxLength(10) },
       pjContent: { required },
+      email: { required, email },
     },
 
     data: () => ({
@@ -93,27 +103,46 @@
           { id: 0 , tab: '検索'},
           { id: 1 , tab: '登録'},
         ],
+        headers: [
+          {
+            text: '案件ID',
+            align: 'start',
+            value: 'id',
+          },
+          { text: '案件名', value: 'title' },
+          { text: '顧客名', value: 'title' },
+          { text: '内容', value: 'title' },
+          { text: '登録者', value: 'title' },
+          { text: '更新者', value: 'title' },
+          { text: '登録日', value: 'title' },
+          { text: '更新日', value: 'title' },
+        ],
 
-      // v-model
+      // validation
       pjName: '',
       pjContent: '',
+      email: '',
     }),
 
     computed: {
-      // エラーメッセージ
-      // 案件名
       pjNameErrors () {
         const errors = []
         if (!this.$v.pjName.$dirty) return errors
-        !this.$v.pjName.maxLength && errors.push('案件名は２５５文字以内で入力してください！')
+        !this.$v.pjName.maxLength && errors.push('Name must be at most 10 characters long')
         !this.$v.pjName.required && errors.push('案件名を入力してください！')
         return errors
       },
-      // 案件内容
       pjContentErrors () {
         const errors = []
         if (!this.$v.pjContent.$dirty) return errors
         !this.$v.pjContent.required && errors.push('案件名を入力してください！')
+        return errors
+      },
+      emailErrors () {
+        const errors = []
+        if (!this.$v.email.$dirty) return errors
+        !this.$v.email.email && errors.push('Must be valid e-mail')
+        !this.$v.email.required && errors.push('E-mail is required')
         return errors
       },
     },

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Calender from './components/Calender/Calender.vue'
 import ClientDetail from './components/Client/ClientDetail.vue'
 import ClientList from './components/Client/ClientList.vue'
+import ClientSubstrate from './components/Client/ClientSubstrate.vue'
 import ProjectList from './components/Project/ProjectList.vue'
 import ActivityList from './components/Activity/ActivityList.vue'
 import EmployeeList from './components/Employee/User/EmployeeList.vue'
@@ -21,9 +22,14 @@ export default new Router({
       component: Calender
     },
     {
+      path: '/clients/list',
+      name: "clientList",
+      component: ClientList,
+    },
+    {
       path: '/clients',
       name: "client",
-      component: ClientList,
+      component: ClientSubstrate,
     },
     {
       path: '/clients/detail',
