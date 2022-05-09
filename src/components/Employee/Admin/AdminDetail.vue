@@ -20,7 +20,7 @@
             <tbody>
               <tr v-for="(key, value) in th_list" :key="value.id" >
                 <th class="text-center text-h5">{{ key }}</th>
-                <td class="text-center text-h6">{{ admin[value] }}</td>
+                <td class="text-center text-h6">{{ employee[value] }}</td>
               </tr>
             </tbody>
           </template>
@@ -32,9 +32,10 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
-// const url = "http:localhost:7777/msm_employee/api/"
+const url = "http://localhost:7774/msm_employee/api/employees/"
+
 
 export default {
   name: "AdminDetail",
@@ -59,7 +60,7 @@ export default {
         created_at: "作成日",
         updated_at: "更新日",
       },
-      admin: { 
+      employee: { 
         id: this.$route.query.id,
         first_name: this.$route.query.first_name,
         last_name: this.$route.query.last_name,
@@ -90,14 +91,15 @@ export default {
         // this.$router.back()
 
         // 削除処理
-        // axios.delete(url + `Employees/${this.Employee.id}/delete`)
-        //   .then((res) => {
-        //     console.log(res)
-        //   }).catch((err) => {
-        //     console.log(err)
-        //   })
+        axios.post(url + `${this.employee.id}/delete`)
+          .then((res) => {
+            console.log(res)
+            this.$router.push({ path: '/admin/list' })
+          }).catch((err) => {
+            console.log(err)
+          })
         
-        window.close()
+        // window.close()
       }
     }
   }
