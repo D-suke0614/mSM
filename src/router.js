@@ -7,6 +7,7 @@ import CalenderEditor from './components/Calender/CalenderEditor.vue'
 import ClientDetail from './components/Client/ClientDetail.vue'
 import ClientList from './components/Client/ClientList.vue'
 import ClientEditor from './components/Client/ClientEditor.vue'
+import ClientSubstrate from './components/Client/ClientSubstrate.vue'
 import ProjectList from './components/Project/ProjectList.vue'
 import ProjectSubstrate from './components/Project/ProjectSubstrate.vue'
 import ProjectDetail from './components/Project/ProjectDetail.vue'
@@ -41,9 +42,14 @@ export default new Router({
       component: CalenderEditor,
     },
     {
+      path: '/clients/list',
+      name: "clientList",
+      component: ClientList,
+    },
+    {
       path: '/clients',
       name: "client",
-      component: ClientList,
+      component: ClientSubstrate,
     },
     {
       path: '/clients/detail',
