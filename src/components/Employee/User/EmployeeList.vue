@@ -33,6 +33,7 @@
                 class="elevation-5"
                 v-for="todo in sa" :key="todo.id"
                 v-cloak
+                @click:row="showEmployeeDetail"
                 >
                 {{todo.title}}
               </v-data-table>
@@ -74,6 +75,34 @@ import axios from 'axios'
           { text: '更新日', value: 'title' },
         ],
       }
+    },
+    methods: {
+      showEmployeeDetail(data) {
+        let resolvedRoute = this.$router.resolve({
+          name: 'employee_detail',
+          query: {
+            // APIと接続後に変更
+            id: data.id,
+            first_name: data.title,
+            last_name: data.title,
+            first_name_kana: data.title,
+            last_name_kana: data.title,
+            profile_image_url: data.title,
+            phone_number: data.title,
+            email: data.title,
+            department: data.title,
+            position: data.title,
+            birthday: data.title,
+            hire_date: data.title,
+            password: data.title,
+            is_admin: false,
+            is_deleted: false,
+            created_at: data.title,
+            updated_at: data.title,
+          }
+        })
+        window.open( resolvedRoute.href, null, "_blank")
+      },
     },
     created() {
     axios

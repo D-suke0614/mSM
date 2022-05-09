@@ -35,7 +35,9 @@
             </v-list-item>
           </router-link>
 
-          <router-link :to="{path: '/employees'}" class="text-decoration-none black--text">
+          <!-- 一時的に初期表示をリストに変更 -->
+          <!-- <router-link :to="{path: '/employees'}" class="text-decoration-none black--text"> -->
+          <router-link :to="{path: '/employees/list'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-list-item-title>Employee</v-list-item-title>
             </v-list-item>

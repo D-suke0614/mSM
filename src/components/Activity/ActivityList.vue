@@ -33,6 +33,7 @@
                 class="elevation-5"
                 v-for="todo in sa" :key="todo.id"
                 v-cloak
+                @click:row="showActivityDetail"
                 >
                 {{todo.title}}
               </v-data-table>
@@ -74,6 +75,30 @@ import axios from 'axios'
           { text: '更新日', value: 'title' },
         ],
       }
+    },
+    methods: {
+      showActivityDetail(data) {
+        let resolvedRoute = this.$router.resolve({
+          name: 'activity_detail',
+          query: {
+            // APIと接続後に変更
+            id: data.id,
+            project_id: data.id,
+            created_by: data.id,
+            updated_by: data.id,
+            title: data.title,
+            content: data.title,
+            started_at: data.title,
+            finished_at: data.title,
+            item_name: data.title,
+            item_amount: data.title,
+            item_price: data.title,
+            created_at: data.title,
+            updated_at: data.title,
+          }
+        })
+        window.open( resolvedRoute.href, null, "_blank")
+      },
     },
     created() {
     axios

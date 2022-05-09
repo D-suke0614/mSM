@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'ClientEditor',
+  name: 'ProjectEditor',
 
   data () {
       return {

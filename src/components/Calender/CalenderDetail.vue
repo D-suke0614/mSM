@@ -3,13 +3,12 @@
     
     <v-row class="my-2">
       <v-col cols="5" sm="4" align="center">
-          <p class="text-h4 d-inline">Client</p>
+          <p class="text-h4 d-inline">Calender</p>
       </v-col>
       <v-col cols="3" sm="3"></v-col>
       <v-col cols="4" sm="5" align="center">
-          <v-btn color="green" class="ml-5 mx-2 white--text" @click="searchProject">案件一覧</v-btn>
           <v-btn color="primary" class="mx-2" @click="openEditor">編集</v-btn>
-          <v-btn color="red" class="mx-2 white--text" @click="deleteClient">削除</v-btn>
+          <v-btn color="red" class="mx-2 white--text" @click="deleteCalender">削除</v-btn>
       </v-col>
     </v-row>
         
@@ -20,7 +19,7 @@
             <tbody>
               <tr v-for="(key, value) in th_list" :key="value.id" >
                 <th class="text-center text-h5">{{ key }}</th>
-                <td class="text-center text-h6">{{ client[value] }}</td>
+                <td class="text-center text-h6">{{ calender[value] }}</td>
               </tr>
             </tbody>
           </template>
@@ -34,53 +33,44 @@
 <script>
 // import axios from 'axios';
 
-// const url = "http:localhost:7777/msm_client/api/"
+// const url = "http:localhost:7777/msm_calender/api/"
 
 export default {
-  name: "ClientDetail",
+  name: "CalenderDetail",
   data() {
     return {
       th_list: { 
-        id: "顧客ID",
-        name: "顧客名",
-        name_kana: "コキャクメイ",
-        postal_code: "郵便番号",
-        address: "住所",
-        phone_number: "電話番号",
-        email: "メールアドレス",
-        created_at: "登録日",
-        updated_at: "更新日",
+        id: "予定ID",
+        employee_id: "社員ID",
+        title: "予定名",
+        content: "予定内容",
+        started_at: "開始日時",
+        finished_at: "終了日時",
+        created_at: "作成者",
+        updated_at: "更新者",
       },
-      client: { 
+      calender: { 
         id: this.$route.query.id,
-        name: this.$route.query.name,
-        name_kana: this.$route.query.name_kana,
-        postal_code: this.$route.query.postal_code,
-        address: this.$route.query.address,
-        phone_number: this.$route.query.phone_number,
-        email: this.$route.query.email,
+        employee_id: this.$route.query.employee_id,
+        title: this.$route.query.title,
+        content: this.$route.query.content,
+        started_at: this.$route.query.started_at,
+        finished_at: this.$route.query.finished_at,
         created_at: this.$route.query.created_at,
         updated_at: this.$route.query.updated_at,
       },
     };
   },
   methods: {
-    searchProject(){
-      this.$router.push({ path: '/projects/list'})
-
-      // 必要に応じて
-      // window.close()
-    },
     openEditor() {
-      console.log("客家")
-      this.$router.push({ path: '/clients/edit' })
+      this.$router.push({ path: '/calenders/edit' })
     },
-    deleteClient() {
+    deleteCalender() {
       if(confirm('本当に削除しますか？')){
         // this.$router.back()
 
         // 削除処理
-        // axios.delete(url + `clients/${this.client.id}/delete`)
+        // axios.delete(url + `calenders/${this.calender.id}/delete`)
         //   .then((res) => {
         //     console.log(res)
         //   }).catch((err) => {
