@@ -7,6 +7,7 @@ import ClientList from './components/Client/ClientList.vue'
 import ClientSubstrate from './components/Client/ClientSubstrate.vue'
 import ProjectList from './components/Project/ProjectList.vue'
 import ActivityList from './components/Activity/ActivityList.vue'
+import ActivitySubstrate from './components/Activity/ActivitySubstrate.vue'
 import EmployeeList from './components/Employee/User/EmployeeList.vue'
 import AdminList from './components/Employee/Admin/AdminList.vue'
 import AdminSubstrate from './components/Employee/Admin/AdminSubstrate.vue'
@@ -48,8 +49,13 @@ export default new Router({
       component: ProjectSubstrate,
     },
     {
-      path: '/activities',
+      path: '/activity',
       name: 'activity',
+      component: ActivitySubstrate,
+    },
+    {
+      path: '/activities/list',
+      name: 'activity/list',
       component: ActivityList,
     },
     {
@@ -63,7 +69,7 @@ export default new Router({
       component: AdminSubstrate,
     },
     {
-      path: '/admin/list',
+      path: '/admins/list',
       name: 'admin',
       component: AdminList,
     },

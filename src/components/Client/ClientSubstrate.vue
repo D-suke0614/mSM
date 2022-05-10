@@ -38,81 +38,85 @@
 
       <!-- 登録タブ -->
         <v-tab-item>
-          <form >
-            <!-- 顧客名 -->
-            <v-text-field
-            class="input"
-              v-model="CName"
-              :error-messages="CNameErrors"
-              :counter="255"
-              label="顧客名"
-              required
-              @input="$v.CName.$touch()"
-              @blur="$v.CName.$touch()"
-            ></v-text-field>
-            <!-- コキャクメイ -->
-            <v-text-field
-            class="input"
-              v-model="CKName"
-              :error-messages="CKNameErrors"
-              :counter="255"
-              label="コキャクメイ"
-              required
-              @input="$v.CKName.$touch()"
-              @blur="$v.CKName.$touch()"
-            ></v-text-field>
-            <!-- 郵便番号 -->
-            <v-text-field
-            class="input"
-              v-model="postalCode"
-              :error-messages="postalCode"
-              :counter="7"
-              label="郵便番号"
-              required
-              @input="$v.postalCode.$touch()"
-              @blur="$v.postalCode.$touch()"
-            ></v-text-field>
-            <!-- 住所 -->
-            <v-text-field
-            class="input"
-              v-model="Address"
-              :error-messages="Address"
-              :counter="255"
-              label="住所"
-              required
-              @input="$v.Address.$touch()"
-              @blur="$v.Address.$touch()"
-            ></v-text-field>
-            <!-- 電話番号 -->
-            <v-text-field
-            class="input"
-              v-model="PhoneNumber"
-              :error-messages="PhoneNumber"
-              :counter="11"
-              label="電話番号"
-              required
-              @input="$v.PhoneNumber.$touch()"
-              @blur="$v.PhoneNumber.$touch()"
-            ></v-text-field>
-            <!-- メールアドレス -->
-            <v-text-field
-            class="input"
-              v-model="email"
-              :error-messages="emailErrors"
-              label="E-mail"
-              required
-              @input="$v.email.$touch()"
-              @blur="$v.email.$touch()"
-            ></v-text-field>
-            <!-- 登録ボタンを押したら詳細画面に遷移する（現状は一覧画面に遷移） -->
-            <v-btn
-              class="mr-4 button"
-              color="primary"
-              @click="submit"
-            >
-              登録
-            </v-btn>
-          </form>
+          <validation-observer
+              ref="observer"
+              >
+            <form >
+              <!-- 顧客名 -->
+              <v-text-field
+              class="input"
+                v-model="CName"
+                :error-messages="CNameErrors"
+                :counter="255"
+                label="顧客名"
+                required
+                @input="$v.CName.$touch()"
+                @blur="$v.CName.$touch()"
+              ></v-text-field>
+              <!-- コキャクメイ -->
+              <v-text-field
+              class="input"
+                v-model="CKName"
+                :error-messages="CKNameErrors"
+                :counter="255"
+                label="コキャクメイ"
+                @input="$v.CKName.$touch()"
+                @blur="$v.CKName.$touch()"
+              ></v-text-field>
+              <!-- 郵便番号 -->
+              <v-text-field
+              class="input"
+                v-model="postalCode"
+                :error-messages="postalCode"
+                :counter="7"
+                label="郵便番号"
+                @input="$v.postalCode.$touch()"
+                @blur="$v.postalCode.$touch()"
+              ></v-text-field>
+              <!-- 住所 -->
+              <v-text-field
+              class="input"
+                v-model="Address"
+                :error-messages="Address"
+                :counter="255"
+                label="住所"
+                @input="$v.Address.$touch()"
+                @blur="$v.Address.$touch()"
+              ></v-text-field>
+              <!-- 電話番号 -->
+              <v-text-field
+              class="input"
+                v-model="PhoneNumber"
+                :error-messages="PhoneNumber"
+                :counter="11"
+                label="電話番号"
+                @input="$v.PhoneNumber.$touch()"
+                @blur="$v.PhoneNumber.$touch()"
+              ></v-text-field>
+              <!-- メールアドレス -->
+              <v-text-field
+              class="input"
+                v-model="email"
+                :error-messages="emailErrors"
+                label="E-mail"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
+              ></v-text-field>
+              <!-- 登録ボタンを押したら詳細画面に遷移する（現状は一覧画面に遷移） -->
+              <!-- <router-link to="/clients/list"> -->
+                <v-btn
+                :disabled="invalid"
+                type="submit"
+                  class="mr-4 button"
+                  color="primary"
+                  @click="submit"
+                >
+                  登録
+                </v-btn>
+              <!-- </router-link> -->
+            </form>
+          </validation-observer>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -122,10 +126,16 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
+  import { ValidationObserver } from 'vee-validate'
+
 
   export default {
     name: 'ProjectSearch',
     mixins: [validationMixin],
+
+    components: {
+      ValidationObserver,
+    },
 
     validations: {
       // 顧客名：必須入力、２５５文字以内

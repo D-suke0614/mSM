@@ -14,6 +14,7 @@
             {{ item.tab }}
           </v-tab>
       </v-tabs>
+      <h2>Admin</h2>
       <v-tabs-items v-model="tab">
         <!-- 検索タブ -->
         <v-tab-item>
@@ -24,7 +25,7 @@
             <v-text-field class="input" placeholder="登録者"></v-text-field>
             <v-text-field class="input" placeholder="編集者"></v-text-field>
             <!-- 一覧画面に遷移し、検索結果が表示される -->
-            <router-link to="/projects/list">
+            <router-link to="/admins/list">
               <v-btn class="button" color="primary" @click="search">検索</v-btn>
             </router-link>
           </v-form>
@@ -33,146 +34,148 @@
 
       <!-- 登録タブ -->
         <v-tab-item>
-          <form >
-            <!-- lastName -->
-            <v-text-field
-            class="input"
-              v-model="lastName"
-              :error-messages="lastNameErrors"
-              :counter="10"
-              label="性"
-              required
-              @input="$v.lastName.$touch()"
-              @blur="$v.lastName.$touch()"
-            ></v-text-field>
-            <!-- firstName -->
-            <v-text-field
-            class="input"
-              v-model="firstName"
-              :error-messages="firstNameErrors"
-              :counter="10"
-              label="名"
-              required
-              @input="$v.firstName.$touch()"
-              @blur="$v.firstName.$touch()"
-            ></v-text-field>
-            <!-- KlastName -->
-            <v-text-field
-            class="input"
-              v-model="KlastName"
-              :error-messages="KlastNameErrors"
-              :counter="20"
-              label="セイ"
-              required
-              @input="$v.KlastName.$touch()"
-              @blur="$v.KlastName.$touch()"
-            ></v-text-field>
-            <!-- KfirstName -->
-            <v-text-field
-            class="input"
-              v-model="KfirstName"
-              :error-messages="KfirstNameErrors"
-              :counter="20"
-              label="セイ"
-              required
-              @input="$v.KfirstName.$touch()"
-              @blur="$v.KfirstName.$touch()"
-            ></v-text-field>
-            <!-- password -->
-            <v-text-field
-            v-bind:type="showPassword ? 'text' : 'password'"
-            @click:append="showPassword = !showPassword"
-            v-bind:append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            class="input"
-              v-model="password"
-              :error-messages="passwordErrors"
-              label="パスワード"
-              required
-              @input="$v.password.$touch()"
-              @blur="$v.password.$touch()"
-            ></v-text-field>
-            <!-- Profile pic -->
-            <v-file-input
-            class="input"
-              v-model="profilePic"
-              :error-messages="profilePicErrors"
-              label="プロフィール画像"
-              required
-              @input="$v.profilePic.$touch()"
-              @blur="$v.profilePic.$touch()"
-            ></v-file-input>
-            <!-- 電話番号 -->
-            <v-text-field
-            class="input"
-              v-model="PhoneNumber"
-              :error-messages="PhoneNumberErrors"
-              :counter="11"
-              label="電話番号"
-              required
-              @input="$v.PhoneNumber.$touch()"
-              @blur="$v.PhoneNumber.$touch()"
-            ></v-text-field>
-            <!-- email -->
-            <v-text-field
-            class="input"
-              v-model="email"
-              :error-messages="emailErrors"
-              label="E-mail"
-              required
-              @input="$v.email.$touch()"
-              @blur="$v.email.$touch()"
-            ></v-text-field>
-            <!-- department -->
-            <v-text-field
-            class="input"
-              v-model="department"
-              :error-messages="departmentErrors"
-              label="部署"
-              required
-              @input="$v.department.$touch()"
-              @blur="$v.department.$touch()"
-            ></v-text-field>
-            <!-- position -->
-            <v-text-field
-            class="input"
-              v-model="position"
-              :error-messages="positionErrors"
-              label="役職"
-              required
-              @input="$v.position.$touch()"
-              @blur="$v.position.$touch()"
-            ></v-text-field>
-            <!-- birthday -->
-            <v-text-field
-            type="date"
-            class="input"
-              v-model="birthday"
-              :error-messages="birthdayErrors"
-              label="生年月日"
-              required
-              @input="$v.birthday.$touch()"
-              @blur="$v.birthday.$touch()"
-            ></v-text-field>
-            <!-- hire_date -->
-            <v-text-field
-            type="date"
-            class="input"
-              v-model="hire_date"
-              :error-messages="hire_dateErrors"
-              label="入社日"
-              required
-              @input="$v.hire_date.$touch()"
-              @blur="$v.hire_date.$touch()"
-            ></v-text-field>
-
-            <v-btn
-              class="mr-4 button"
-              color="primary"
-              @click="submit"
-            >
-              登録
-            </v-btn>
-          </form>
+          <validation-observer
+              ref="observer"
+              >
+            <form >
+              <!-- lastName -->
+              <v-text-field
+              class="input"
+                v-model="lastName"
+                :error-messages="lastNameErrors"
+                :counter="10"
+                label="性"
+                required
+                @input="$v.lastName.$touch()"
+                @blur="$v.lastName.$touch()"
+              ></v-text-field>
+              <!-- firstName -->
+              <v-text-field
+              class="input"
+                v-model="firstName"
+                :error-messages="firstNameErrors"
+                :counter="10"
+                label="名"
+                required
+                @input="$v.firstName.$touch()"
+                @blur="$v.firstName.$touch()"
+              ></v-text-field>
+              <!-- KlastName -->
+              <v-text-field
+              class="input"
+                v-model="KlastName"
+                :error-messages="KlastNameErrors"
+                :counter="20"
+                label="セイ"
+                @input="$v.KlastName.$touch()"
+                @blur="$v.KlastName.$touch()"
+              ></v-text-field>
+              <!-- KfirstName -->
+              <v-text-field
+              class="input"
+                v-model="KfirstName"
+                :error-messages="KfirstNameErrors"
+                :counter="20"
+                label="メイ"
+                @input="$v.KfirstName.$touch()"
+                @blur="$v.KfirstName.$touch()"
+              ></v-text-field>
+              <!-- password -->
+              <v-text-field
+              v-bind:type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
+              v-bind:append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              class="input"
+                v-model="password"
+                :error-messages="passwordErrors"
+                label="パスワード"
+                required
+                @input="$v.password.$touch()"
+                @blur="$v.password.$touch()"
+              ></v-text-field>
+              <!-- Profile pic -->
+              <v-file-input
+              class="input"
+                v-model="profilePic"
+                :error-messages="profilePicErrors"
+                label="プロフィール画像"
+                @input="$v.profilePic.$touch()"
+                @blur="$v.profilePic.$touch()"
+              ></v-file-input>
+              <!-- 電話番号 -->
+              <v-text-field
+              class="input"
+                v-model="PhoneNumber"
+                :error-messages="PhoneNumberErrors"
+                :counter="11"
+                label="電話番号"
+                @input="$v.PhoneNumber.$touch()"
+                @blur="$v.PhoneNumber.$touch()"
+              ></v-text-field>
+              <!-- email -->
+              <v-text-field
+              class="input"
+                v-model="email"
+                :error-messages="emailErrors"
+                label="E-mail"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
+              ></v-text-field>
+              <!-- department -->
+              <v-text-field
+              class="input"
+                v-model="department"
+                :error-messages="departmentErrors"
+                label="部署"
+                @input="$v.department.$touch()"
+                @blur="$v.department.$touch()"
+              ></v-text-field>
+              <!-- position -->
+              <v-text-field
+              class="input"
+                v-model="position"
+                :error-messages="positionErrors"
+                label="役職"
+                @input="$v.position.$touch()"
+                @blur="$v.position.$touch()"
+              ></v-text-field>
+              <!-- birthday -->
+              <v-text-field
+              type="date"
+              class="input"
+                v-model="birthday"
+                :error-messages="birthdayErrors"
+                label="生年月日"
+                required
+                @input="$v.birthday.$touch()"
+                @blur="$v.birthday.$touch()"
+              ></v-text-field>
+              <!-- hiredate -->
+              <v-text-field
+              type="date"
+              class="input"
+                v-model="hiredate"
+                :error-messages="hiredateErrors"
+                label="入社日"
+                required
+                @input="$v.hiredate.$touch()"
+                @blur="$v.hiredate.$touch()"
+              ></v-text-field>
+              <!-- 登録ボタンをクリックで詳細画面に遷移（現状は一覧画面に遷移） -->
+              <!-- <router-link to="/admins/list"> -->
+                <v-btn
+                :disabled="invalid"
+                type="submit"
+                  class="mr-4 button"
+                  color="primary"
+                  @click="submit"
+                >
+                  登録
+                </v-btn>
+              <!-- </router-link> -->
+            </form>
+          </validation-observer>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -182,10 +185,15 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email, } from 'vuelidate/lib/validators'
+  import { ValidationObserver } from 'vee-validate'
 
   export default {
     name: 'ProjectSearch',
     mixins: [validationMixin],
+
+    components: {
+      ValidationObserver,
+    },
 
     validations: {
       lastName: { required, maxLength: maxLength(10) },
@@ -199,7 +207,7 @@
       department: { maxLength: maxLength(255) },
       position: { maxLength: maxLength(255) },
       birthday: { required },
-      hire_date: { required },
+      hiredate: { required },
 
 
     },
@@ -223,7 +231,7 @@
       department: '',
       position: '',
       birthday: '',
-      hire_date: '',
+      hiredate: '',
 
       // password
       showPassword: false,
@@ -312,11 +320,11 @@
         !this.$v.firstName.required && errors.push('生年月日を正しくを入力してください！')
         return errors
       },
-      // hire_date
-      hire_dateyErrors () {
+      // hiredate
+      hiredateErrors () {
         const errors = []
-        if (!this.$v.hire_date.$dirty) return errors
-        !this.$v.hire_date.required && errors.push('入社日を正しくを入力してください！')
+        if (!this.$v.hiredate.$dirty) return errors
+        !this.$v.hiredate.required && errors.push('入社日を正しくを入力してください！')
         return errors
       },
 

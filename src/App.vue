@@ -29,7 +29,7 @@
             </v-list-item>
           </router-link>
 
-          <router-link :to="{path: '/activities'}" class="text-decoration-none black--text">
+          <router-link :to="{path: '/activity'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-list-item-title>Activities</v-list-item-title>
             </v-list-item>
