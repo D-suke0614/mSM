@@ -108,8 +108,7 @@ export default new Router({
       component: EmployeeList,
     },
     {
-
-      path: '/admin',
+      path: '/employees',
       name: 'adminSubstrate',
       component: AdminSubstrate,
     },
