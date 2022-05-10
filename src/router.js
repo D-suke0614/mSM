@@ -22,6 +22,7 @@ import EmployeeDetail from './components/Employee/User/EmployeeDetail.vue'
 import AdminDetail from './components/Employee/Admin/AdminDetail.vue'
 import AdminEditor from './components/Employee/Admin/AdminEditor.vue'
 import CsvScreen from './components/CSV/CsvScreen.vue'
+import login from './components/login/LoginScreen.vue'
 
 Vue.use(Router)
 
@@ -138,6 +139,11 @@ export default new Router({
       path: '/csv',
       name: 'csv',
       component: CsvScreen,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
     },
 
   ]

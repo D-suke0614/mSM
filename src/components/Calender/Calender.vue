@@ -86,7 +86,7 @@
       value: '',
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-      names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      names: ['外出', '来客', '会議', '出張', '社内業務'],
     }),
     methods: {
       showCalenderDetail({ nativeEvent, event}) {
