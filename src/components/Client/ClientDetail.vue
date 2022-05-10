@@ -42,8 +42,8 @@ export default {
     return {
       th_list: { 
         id: "顧客ID",
-        name: "顧客名",
-        name_kana: "コキャクメイ",
+        company_name: "顧客名",
+        company_name_kana: "コキャクメイ",
         postal_code: "郵便番号",
         address: "住所",
         phone_number: "電話番号",
@@ -52,15 +52,15 @@ export default {
         updated_at: "更新日",
       },
       client: { 
-        id: this.$route.query.id,
-        name: this.$route.query.name,
-        name_kana: this.$route.query.name_kana,
-        postal_code: this.$route.query.postal_code,
-        address: this.$route.query.address,
-        phone_number: this.$route.query.phone_number,
-        email: this.$route.query.email,
-        created_at: this.$route.query.created_at,
-        updated_at: this.$route.query.updated_at,
+        // id: this.$route.query.id,
+        // name: this.$route.query.name,
+        // name_kana: this.$route.query.name_kana,
+        // postal_code: this.$route.query.postal_code,
+        // address: this.$route.query.address,
+        // phone_number: this.$route.query.phone_number,
+        // email: this.$route.query.email,
+        // created_at: this.$route.query.created_at,
+        // updated_at: this.$route.query.updated_at,
       },
     };
   },
@@ -90,6 +90,9 @@ export default {
         window.close()
       }
     }
+  },
+  created() {
+    this.client = this.$route.query.client
   }
 };
 </script>

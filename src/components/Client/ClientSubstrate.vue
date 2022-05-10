@@ -101,18 +101,14 @@
                 @input="$v.email.$touch()"
                 @blur="$v.email.$touch()"
               ></v-text-field>
-              <!-- 登録ボタンを押したら詳細画面に遷移する（現状は一覧画面に遷移） -->
-              <!-- <router-link to="/clients/list"> -->
                 <v-btn
                 :disabled="invalid"
-                type="submit"
                   class="mr-4 button"
                   color="primary"
-                  @click="submit"
+                  @click="createClient"
                 >
                   登録
                 </v-btn>
-              <!-- </router-link> -->
             </form>
           </validation-observer>
         </v-tab-item>
@@ -230,9 +226,8 @@ const url = "http://localhost:7777/msm_client/api/clients/"
     },
 
     methods: {
-      submit () {
+      createClient() {
         this.$v.$touch()
-        // console.log(this.name)
         axios
           .post(url, {
             company_name: this.CName,
@@ -243,6 +238,12 @@ const url = "http://localhost:7777/msm_client/api/clients/"
             email: this.email
           }).then((res) => {
             console.log(res)
+            this.$router.push({
+              path: '/clients/detail',
+              query: {
+                client: res.data
+              }
+            })
           }).catch((err) => {
             console.log(err)
           })

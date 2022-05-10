@@ -110,10 +110,9 @@
               <!-- <router-link to="/clients/list"> -->
                 <v-btn
                 :disabled="invalid"
-                type="submit"
                   class="mr-4 button"
                   color="primary"
-                  @click="submit"
+                  @click="createClient"
                 >
                   登録
                 </v-btn>
@@ -263,6 +262,28 @@ const url = "http://localhost:7777/msm_client/api/clients/"
           }
         })
         window.open( resolvedRoute.href, null, "_blank")
+      },
+      createClient() {
+        this.$v.$touch()
+        axios
+          .post(url, {
+            company_name: this.CName,
+            company_name_kana: this.CKName,
+            postal_code: this.postalCode,
+            address: this.Address,
+            phone_number: this.PhoneNumber,
+            email: this.e_mail
+          }).then((res) => {
+            console.log(res)
+            this.$router.push({
+              path: '/clients/detail',
+              query: {
+                client: res.data
+              }
+            })
+          }).catch((err) => {
+            console.log(err)
+          })
       },
     },
     created() {
