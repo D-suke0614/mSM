@@ -1,9 +1,9 @@
 <template>
-  <v-sheet elevation="6">
+  <v-sheet>
     <v-tabs
           v-model="tab"
           align-with-title
-        >
+    >
           <v-tabs-slider color="yellow"></v-tabs-slider>
 
           <v-tab
@@ -13,32 +13,28 @@
           >
             {{ item.tab }}
           </v-tab>
-        </v-tabs>
+      </v-tabs>
+      <h2>Activity</h2>
+      <v-tabs-items v-model="tab">
+        <!-- 検索タブ -->
+        <v-tab-item>
+          <v-form v-on:submit.prevent="onSubmit">
+            <v-text-field class="input" placeholder="活動名"></v-text-field>
+            <v-text-field class="input" placeholder="活動ID"></v-text-field>
+            <v-text-field class="input" placeholder="顧客名"></v-text-field>
+            <v-text-field class="input" placeholder="顧客ID"></v-text-field>
+            <v-text-field class="input" placeholder="商品名"></v-text-field>
+            <v-text-field class="input" placeholder="商品個数"></v-text-field>
+            <v-text-field class="input" placeholder="商品価格"></v-text-field>
+            <v-text-field class="input" placeholder="登録者"></v-text-field>
+            <v-text-field class="input" placeholder="編集者"></v-text-field>
+            <!-- 一覧画面に遷移し、検索結果が表示される -->
+            <router-link to="/activities/list">
+              <v-btn class="button" color="primary" @click="search">検索</v-btn>
+            </router-link>
+          </v-form>
+        </v-tab-item>
 
-        <v-tabs-items v-model="tab">
-      <v-tab-item>
-        <v-card flat>
-          <div class="list">
-            <!-- <h1>This is Project list display</h1> -->
-            <p v-if="errored" v-cloak>{{ error }}</p>
-            <p v-if="loading" v-cloak>Loading...</p>
-
-            <div v-else>
-              <v-data-table
-                :headers="headers"
-                :items="todos"
-                :items-per-page="10"
-                class="elevation-5"
-                v-for="todo in sa" :key="todo.id"
-                v-cloak
-                @click:row="showActivityDetail"
-                >
-                {{todo.title}}
-              </v-data-table>
-            </div>
-          </div>
-        </v-card>
-      </v-tab-item>
 
       <!-- 登録タブ -->
         <v-tab-item>
@@ -118,13 +114,12 @@
 
 
 <script>
-import axios from 'axios'
-import { validationMixin } from 'vuelidate'
+  import { validationMixin } from 'vuelidate'
   import { required, maxLength } from 'vuelidate/lib/validators'
   import { ValidationObserver } from 'vee-validate'
 
   export default {
-    name: 'ActivityList',
+    name: 'ProjectSearch',
     mixins: [validationMixin],
 
     components: {
@@ -141,40 +136,21 @@ import { validationMixin } from 'vuelidate'
       // 商品価格：バリデーションなし
     },
 
-    data () {
-      return {
-        tab: null,
-        loading: true,
-        errored: false,
-        error: null,
-        todos: null,
-        sa: 1,
+    data: () => ({
+      // tab
+      tab: null,
         items: [
-          { id: 0 , tab: '検索結果'},
+          { id: 0 , tab: '検索'},
           { id: 1 , tab: '登録'},
         ],
-        headers: [
-          {
-            text: '活動名',
-            align: 'start',
-            value: 'id',
-          },
-          { text: '内容', value: 'title' },
-          { text: '開始日時', value: 'title' },
-          { text: '終了日時', value: 'title' },
-          { text: '登録者', value: 'title' },
-          { text: '登録日', value: 'title' },
-          { text: '更新日', value: 'title' },
-        ],
 
-        // v-model
+      // v-model
       ActivityName: '',
       ActivityContents: '',
       itemName: '',
       Address: '',
       itemPrice: '',
-      }
-    },
+    }),
 
     computed: {
       // エラーメッセージ
@@ -210,40 +186,12 @@ import { validationMixin } from 'vuelidate'
     },
 
     methods: {
-      showActivityDetail(data) {
-        let resolvedRoute = this.$router.resolve({
-          name: 'activity_detail',
-          query: {
-            // APIと接続後に変更
-            id: data.id,
-            project_id: data.id,
-            created_by: data.id,
-            updated_by: data.id,
-            title: data.title,
-            content: data.title,
-            started_at: data.title,
-            finished_at: data.title,
-            item_name: data.title,
-            item_amount: data.title,
-            item_price: data.title,
-            created_at: data.title,
-            updated_at: data.title,
-          }
-        })
-        window.open( resolvedRoute.href, null, "_blank")
+
+      submit () {
+        this.$v.$touch()
       },
+
     },
-    created() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then(response => {
-        this.todos = response.data;
-      })
-      .catch(err => {
-        (this.errored = true), (this.error = err);
-      })
-      .finally(() => (this.loading = false));
-  }
   }
 </script>
 

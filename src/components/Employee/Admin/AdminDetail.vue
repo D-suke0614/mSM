@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    
     <v-row class="my-2">
       <v-col cols="5" sm="4" align="center">
           <p class="text-h4 d-inline">Admin</p>
@@ -12,7 +11,7 @@
           <v-btn color="red" class="mx-2 white--text" @click="deleteEmployee">削除</v-btn>
       </v-col>
     </v-row>
-        
+
     <v-row class="my-2">
       <v-col cols="12">
         <v-simple-table class="mx-auto">
@@ -27,7 +26,6 @@
         </v-simple-table>
       </v-col>
     </v-row>
-
 </v-container>
 </template>
 
@@ -41,7 +39,7 @@ export default {
   name: "AdminDetail",
   data() {
     return {
-      th_list: { 
+      th_list: {
         id: "社員ID",
         first_name: "名",
         last_name: "姓",
@@ -60,7 +58,7 @@ export default {
         created_at: "作成日",
         updated_at: "更新日",
       },
-      employee: { 
+      employee: {
         id: this.$route.query.id,
         first_name: this.$route.query.first_name,
         last_name: this.$route.query.last_name,
@@ -98,7 +96,7 @@ export default {
           }).catch((err) => {
             console.log(err)
           })
-        
+
         // window.close()
       }
     }

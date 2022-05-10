@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    
+
     <v-row class="my-2">
       <v-col cols="5" sm="4" align="center">
           <p class="text-h4 d-inline">Activity</p>
@@ -12,7 +12,7 @@
           <v-btn color="red" class="mx-2 white--text" @click="deleteActivity">削除</v-btn>
       </v-col>
     </v-row>
-        
+
     <v-row class="my-2">
       <v-col cols="12">
         <v-simple-table class="mx-auto">
@@ -40,7 +40,7 @@ export default {
   name: "ActivityIndex",
   data() {
     return {
-      th_list: { 
+      th_list: {
         id: "顧客ID",
         project_id: "案件名",
         created_by: "作成者",
@@ -55,7 +55,7 @@ export default {
         created_at: "登録日",
         updated_at: "更新日",
       },
-      activity: { 
+      activity: {
         id: this.$route.query.id,
         project_id: this.$route.query.project_id,
         created_by: this.$route.query.created_by,
@@ -93,7 +93,7 @@ export default {
         //   }).catch((err) => {
         //     console.log(err)
         //   })
-        
+
         window.close()
       }
     }

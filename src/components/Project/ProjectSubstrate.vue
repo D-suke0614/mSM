@@ -32,37 +32,45 @@
 
       <!-- 登録タブ -->
         <v-tab-item>
-          <form >
-            <!-- 案件名 -->
-            <v-text-field
-            class="input"
-              v-model="pjName"
-              :error-messages="pjNameErrors"
-              :counter="255"
-              label="案件名"
-              required
-              @input="$v.pjName.$touch()"
-              @blur="$v.pjName.$touch()"
-            ></v-text-field>
-            <!-- 案件内容 -->
-            <v-textarea
-              rows="7"
+          <validation-observer
+              ref="observer"
+              >
+            <form >
+              <!-- 案件名 -->
+              <v-text-field
               class="input"
-              v-model="pjContent"
-              :error-messages="pjContentErrors"
-              label="内容"
-              required
-              @input="$v.pjContent.$touch()"
-              @blur="$v.pjContent.$touch()"
-            ></v-textarea>
-            <v-btn
-              class="mr-4 button"
-              color="primary"
-              @click="submit"
-            >
-              登録
-            </v-btn>
-          </form>
+                v-model="pjName"
+                :error-messages="pjNameErrors"
+                :counter="255"
+                label="案件名"
+                required
+                @input="$v.pjName.$touch()"
+                @blur="$v.pjName.$touch()"
+              ></v-text-field>
+              <!-- 案件内容 -->
+              <v-textarea
+                rows="7"
+                class="input"
+                v-model="pjContent"
+                :error-messages="pjContentErrors"
+                label="内容"
+                required
+                @input="$v.pjContent.$touch()"
+                @blur="$v.pjContent.$touch()"
+              ></v-textarea>
+              <!-- <router-link to="/projects/list"> -->
+                <v-btn
+                :disabled="invalid"
+                type="submit"
+                  class="mr-4 button"
+                  color="primary"
+                  @click="submit"
+                >
+                  登録
+                </v-btn>
+              <!-- </router-link> -->
+            </form>
+          </validation-observer>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -73,12 +81,18 @@
   import { validationMixin } from 'vuelidate'
   import { required, maxLength } from 'vuelidate/lib/validators'
   import axios from 'axios'
+  import { ValidationObserver } from 'vee-validate'
 
 const url = "http://localhost:7773/msm_project/api/projects/"
+
 
   export default {
     name: 'ProjectSearch',
     mixins: [validationMixin],
+
+    components: {
+      ValidationObserver,
+    },
 
     validations: {
       // 案件名：必須入力、２５５文字以内

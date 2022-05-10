@@ -8,17 +8,15 @@
 
           <v-tab
             v-for="item in items"
-            :key="item"
+            :key="item.id"
+            class="tab"
           >
-            {{ item }}
+            {{ item.tab }}
           </v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab">
-          <v-tab-item
-            v-for="item in items"
-            :key="item"
-          >
+          <v-tab-item>
             <v-card flat>
               <div class="list">
                 <p v-if="errored" v-cloak>{{ error }}</p>
@@ -35,11 +33,94 @@
                   @click:row="showClientDetail"
                   >
                     <!-- {{client.client_name}} -->
-              </v-data-table>
-            </div>
-          </div>
-        </v-card>
-      </v-tab-item>
+                  </v-data-table>
+                </div>
+              </div>
+            </v-card>
+          </v-tab-item>
+
+          <!-- 登録タブ -->
+        <v-tab-item>
+          <validation-observer
+              ref="observer"
+              >
+            <form >
+              <!-- 顧客名 -->
+              <v-text-field
+              class="input"
+                v-model="CName"
+                :error-messages="CNameErrors"
+                :counter="255"
+                label="顧客名"
+                required
+                @input="$v.CName.$touch()"
+                @blur="$v.CName.$touch()"
+              ></v-text-field>
+              <!-- コキャクメイ -->
+              <v-text-field
+              class="input"
+                v-model="CKName"
+                :error-messages="CKNameErrors"
+                :counter="255"
+                label="コキャクメイ"
+                @input="$v.CKName.$touch()"
+                @blur="$v.CKName.$touch()"
+              ></v-text-field>
+              <!-- 郵便番号 -->
+              <v-text-field
+              class="input"
+                v-model="postalCode"
+                :error-messages="postalCode"
+                :counter="7"
+                label="郵便番号"
+                @input="$v.postalCode.$touch()"
+                @blur="$v.postalCode.$touch()"
+              ></v-text-field>
+              <!-- 住所 -->
+              <v-text-field
+              class="input"
+                v-model="Address"
+                :error-messages="Address"
+                :counter="255"
+                label="住所"
+                @input="$v.Address.$touch()"
+                @blur="$v.Address.$touch()"
+              ></v-text-field>
+              <!-- 電話番号 -->
+              <v-text-field
+              class="input"
+                v-model="PhoneNumber"
+                :error-messages="PhoneNumber"
+                :counter="11"
+                label="電話番号"
+                @input="$v.PhoneNumber.$touch()"
+                @blur="$v.PhoneNumber.$touch()"
+              ></v-text-field>
+              <!-- メールアドレス -->
+              <v-text-field
+              class="input"
+                v-model="e_mail"
+                :error-messages="e_mailErrors"
+                label="E-mail"
+                required
+                @input="$v.e_mail.$touch()"
+                @blur="$v.e_mail.$touch()"
+              ></v-text-field>
+              <!-- 登録ボタンを押したら詳細画面に遷移する（現状は一覧画面に遷移） -->
+              <!-- <router-link to="/clients/list"> -->
+                <v-btn
+                :disabled="invalid"
+                type="submit"
+                  class="mr-4 button"
+                  color="primary"
+                  @click="submit"
+                >
+                  登録
+                </v-btn>
+              <!-- </router-link> -->
+            </form>
+          </validation-observer>
+        </v-tab-item>
     </v-tabs-items>
   </v-sheet>
 </template>
@@ -47,11 +128,35 @@
 
 <script>
 import axios from 'axios'
+import { validationMixin } from 'vuelidate'
+  import { required, maxLength, email } from 'vuelidate/lib/validators'
+  import { ValidationObserver } from 'vee-validate'
 
 const url = "http://localhost:7777/msm_client/api/clients/"
 
   export default {
     name: 'ClientList',
+    mixins: [validationMixin],
+
+    components: {
+      ValidationObserver,
+    },
+
+    validations: {
+      // 顧客名：必須入力、２５５文字以内
+      CName: { required, maxLength: maxLength(255) },
+      // コキャクメイ：２５５文字以内
+      CKName: { maxLength: maxLength(255) },
+      // 郵便番号：７文字以内
+      postalCode: { maxLength: maxLength(7) },
+      // 住所：２５５文字以内
+      Address: { maxLength: maxLength(255) },
+      // 電話暗号：１１文字以内
+      PhoneNumber: { maxLength: maxLength(11) },
+      // メールアドレス：必須入力、メールアドレス形式チェック
+      e_mail: { required, email },
+    },
+
     data () {
       return {
         tab: null,
@@ -61,7 +166,8 @@ const url = "http://localhost:7777/msm_client/api/clients/"
         todos: null,
         sa: 1,
         items: [
-          '検索', '登録',
+          { id: 0 , tab: '検索結果'},
+          { id: 1 , tab: '登録'},
         ],
         headers: [
           {
@@ -79,8 +185,65 @@ const url = "http://localhost:7777/msm_client/api/clients/"
           { text: '更新日', value: 'updated_at' },
         ],
         clients: [],
+
+      // 登録タブ用v-model
+      CName: '',
+      CKName: '',
+      postalCode: '',
+      Address: '',
+      PhoneNumber: '',
+      e_mail: '',
       }
     },
+
+    computed: {
+      // エラーメッセージ
+      // 顧客名
+      CNameErrors () {
+        const errors = []
+        if (!this.$v.CName.$dirty) return errors
+        !this.$v.CName.maxLength && errors.push('顧客名は２５５文字以内で入力してください！')
+        !this.$v.CName.required && errors.push('顧客名を入力してください！')
+        return errors
+      },
+      // コキャクメイ
+      CKNameErrors () {
+        const errors = []
+        if (!this.$v.CKName.$dirty) return errors
+        !this.$v.CKName.maxLength && errors.push('コキャクメイは２５５文字以内で入力してください！')
+        return errors
+      },
+      // 郵便番号
+      postalCodeErrors () {
+        const errors = []
+        if (!this.$v.postalCode.$dirty) return errors
+        !this.$v.postalCode.maxLength && errors.push('郵便番号は７文字以内で入力してください！')
+        return errors
+      },
+      // 住所
+      AddressErrors () {
+        const errors = []
+        if (!this.$v.Address.$dirty) return errors
+        !this.$v.Address.maxLength && errors.push('住所は２５５文字以内で入力してください！')
+        return errors
+      },
+      // 電話番号
+      PhoneNumberErrors () {
+        const errors = []
+        if (!this.$v.PhoneNumber.$dirty) return errors
+        !this.$v.PhoneNumber.maxLength && errors.push('電話番号は１１文字以内で入力してください！')
+        return errors
+      },
+      // メールアドレス
+      e_mailErrors () {
+        const errors = []
+        if (!this.$v.e_mail.$dirty) return errors
+        !this.$v.e_mail.email && errors.push('正しい形式で入力してください！')
+        !this.$v.e_mail.required && errors.push('メールアドレスを入力してください！')
+        return errors
+      },
+    },
+
     methods: {
       showClientDetail(data) {
         console.log(data)
@@ -128,3 +291,19 @@ const url = "http://localhost:7777/msm_client/api/clients/"
     }
   }
 </script>
+
+<style>
+  .input {
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 5vh;
+  }
+  .button {
+    margin-left: 25%;
+    margin-bottom: 8vh;
+    margin-top: 6vh;
+  }
+  .tab {
+    height: 8vh;
+  }
+</style>

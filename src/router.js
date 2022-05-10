@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import Calender from './components/Calender/Calender.vue'
 import CalenderDetail from './components/Calender/CalenderDetail.vue'
 import CalenderEditor from './components/Calender/CalenderEditor.vue'
@@ -9,15 +8,17 @@ import ClientList from './components/Client/ClientList.vue'
 import ClientEditor from './components/Client/ClientEditor.vue'
 import ClientSubstrate from './components/Client/ClientSubstrate.vue'
 import ProjectList from './components/Project/ProjectList.vue'
+import ActivityList from './components/Activity/ActivityList.vue'
+import ActivitySubstrate from './components/Activity/ActivitySubstrate.vue'
+import EmployeeList from './components/Employee/User/EmployeeList.vue'
+import AdminList from './components/Employee/Admin/AdminList.vue'
+import AdminSubstrate from './components/Employee/Admin/AdminSubstrate.vue'
 import ProjectSubstrate from './components/Project/ProjectSubstrate.vue'
 import ProjectDetail from './components/Project/ProjectDetail.vue'
 import ProjectEditor from './components/Project/ProjectEditor.vue'
-import ActivityList from './components/Activity/ActivityList.vue'
 import ActivityDetail from './components/Activity/ActivityDetail.vue'
 import ActivityEditor from './components/Activity/ActivityEditor.vue'
-import EmployeeList from './components/Employee/User/EmployeeList.vue'
 import EmployeeDetail from './components/Employee/User/EmployeeDetail.vue'
-import AdminList from './components/Employee/Admin/AdminList.vue'
 import AdminDetail from './components/Employee/Admin/AdminDetail.vue'
 import AdminEditor from './components/Employee/Admin/AdminEditor.vue'
 
@@ -82,8 +83,13 @@ export default new Router({
       component: ProjectEditor,
     },
     {
-      path: '/activities/list',
+      path: '/activity',
       name: 'activity',
+      component: ActivitySubstrate,
+    },
+    {
+      path: '/activities/list',
+      name: 'activity/list',
       component: ActivityList,
     },
     {
@@ -102,12 +108,18 @@ export default new Router({
       component: EmployeeList,
     },
     {
+      path: '/employees',
+      name: 'adminSubstrate',
+      component: AdminSubstrate,
+    },
+
+    {
       path: '/employees/detail',
       name: 'employee_detail',
       component: EmployeeDetail,
     },
     {
-      path: '/admin/list',
+      path: '/admins/list',
       name: 'admin',
       component: AdminList,
     },
