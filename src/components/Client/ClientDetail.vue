@@ -32,9 +32,9 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
-// const url = "http:localhost:7777/msm_client/api/"
+const url = "http://localhost:7777/msm_client/api/clients/"
 
 export default {
   name: "ClientDetail",
@@ -78,14 +78,14 @@ export default {
     deleteClient() {
       if(confirm('本当に削除しますか？')){
         // this.$router.back()
-
+        console.log(url + `${this.client.id}/delete`)
         // 削除処理
-        // axios.delete(url + `clients/${this.client.id}/delete`)
-        //   .then((res) => {
-        //     console.log(res)
-        //   }).catch((err) => {
-        //     console.log(err)
-        //   })
+        axios.post(url + `${this.client.id}/delete`)
+          .then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            console.log(err)
+          })
         
         window.close()
       }

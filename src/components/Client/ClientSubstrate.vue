@@ -19,19 +19,17 @@
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
-            <v-text-field class="input" placeholder="顧客名"></v-text-field>
-            <v-text-field class="input" placeholder="コキャクメイ"></v-text-field>
-            <v-text-field class="input" placeholder="顧客ID"></v-text-field>
-            <v-text-field class="input" placeholder="郵便番号"></v-text-field>
-            <v-text-field class="input" placeholder="住所"></v-text-field>
-            <v-text-field class="input" placeholder="電話番号"></v-text-field>
-            <v-text-field class="input" placeholder="メールアドレス"></v-text-field>
-            <v-text-field class="input" placeholder="登録者"></v-text-field>
-            <v-text-field class="input" placeholder="編集者"></v-text-field>
+            <v-text-field class="input" placeholder="顧客名" v-model="company_name"></v-text-field>
+            <v-text-field class="input" placeholder="コキャクメイ" v-model="company_name_kana"></v-text-field>
+            <v-text-field class="input" placeholder="顧客ID" v-model="company_id"></v-text-field>
+            <v-text-field class="input" placeholder="郵便番号" v-model="postal_code"></v-text-field>
+            <v-text-field class="input" placeholder="住所" v-model="address"></v-text-field>
+            <v-text-field class="input" placeholder="電話番号" v-model="phone_number"></v-text-field>
+            <v-text-field class="input" placeholder="メールアドレス" v-model="Semail"></v-text-field>
+            <v-text-field class="input" placeholder="登録者" v-model="created_by"></v-text-field>
+            <v-text-field class="input" placeholder="編集者" v-model="updated_by"></v-text-field>
             <!-- 一覧画面に遷移し、検索結果が表示される -->
-            <router-link to="/clients/list">
-              <v-btn class="button" color="primary" @click="search">検索</v-btn>
-            </router-link>
+            <v-btn class="button" color="primary" @click="search">検索</v-btn>
           </v-form>
         </v-tab-item>
 
@@ -120,8 +118,11 @@
 
 
 <script>
+import axios from 'axios'
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
+
+const url = "http://localhost:7777/msm_client/api/clients/"
 
   export default {
     name: 'ProjectSearch',
@@ -149,6 +150,17 @@
           { id: 0 , tab: '検索'},
           { id: 1 , tab: '登録'},
         ],
+
+      // 検索用v-model
+      company_name: '',
+      company_name_kana: '',
+      company_id: null,
+      postal_code: '',
+      address: '',
+      phone_number: '',
+      Semail: '',
+      created_by: '',
+      updated_by: '',
 
       // v-model
       CName: '',
@@ -211,6 +223,35 @@
       submit () {
         this.$v.$touch()
         // console.log(this.name)
+        axios
+          .post(url, {
+            company_name: this.CName,
+            company_name_kana: this.CKName,
+            postal_code: this.postalCode,
+            address: this.Address,
+            phone_number: this.PhoneNumber,
+            email: this.email
+          }).then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            console.log(err)
+          })
+      },
+      search(){
+        this.$router.push({
+          path: '/clients/list',
+          query: {
+            company_name: this.company_name,
+            company_name_kana: this.company_name_kana,
+            company_id: this.company_id,
+            postal_code: this.postal_code,
+            address: this.address,
+            phone_number: this.phone_number,
+            Semail: this.Semail,
+            created_by: this.created_by,
+            updated_by: this.updated_by,
+          }
+        })
       },
     },
   }
