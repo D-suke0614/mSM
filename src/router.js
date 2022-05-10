@@ -20,6 +20,7 @@ import EmployeeDetail from './components/Employee/User/EmployeeDetail.vue'
 import AdminList from './components/Employee/Admin/AdminList.vue'
 import AdminDetail from './components/Employee/Admin/AdminDetail.vue'
 import AdminEditor from './components/Employee/Admin/AdminEditor.vue'
+import Login from './components/Login/Login.vue'
 
 Vue.use(Router)
 
@@ -121,6 +122,10 @@ export default new Router({
       name: 'admin_editor',
       component: AdminEditor,
     },
-
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
   ]
 })
