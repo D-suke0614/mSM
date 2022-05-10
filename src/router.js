@@ -21,6 +21,7 @@ import ActivityEditor from './components/Activity/ActivityEditor.vue'
 import EmployeeDetail from './components/Employee/User/EmployeeDetail.vue'
 import AdminDetail from './components/Employee/Admin/AdminDetail.vue'
 import AdminEditor from './components/Employee/Admin/AdminEditor.vue'
+import CsvScreen from './components/CSV/CsvScreen.vue'
 
 Vue.use(Router)
 
@@ -132,6 +133,11 @@ export default new Router({
       path: '/admin/edit',
       name: 'admin_editor',
       component: AdminEditor,
+    },
+    {
+      path: '/csv',
+      name: 'csv',
+      component: CsvScreen,
     },
 
   ]
