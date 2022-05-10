@@ -390,17 +390,9 @@ export default {
     },
   },
   created() {
-    // axios
-    //   .get("https://jsonplaceholder.typicode.com/todos")
-    //   .then(response => {
-    //     this.todos = response.data;
-    //   })
-    //   .catch(err => {
-    //     (this.errored = true), (this.error = err);
-    //   })
-    //   .finally(() => (this.loading = false));
+    let qu = this.$route.query
     axios
-      .get(url + "search?id=&first_name=&last_name=&first_name_kana=&last_name_kana=&phone_number=&email=te&department=&position=")
+      .get(url + `search?id=${qu.id}&first_name=${qu.first_name}&last_name=${qu.last_name}&first_name_kana=${qu.first_name_kana}&last_name_kana=${qu.last_name_kana}&phone_number=${qu.phone_number}&email=${qu.email}&department=${qu.department}&position=${qu.position}`)
       .then(response => {
         console.log(response)
         this.employees = response.data

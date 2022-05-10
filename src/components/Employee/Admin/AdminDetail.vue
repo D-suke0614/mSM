@@ -59,23 +59,23 @@ export default {
         updated_at: "更新日",
       },
       employee: {
-        id: this.$route.query.id,
-        first_name: this.$route.query.first_name,
-        last_name: this.$route.query.last_name,
-        first_name_kana: this.$route.query.first_name_kana,
-        last_name_kana: this.$route.query.last_name_kana,
-        profile_image_url: this.$route.query.profile_image_url,
-        phone_number: this.$route.query.phone_number,
-        email: this.$route.query.email,
-        department: this.$route.query.department,
-        position: this.$route.query.position,
-        birthday: this.$route.query.birthday,
-        hire_date: this.$route.query.hire_date,
-        password: this.$route.query.password,
-        is_admin: this.$route.query.is_admin,
-        is_deleted: this.$route.query.is_deleted,
-        created_at: this.$route.query.created_at,
-        updated_at: this.$route.query.updated_at,
+        // id: this.$route.query.id,
+        // first_name: this.$route.query.first_name,
+        // last_name: this.$route.query.last_name,
+        // first_name_kana: this.$route.query.first_name_kana,
+        // last_name_kana: this.$route.query.last_name_kana,
+        // profile_image_url: this.$route.query.profile_image_url,
+        // phone_number: this.$route.query.phone_number,
+        // email: this.$route.query.email,
+        // department: this.$route.query.department,
+        // position: this.$route.query.position,
+        // birthday: this.$route.query.birthday,
+        // hire_date: this.$route.query.hire_date,
+        // password: this.$route.query.password,
+        // is_admin: this.$route.query.is_admin,
+        // is_deleted: this.$route.query.is_deleted,
+        // created_at: this.$route.query.created_at,
+        // updated_at: this.$route.query.updated_at,
       },
     };
   },
@@ -97,9 +97,21 @@ export default {
             console.log(err)
           })
 
+        this.$router.push({ path: '/admin/list' })
         // window.close()
       }
     }
-  }
+  },
+  created() {
+    // const user_id = query; // ログインしているユーザー
+    // axios.get(url + `${user_id}`)
+    //   .then((res) => {
+    //     console.log(res.data)
+    //     this.employee = res.data
+    //   }).catch((err) =>{ 
+    //     console.log(err)
+    //   })
+    this.employee = this.$route.query.employee
+  },
 };
 </script>

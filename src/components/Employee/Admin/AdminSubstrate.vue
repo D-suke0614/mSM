@@ -25,9 +25,7 @@
               </v-col>
               <v-col cols="3" sm="3"></v-col>
               <v-col cols="4" sm="5" align="center">
-                  <!-- <v-btn color="green" class="ml-5 mx-2 white--text" @click="searchProject">案件一覧</v-btn> -->
                   <v-btn color="primary" class="mx-2" @click="openEditor">編集</v-btn>
-                  <v-btn color="red" class="mx-2 white--text" @click="deleteEmployee">削除</v-btn>
               </v-col>
             </v-row>
 
@@ -46,19 +44,21 @@
               </v-col>
             </v-row>
           </v-container>
-        </v-tab-item>
+        </v-tab-item> 
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
-            <v-text-field class="input" placeholder="案件名"></v-text-field>
-            <v-text-field class="input" placeholder="案件ID"></v-text-field>
-            <v-text-field class="input" placeholder="顧客名"></v-text-field>
-            <v-text-field class="input" placeholder="登録者"></v-text-field>
-            <v-text-field class="input" placeholder="編集者"></v-text-field>
+            <v-text-field class="input" placeholder="ID" v-model="id"></v-text-field>
+            <v-text-field class="input" placeholder="姓" v-model="last_name"></v-text-field>
+            <v-text-field class="input" placeholder="名" v-model="first_name"></v-text-field>
+            <v-text-field class="input" placeholder="セイ" v-model="last_name_kana"></v-text-field>
+            <v-text-field class="input" placeholder="メイ" v-model="first_name_kana"></v-text-field>
+            <v-text-field class="input" placeholder="電話番号" v-model="phone_number"></v-text-field>
+            <v-text-field class="input" placeholder="メールアドレス" v-model="email"></v-text-field>
+            <v-text-field class="input" placeholder="部署" v-model="department"></v-text-field>
+            <v-text-field class="input" placeholder="役職" v-model="position"></v-text-field>
             <!-- 一覧画面に遷移し、検索結果が表示される -->
-            <router-link to="/admins/list">
-              <v-btn class="button" color="primary" @click="search">検索</v-btn>
-            </router-link>
+            <v-btn class="button" color="primary" @click="search">検索</v-btn>
           </v-form>
         </v-tab-item>
 
@@ -273,25 +273,7 @@
         created_at: "作成日",
         updated_at: "更新日",
       },
-      employee: {
-        id: this.$route.query.id,
-        first_name: this.$route.query.first_name,
-        last_name: this.$route.query.last_name,
-        first_name_kana: this.$route.query.first_name_kana,
-        last_name_kana: this.$route.query.last_name_kana,
-        profile_image_url: this.$route.query.profile_image_url,
-        phone_number: this.$route.query.phone_number,
-        email: this.$route.query.email,
-        department: this.$route.query.department,
-        position: this.$route.query.position,
-        birthday: this.$route.query.birthday,
-        hire_date: this.$route.query.hire_date,
-        password: this.$route.query.password,
-        is_admin: this.$route.query.is_admin,
-        is_deleted: this.$route.query.is_deleted,
-        created_at: this.$route.query.created_at,
-        updated_at: this.$route.query.updated_at,
-      },
+      employee: {},
 
       // v-model
       lastName: '',
@@ -305,6 +287,17 @@
       position: '',
       birthday: '',
       hiredate: '',
+
+      // 検索用v-model
+      id: '',
+      last_name: '',
+      first_name: '',
+      last_name_kana: '',
+      first_name_kana: '',
+      phone_number: '',
+      Semail: '',
+      Sdepartment: '',
+      Sposition: '',
 
       // password
       showPassword: false,
@@ -406,31 +399,63 @@
       openEditor() {
       // 管理者
       this.$router.push({ path: '/admin/edit'})
-    },
-    deleteEmployee() {
-      if(confirm('本当に削除しますか？')){
-        // this.$router.back()
-
-        // 削除処理
-        axios.post(url + `${this.employee.id}/delete`)
-          .then((res) => {
-            console.log(res)
-            this.$router.push({ path: '/admin/list' })
-          }).catch((err) => {
-            console.log(err)
-          })
-
-        // window.close()
-      }
-    },
-
+      },
       submit () {
         this.$v.$touch()
         // console.log(this.name)
+        axios
+          .post(url, {
+            last_name: this.lastName,
+            first_name: this.firstName,
+            last_name_kana: this.KlastName,
+            first_name_kana: this.KfirstName,
+            password: this.password,
+            profile_image_url: this.profilePic,
+            email: this.email,
+            department: this.department,
+            position: this.position,
+            birthday: this.birthday,
+            hiredate: this.hiredate
+          }).then((res) => {
+            console.log(res)
+            this.$router.push({
+              path: '/admin/detail',
+              query: {
+                employee: res.data
+              }
+            })
+          }).catch((err) => {
+            console.log(err)
+          })
       },
-
-
+      search() {
+        this.$router.push({
+          path: '/admin/list',
+          query: {
+            id: this.id,
+            last_name: this.last_name,
+            first_name: this.first_name,
+            last_name_kana: this.last_name_kana,
+            first_name_kana: this.first_name_kana,
+            phone_number: this.phone_number,
+            email: this.email,
+            department: this.department,
+            position: this.position
+          }
+        })
+      }
     },
+    created() {
+      const user_id = 1; // ログインしているユーザー
+      axios.get(url + `${user_id}`)
+        .then((res) => {
+          console.log(res.data)
+          this.employee = res.data
+        }).catch((err) =>{ 
+          console.log(err)
+        })
+    },
+
   }
 </script>
 
