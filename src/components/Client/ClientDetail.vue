@@ -51,17 +51,7 @@ export default {
         created_at: "登録日",
         updated_at: "更新日",
       },
-      client: { 
-        // id: this.$route.query.id,
-        // name: this.$route.query.name,
-        // name_kana: this.$route.query.name_kana,
-        // postal_code: this.$route.query.postal_code,
-        // address: this.$route.query.address,
-        // phone_number: this.$route.query.phone_number,
-        // email: this.$route.query.email,
-        // created_at: this.$route.query.created_at,
-        // updated_at: this.$route.query.updated_at,
-      },
+      client: null,
     };
   },
   methods: {
@@ -73,7 +63,12 @@ export default {
     },
     openEditor() {
       console.log("客家")
-      this.$router.push({ path: '/clients/edit' })
+      this.$router.push({
+        path: '/clients/edit',
+        query: {
+          id: this.client.id
+        }
+      })
     },
     deleteClient() {
       if(confirm('本当に削除しますか？')){
@@ -88,11 +83,23 @@ export default {
           })
         
         window.close()
+        this.$router.back()
+        // this.$router.push({
+        //   path: '/clients/list'
+        // })
       }
     }
   },
   created() {
     this.client = this.$route.query.client
+    if(this.client == null){
+      console.log("アクセス開始")
+      console.log(url + this.$route.query.id)
+      axios.get(url + this.$route.query.id)
+        .then((res) => {
+          this.client = res.data
+        })
+    }
   }
 };
 </script>

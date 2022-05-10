@@ -50,16 +50,7 @@ export default {
         created_at: "登録日",
         updated_at: "更新日",
       },
-      project: { 
-        id: this.$route.query.id,
-        created_by: this.$route.query.created_by,
-        updated_by: this.$route.query.updated_by,
-        client_id: this.$route.query.client_id,
-        title: this.$route.query.title,
-        content: this.$route.query.content,
-        created_at: this.$route.query.created_at,
-        updated_at: this.$route.query.updated_at,
-      },
+      project: null,
     };
   },
   methods: {
@@ -70,23 +61,42 @@ export default {
       // window.close()
     },
     openEditor() {
-      this.$router.push({ path: '/projects/edit' })
+      this.$router.push({
+        path: '/projects/edit',
+        query: {
+          id: this.project.id
+        }
+      })
     },
     deleteProject() {
       if(confirm('本当に削除しますか？')){
         // this.$router.back()
 
         // 削除処理
-        console.log(url + `${this.project.id}/delete`)
+        // console.log(url + `${this.project.id}/delete`)
         axios.post(url + `${this.project.id}/delete`)
           .then((res) => {
             console.log(res)
+            // this.$router.push({
+            //   path: '/projects/list'
+            // })
           }).catch((err) => {
             console.log(err)
           })
         
-        // window.close()
+        window.close()
+        this.$router.back()
       }
+    }
+  },
+  created() {
+    this.project = this.$route.query.project
+    console.log(this.project)
+    if(this.project == null){
+      axios.get(url + this.$route.query.id)
+        .then((res) => {
+          this.project = res.data
+        })
     }
   }
 };

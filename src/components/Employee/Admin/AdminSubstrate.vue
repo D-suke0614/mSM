@@ -197,7 +197,6 @@
               <!-- <router-link to="/admins/list"> -->
                 <v-btn
                 :disabled="invalid"
-                type="submit"
                   class="mr-4 button"
                   color="primary"
                   @click="submit"

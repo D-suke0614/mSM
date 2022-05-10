@@ -183,7 +183,7 @@ const url = "http://localhost:7777/msm_client/api/clients/"
           { text: '登録日', value: 'created_at' },
           { text: '更新日', value: 'updated_at' },
         ],
-        clients: [],
+        clients: null,
 
       // 登録タブ用v-model
       CName: '',
