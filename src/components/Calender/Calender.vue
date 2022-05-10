@@ -60,6 +60,7 @@
         :event-overlap-threshold="30"
         :event-color="getEventColor"
         @change="getEvents"
+        @click:event="showCalenderDetail"
       ></v-calendar>
     </v-sheet>
   </div>
@@ -88,6 +89,26 @@
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
     methods: {
+      showCalenderDetail({ nativeEvent, event}) {
+        console.log(nativeEvent)
+        console.log(event)
+        let resolvedRoute = this.$router.resolve({
+          name: 'calender_detail',
+          query: {
+            // APIと接続後に変更
+            id: event.name,
+            employee_id: event.name,
+            title: event.name,
+            content: event.name,
+            started_at: event.name,
+            finished_at: event.name,
+            created_at: event.name,
+            updated_at: event.name,
+          }
+        })
+        window.open( resolvedRoute.href, null, "_blank")
+      },
+
       getEvents ({ start, end }) {
         const events = []
 

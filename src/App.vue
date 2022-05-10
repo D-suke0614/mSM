@@ -10,7 +10,7 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" temporary absolute clipped>
-      <v-list-item-group v-model="group" active-class="light-blue lighten-5 text--accent-4">
+      <v-list-item-group active-class="light-blue lighten-5 text--accent-4">
           <router-link :to="{path: '/'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-list-item-title>Calender</v-list-item-title>
@@ -35,6 +35,10 @@
             </v-list-item>
           </router-link>
 
+          <!-- <router-link :to="{path: '/admin'}" class="text-decoration-none black--text"> -->
+          <!-- 一時的に初期表示をリストに変更 -->
+          <!-- <router-link :to="{path: '/employees'}" class="text-decoration-none black--text"> -->
+            <!-- </router-link> -->
           <router-link :to="{path: '/admin'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-list-item-title>Employee</v-list-item-title>

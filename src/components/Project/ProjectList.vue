@@ -34,6 +34,7 @@
                 class="elevation-5"
                 v-for="todo in sa" :key="todo.id"
                 v-cloak
+                @click:row="showProjectDetail"
                 >
                 {{todo.title}}
               </v-data-table>
@@ -77,6 +78,26 @@ import axios from 'axios'
         ],
       }
     },
+    methods: {
+      showProjectDetail(data){
+        let resolvedRoute = this.$router.resolve({
+          name: 'project_detail',
+          query: {
+            // APIと接続後に変更
+            id: data.id,
+            created_by: data.title,
+            updated_by: data.title,
+            cliend_id: data.title,
+            title: data.title,
+            content: data.title,
+            created_at: data.title,
+            updated_at: data.title,
+          }
+        })
+
+        window.open( resolvedRoute.href, null, "_blank")
+      }
+    },
     created() {
     axios
       .get("https://jsonplaceholder.typicode.com/todos")
@@ -87,7 +108,7 @@ import axios from 'axios'
         (this.errored = true), (this.error = err);
       })
       .finally(() => (this.loading = false));
-  }
+    },
   }
 </script>
 

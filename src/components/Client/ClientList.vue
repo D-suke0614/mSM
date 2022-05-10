@@ -27,14 +27,14 @@
                 <div v-else>
                   <v-data-table
                     :headers="headers"
-                    :items="todos"
+                    :items="clients"
                     :items-per-page="10"
                     class="elevation-5"
-                    v-for="todo in sa" :key="todo.id"
+                    v-for="client in sa" :key="client.id"
                     v-cloak
                   @click:row="showClientDetail"
                   >
-                    {{todo.title}}
+                    <!-- {{client.client_name}} -->
               </v-data-table>
             </div>
           </div>
@@ -47,6 +47,9 @@
 
 <script>
 import axios from 'axios'
+
+const url = "http://localhost:7777/msm_client/api/clients/"
+
   export default {
     name: 'ClientList',
     data () {
@@ -66,48 +69,62 @@ import axios from 'axios'
             align: 'start',
             value: 'id',
           },
-          { text: '顧客名', value: 'title' },
-          { text: 'コキャクメイ', value: 'title' },
-          { text: '郵便番号', value: 'title' },
-          { text: '住所', value: 'title' },
-          { text: '電話番号', value: 'title' },
-          { text: 'メールアドレス', value: 'title' },
-          { text: '登録日', value: 'title' },
-          { text: '更新日', value: 'title' },
+          { text: '顧客名', value: 'company_name' },
+          { text: 'コキャクメイ', value: 'company_name_kana' },
+          { text: '郵便番号', value: 'postal_code' },
+          { text: '住所', value: 'address' },
+          { text: '電話番号', value: 'phone_number' },
+          { text: 'メールアドレス', value: 'email' },
+          { text: '登録日', value: 'created_at' },
+          { text: '更新日', value: 'updated_at' },
         ],
+        clients: [],
       }
     },
     methods: {
-    showClientDetail(data) {
-      console.log(data)
-      let resolvedRoute = this.$router.resolve({
-        name: 'client_detail',
-        query: {
-          id: data.id,
-          name: data.title,
-          name_kana: data.title,
-          postal_code: data.title,
-          address: data.title,
-          phone_number: data.title,
-          email: data.title,
-          created_at: data.title,
-          updated_at: data.title,
-        }
-      })
-
-      window.open( resolvedRoute.href, null, "_blank")
-    }
-  },
+      showClientDetail(data) {
+        console.log(data)
+        let resolvedRoute = this.$router.resolve({
+          name: 'client_detail',
+          query: {
+            // APIと接続後に変更
+            id: data.id,
+            name: data.company_name,
+            name_kana: data.company_name_kana,
+            postal_code: data.postal_code,
+            address: data.address,
+            phone_number: data.phone_number,
+            email: data.email,
+            created_at: data.created_at,
+            updated_at: data.updated_at,
+          }
+        })
+        window.open( resolvedRoute.href, null, "_blank")
+      },
+    },
     created() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then(response => {
-        this.todos = response.data;
-      })
-      .catch(err => {
-        (this.errored = true), (this.error = err);
-      })
-      .finally(() => (this.loading = false));
-  }
+      let qu = this.$route.query
+      axios
+        .get(url + `search?company_name=${qu.company_name}&company_name_kana=${qu.company_name_kana}&postal_code=${qu.postal_code}&address=${qu.address}&phone_number=${qu.phone_number}&email=${qu.Semail}`
+          // ,{
+          //   company_name: this.$route.query.company_name,
+          //   company_name_kana: this.$route.query.company_name_kana,
+          //   postal_code: this.$route.query.postal_code,
+          //   address: this.$route.query.address,
+          //   phone_number: this.$route.query.phone_number,
+          //   Semail: this.$route.query.Semail,
+          //   created_by: this.$route.query.created_by,
+          //   updated_by: this.$route.query.updated_by,
+          // }
+        )
+        .then(response => {
+          console.log(response)
+          this.clients = response.data;
+        })
+        .catch(err => {
+          (this.errored = true), (this.error = err);
+        })
+        .finally(() => (this.loading = false));
+    }
   }
 </script>

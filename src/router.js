@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import Calender from './components/Calender/Calender.vue'
+import CalenderDetail from './components/Calender/CalenderDetail.vue'
+import CalenderEditor from './components/Calender/CalenderEditor.vue'
 import ClientDetail from './components/Client/ClientDetail.vue'
 import ClientList from './components/Client/ClientList.vue'
+import ClientEditor from './components/Client/ClientEditor.vue'
 import ClientSubstrate from './components/Client/ClientSubstrate.vue'
 import ProjectList from './components/Project/ProjectList.vue'
 import ActivityList from './components/Activity/ActivityList.vue'
@@ -12,6 +14,13 @@ import EmployeeList from './components/Employee/User/EmployeeList.vue'
 import AdminList from './components/Employee/Admin/AdminList.vue'
 import AdminSubstrate from './components/Employee/Admin/AdminSubstrate.vue'
 import ProjectSubstrate from './components/Project/ProjectSubstrate.vue'
+import ProjectDetail from './components/Project/ProjectDetail.vue'
+import ProjectEditor from './components/Project/ProjectEditor.vue'
+import ActivityDetail from './components/Activity/ActivityDetail.vue'
+import ActivityEditor from './components/Activity/ActivityEditor.vue'
+import EmployeeDetail from './components/Employee/User/EmployeeDetail.vue'
+import AdminDetail from './components/Employee/Admin/AdminDetail.vue'
+import AdminEditor from './components/Employee/Admin/AdminEditor.vue'
 
 Vue.use(Router)
 
@@ -22,6 +31,16 @@ export default new Router({
       path: '/',
       name: 'calender',
       component: Calender
+    },
+    {
+      path: '/calenders/detail',
+      name: 'calender_detail',
+      component: CalenderDetail,
+    },
+    {
+      path: '/calenders/edit',
+      name: 'calender_editor',
+      component: CalenderEditor,
     },
     {
       path: '/clients/list',
@@ -39,6 +58,11 @@ export default new Router({
       component: ClientDetail,
     },
     {
+      path: '/clients/edit',
+      name: 'client_editor',
+      component: ClientEditor,
+    },
+    {
       path: '/projects/list',
       name: 'projectList',
       component: ProjectList,
@@ -47,6 +71,16 @@ export default new Router({
       path: '/projects',
       name: 'project',
       component: ProjectSubstrate,
+    },
+    {
+      path: '/projects/detail',
+      name: 'project_detail',
+      component: ProjectDetail,
+    },
+    {
+      path: '/projects/edit',
+      name: 'project_editor',
+      component: ProjectEditor,
     },
     {
       path: '/activity',
@@ -59,19 +93,46 @@ export default new Router({
       component: ActivityList,
     },
     {
-      path: '/employees',
+      path: '/activities/detail',
+      name: 'activity_detail',
+      component: ActivityDetail,
+    },
+    {
+      path: '/activities/edit',
+      name: 'activity_editor',
+      component: ActivityEditor,
+    },
+    {
+      path: '/employees/list',
       name: 'employee',
       component: EmployeeList,
     },
     {
+
       path: '/admin',
       name: 'adminSubstrate',
       component: AdminSubstrate,
+    },
+
+    {
+      path: '/employees/detail',
+      name: 'employee_detail',
+      component: EmployeeDetail,
     },
     {
       path: '/admins/list',
       name: 'admin',
       component: AdminList,
+    },
+    {
+      path: '/admin/detail',
+      name: 'admin_detail',
+      component: AdminDetail,
+    },
+    {
+      path: '/admin/edit',
+      name: 'admin_editor',
+      component: AdminEditor,
     },
 
   ]
