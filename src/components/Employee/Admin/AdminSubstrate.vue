@@ -208,8 +208,6 @@
       position: { maxLength: maxLength(255) },
       birthday: { required },
       hiredate: { required },
-
-
     },
 
     data: () => ({
@@ -327,7 +325,6 @@
         !this.$v.hiredate.required && errors.push('入社日を正しくを入力してください！')
         return errors
       },
-
     },
 
     methods: {

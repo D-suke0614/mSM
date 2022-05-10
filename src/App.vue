@@ -1,7 +1,7 @@
 <template>
   <v-app>
 
-    <v-app-bar class="light-blue lighten-2 white--text text-sm-h4" clipped-left max-height="10vh">
+    <v-app-bar class="light-blue lighten-2 white--text text-sm-h4" clipped-left max-height="10vh" min-height="10vh">
       <v-app-bar-nav-icon class="white--text" variant="text" @click="drawer = !drawer"/>
       <v-toolbar-title class="text-sm-h4">mSM</v-toolbar-title>
 
