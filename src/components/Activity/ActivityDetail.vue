@@ -80,7 +80,7 @@ export default {
     //   // window.close()
     // },
     openEditor() {
-      this.$router.push({ path: '/activitys/edit' })
+      this.$router.push({ path: '/activities/edit' })
     },
     deleteActivity() {
       if(confirm('本当に削除しますか？')){
