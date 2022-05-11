@@ -71,7 +71,6 @@
               <!-- <router-link to="/projects/list"> -->
                 <v-btn
                 :disabled="invalid"
-                type="submit"
                   class="mr-4 button"
                   color="primary"
                   @click="submit"
@@ -182,7 +181,28 @@ const url = "http://localhost:7773/msm_project/api/projects/"
         })
 
         window.open( resolvedRoute.href, null, "_blank")
-      }
+      },
+      submit () {
+        this.$v.$touch()
+        // console.log(this.name)
+        axios.post(url,{
+          created_by: this.$store.state.my_employee.id,
+          updated_by: this.$store.state.my_employee.id,
+          title: this.pjName,
+          content: this.pjContent,
+          client_id: 2
+        }).then((res) => {
+          console.log(res)
+          this.$router.push({
+            path: '/projects/detail',
+            query: {
+              project: res.data
+            }
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
     },
     created() {
       let qu = this.$route.query

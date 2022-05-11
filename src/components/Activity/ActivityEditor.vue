@@ -145,12 +145,13 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
       submit () {
         this.$v.$touch()
         axios.post(url, {
-          project_id: 1,updated_by: 1,
+          project_id: 1,
+          updated_by: this.$store.state.my_employee.id,
           title: this.ActivityName,
           content: this.ActivityContents,
           item_name: this.itemName,
           item_price: this.itemPrice,
-          item_amount: this.itemAmount
+          item_amount: this.itemAmount,
         }).then((res) => {
           console.log(res)
           this.$router.push({

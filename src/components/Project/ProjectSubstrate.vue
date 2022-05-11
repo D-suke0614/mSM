@@ -145,8 +145,8 @@ const url = "http://localhost:7773/msm_project/api/projects/"
         this.$v.$touch()
         // console.log(this.name)
         axios.post(url,{
-          created_by: 1, // ログインした人のid
-          updated_by: 1,
+          created_by: this.$store.state.my_employee.id,
+          updated_by: this.$store.state.my_employee.id,
           title: this.pjName,
           content: this.pjContent,
           client_id: 2

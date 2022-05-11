@@ -76,6 +76,11 @@
 <script>
 export default {
   name: 'App',
+  computed: {
+    my_employee() {
+      return this.$state.store.my_employee
+    }
+  },
 
   data: () => ({
     drawer: null,

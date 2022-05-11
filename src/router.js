@@ -25,6 +25,7 @@ import CsvScreen from './components/CSV/CsvScreen.vue'
 import login from './components/login/LoginScreen.vue'
 
 import axios from './util/axios.js'
+import store from './store'
 
 Vue.use(Router)
 
@@ -183,7 +184,9 @@ router.beforeEach((to, from, next) => {
 
   axios.get("http://localhost:7770/msm_employee/api/employees/login/check")
     .then(res => {
-      const employee = res.data;
+      const employee = res.data
+      store.commit('setMyEmployee', employee)
+      
       if(employee != ''){
         next();
       }else{
