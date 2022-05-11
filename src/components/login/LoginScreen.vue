@@ -6,9 +6,9 @@
     <v-card-text>
       <v-form>
         <v-text-field
-        label="ユーザ名"
+        label="Email"
         prepend-icon="mdi-account-circle"
-        v-model="name"
+        v-model="email"
         />
         <v-text-field
         label="パスワード"
@@ -19,9 +19,8 @@
         />
         <v-card-actions>
           <v-btn
-          to="/calendar"
           class="info"
-          @click="submit"
+          @click="login"
           >
           ログイン
           </v-btn>
@@ -32,13 +31,35 @@
 </template>
 
 <script>
+import axios from '../../util/axios.js'
+
+const url = "http://localhost:7770/msm_employee/api/employees/"
+
 export default {
   name: 'LoginScreen',
   data: () => ({
     showPassword : false,
-    name:'',
+    email:'',
     password:'',
-  })
+    employee: null
+  }),
+  methods: {
+    login() {
+      axios.post(url + `login`, {
+        email: this.email,
+        password: this.password,
+      }).then(res => {
+        this.employee = res.data
+        if(this.employee){
+          this.$router.push({ path: '/employees'})
+        }else{
+          console.log("ログイン失敗")
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+  }
 }
 </script>
 
