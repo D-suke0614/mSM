@@ -195,7 +195,7 @@ import { validationMixin } from 'vuelidate'
 import { required, maxLength, email, } from 'vuelidate/lib/validators'
 import { ValidationObserver } from 'vee-validate'
 
-const url = "http://localhost:7774/msm_employee/api/employees/"
+const url = "http://localhost:7770/msm_employee/api/employees/"
 
 export default {
   name: 'EmployeeList',

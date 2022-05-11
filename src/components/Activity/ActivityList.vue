@@ -26,7 +26,7 @@
             <div v-else>
               <v-data-table
                 :headers="headers"
-                :items="todos"
+                :items="activities"
                 :items-per-page="10"
                 class="elevation-5"
                 v-for="todo in sa" :key="todo.id"
@@ -101,7 +101,6 @@
               <!-- <router-link to="/activities/list"> -->
                 <v-btn
                 :disabled="invalid"
-                  type="submit"
                   class="mr-4 button"
                   color="primary"
                   @click="submit"
@@ -122,6 +121,8 @@ import axios from 'axios'
 import { validationMixin } from 'vuelidate'
   import { required, maxLength } from 'vuelidate/lib/validators'
   import { ValidationObserver } from 'vee-validate'
+
+const url = "http://localhost:7775/msm_activity/api/activities/"
 
   export default {
     name: 'ActivityList',
@@ -147,7 +148,6 @@ import { validationMixin } from 'vuelidate'
         loading: true,
         errored: false,
         error: null,
-        todos: null,
         sa: 1,
         items: [
           { id: 0 , tab: '検索結果'},
@@ -159,20 +159,28 @@ import { validationMixin } from 'vuelidate'
             align: 'start',
             value: 'id',
           },
-          { text: '内容', value: 'title' },
-          { text: '開始日時', value: 'title' },
-          { text: '終了日時', value: 'title' },
-          { text: '登録者', value: 'title' },
-          { text: '登録日', value: 'title' },
-          { text: '更新日', value: 'title' },
+          { text: '案件ID', value: 'project_id' },
+          { text: '登録者ID', value: 'created_by' },
+          { text: '更新者ID', value: 'updated_by' },
+          { text: '活動名', value: 'title' },
+          { text: '内容', value: 'content' },
+          { text: '開始日時', value: 'startd_at' },
+          { text: '終了日時', value: 'finished_at' },
+          { text: '商品名', value: 'item_name' },
+          { text: '商品価格', value: 'item_price' },
+          { text: '商品個数', value: 'item_amount' },
+          { text: '登録日', value: 'created_at' },
+          { text: '更新日', value: 'updated_at' },
         ],
 
-        // v-model
-      ActivityName: '',
-      ActivityContents: '',
-      itemName: '',
-      Address: '',
-      itemPrice: '',
+          // v-model
+        ActivityName: '',
+        ActivityContents: '',
+        itemName: '',
+        itemAmount: '',
+        itemPrice: '',
+
+        activities: null,
       }
     },
 
@@ -232,18 +240,42 @@ import { validationMixin } from 'vuelidate'
         })
         window.open( resolvedRoute.href, null, "_blank")
       },
+      submit () {
+        this.$v.$touch()
+        axios.post(url, {
+          project_id: 1,
+          created_by: 1,// ログインしている人
+          updated_by: 1,
+          title: this.ActivityName,
+          content: this.ActivityContents,
+          item_name: this.itemName,
+          item_price: this.itemPrice,
+          item_amount: this.itemAmount
+        }).then((res) => {
+          console.log(res)
+          this.$router.push({
+            path: '/activities/detail',
+            query: {
+              activity: res.data
+            }
+          }).catch((err) =>{
+            console.log(err)
+          })
+        })
+      },
     },
     created() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then(response => {
-        this.todos = response.data;
-      })
-      .catch(err => {
-        (this.errored = true), (this.error = err);
-      })
-      .finally(() => (this.loading = false));
-  }
+      let qu = this.$route.query
+      axios
+        .get(url + `search?id=${qu.id}&title=${qu.title}&item_name=${qu.item_name}&item_amount=${qu.item_amount}&item_price=${qu.item_price}`)
+        .then(response => {
+          this.activities = response.data;
+        })
+        .catch(err => {
+          (this.errored = true), (this.error = err);
+        })
+        .finally(() => (this.loading = false));
+    }
   }
 </script>
 

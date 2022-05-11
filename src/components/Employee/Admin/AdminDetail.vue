@@ -32,7 +32,7 @@
 <script>
 import axios from 'axios';
 
-const url = "http://localhost:7774/msm_employee/api/employees/"
+const url = "http://localhost:7770/msm_employee/api/employees/"
 
 
 export default {

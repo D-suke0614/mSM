@@ -19,19 +19,17 @@
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
-            <v-text-field class="input" placeholder="活動名"></v-text-field>
-            <v-text-field class="input" placeholder="活動ID"></v-text-field>
-            <v-text-field class="input" placeholder="顧客名"></v-text-field>
-            <v-text-field class="input" placeholder="顧客ID"></v-text-field>
-            <v-text-field class="input" placeholder="商品名"></v-text-field>
-            <v-text-field class="input" placeholder="商品個数"></v-text-field>
-            <v-text-field class="input" placeholder="商品価格"></v-text-field>
-            <v-text-field class="input" placeholder="登録者"></v-text-field>
-            <v-text-field class="input" placeholder="編集者"></v-text-field>
+            <v-text-field class="input" placeholder="活動名" v-model="title"></v-text-field>
+            <v-text-field class="input" placeholder="活動ID" v-model="id"></v-text-field>
+            <!-- <v-text-field class="input" placeholder="顧客名"></v-text-field> -->
+            <!-- <v-text-field class="input" placeholder="顧客ID"></v-text-field> -->
+            <v-text-field class="input" placeholder="商品名" v-model="item_name"></v-text-field>
+            <v-text-field class="input" placeholder="商品個数" v-model="item_amount"></v-text-field>
+            <v-text-field class="input" placeholder="商品価格" v-model="item_price"></v-text-field>
+            <!-- <v-text-field class="input" placeholder="登録者"></v-text-field>
+            <v-text-field class="input" placeholder="編集者"></v-text-field> -->
             <!-- 一覧画面に遷移し、検索結果が表示される -->
-            <router-link to="/activities/list">
-              <v-btn class="button" color="primary" @click="search">検索</v-btn>
-            </router-link>
+            <v-btn class="button" color="primary" @click="search">検索</v-btn>
           </v-form>
         </v-tab-item>
 
@@ -97,7 +95,6 @@
               <!-- <router-link to="/activities/list"> -->
                 <v-btn
                 :disabled="invalid"
-                  type="submit"
                   class="mr-4 button"
                   color="primary"
                   @click="submit"
@@ -117,6 +114,9 @@
   import { validationMixin } from 'vuelidate'
   import { required, maxLength } from 'vuelidate/lib/validators'
   import { ValidationObserver } from 'vee-validate'
+import axios from 'axios'
+
+const url = "http://localhost:7775/msm_activity/api/activities/"
 
   export default {
     name: 'ProjectSearch',
@@ -148,8 +148,15 @@
       ActivityName: '',
       ActivityContents: '',
       itemName: '',
-      Address: '',
+      itemAmount: '',
       itemPrice: '',
+
+      // 検索用v-model
+      title: '',
+      id: '',
+      item_name: '',
+      item_amount: '',
+      item_price: '',
     }),
 
     computed: {
@@ -177,20 +184,50 @@
         return errors
       },
       // 住所
-      AddressErrors () {
+      itemAmountErrors () {
         const errors = []
-        if (!this.$v.Address.$dirty) return errors
-        !this.$v.Address.maxLength && errors.push('住所は２５５文字以内で入力してください！')
+        if (!this.$v.itemAmount.$dirty) return errors
+        !this.$v.itemAmount.maxLength && errors.push('住所は２５５文字以内で入力してください！')
         return errors
       },
     },
 
     methods: {
-
       submit () {
         this.$v.$touch()
+        axios.post(url, {
+          project_id: 1,
+          created_by: 1,// ログインしている人
+          updated_by: 1,
+          title: this.ActivityName,
+          content: this.ActivityContents,
+          item_name: this.itemName,
+          item_price: this.itemPrice,
+          item_amount: this.itemAmount
+        }).then((res) => {
+          console.log(res)
+          this.$router.push({
+            path: '/activities/detail',
+            query: {
+              activity: res.data
+            }
+          }).catch((err) =>{
+            console.log(err)
+          })
+        })
       },
-
+      search(){
+        this.$router.push({
+          path: '/activities/list',
+          query: {
+            title: this.title,
+            id: this.id,
+            item_name: this.item_name,
+            item_amount: this.item_amount,
+            item_price: this.item_price,
+          }
+        })
+      },
     },
   }
 </script>
