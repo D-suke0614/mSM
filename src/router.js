@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import Calender from './components/Calender/Calender.vue'
 import CalenderDetail from './components/Calender/CalenderDetail.vue'
 import CalenderEditor from './components/Calender/CalenderEditor.vue'
@@ -9,18 +8,21 @@ import ClientList from './components/Client/ClientList.vue'
 import ClientEditor from './components/Client/ClientEditor.vue'
 import ClientSubstrate from './components/Client/ClientSubstrate.vue'
 import ProjectList from './components/Project/ProjectList.vue'
+import ActivityList from './components/Activity/ActivityList.vue'
+import ActivitySubstrate from './components/Activity/ActivitySubstrate.vue'
+import EmployeeList from './components/Employee/User/EmployeeList.vue'
+import AdminList from './components/Employee/Admin/AdminList.vue'
+import AdminSubstrate from './components/Employee/Admin/AdminSubstrate.vue'
 import ProjectSubstrate from './components/Project/ProjectSubstrate.vue'
 import ProjectDetail from './components/Project/ProjectDetail.vue'
 import ProjectEditor from './components/Project/ProjectEditor.vue'
-import ActivityList from './components/Activity/ActivityList.vue'
 import ActivityDetail from './components/Activity/ActivityDetail.vue'
 import ActivityEditor from './components/Activity/ActivityEditor.vue'
-import EmployeeList from './components/Employee/User/EmployeeList.vue'
 import EmployeeDetail from './components/Employee/User/EmployeeDetail.vue'
-import AdminList from './components/Employee/Admin/AdminList.vue'
 import AdminDetail from './components/Employee/Admin/AdminDetail.vue'
 import AdminEditor from './components/Employee/Admin/AdminEditor.vue'
-import Login from './components/Login/Login.vue'
+import CsvScreen from './components/CSV/CsvScreen.vue'
+import login from './components/login/LoginScreen.vue'
 
 Vue.use(Router)
 
@@ -28,74 +30,106 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      // ログイン画面
       path: '/',
+      name: 'login',
+      component: login,
+    },
+    {
+      // カレンダー画面
+      path: '/calendar',
       name: 'calender',
       component: Calender
     },
     {
-      path: '/calenders/detail',
+      // カレンダー詳細
+      path: '/calendars/detail',
       name: 'calender_detail',
       component: CalenderDetail,
     },
     {
-      path: '/calenders/edit',
+      // カレンダー編集
+      path: '/calendars/edit',
       name: 'calender_editor',
       component: CalenderEditor,
     },
     {
-      path: '/clients/list',
-      name: "clientList",
-      component: ClientList,
-    },
-    {
+      // 顧客
       path: '/clients',
       name: "client",
       component: ClientSubstrate,
     },
     {
+      // 顧客検索結果一覧
+      path: '/clients/list',
+      name: "clientList",
+      component: ClientList,
+    },
+    {
+      // 顧客詳細
       path: '/clients/detail',
       name: 'client_detail',
       component: ClientDetail,
     },
     {
+      // 顧客編集
       path: '/clients/edit',
       name: 'client_editor',
       component: ClientEditor,
     },
     {
-      path: '/projects/list',
-      name: 'projectList',
-      component: ProjectList,
-    },
-    {
+      // 案件
       path: '/projects',
       name: 'project',
       component: ProjectSubstrate,
     },
     {
+      // 案件検結果一覧
+      path: '/projects/list',
+      name: 'projectList',
+      component: ProjectList,
+    },
+    {
+      // 案件詳細
       path: '/projects/detail',
       name: 'project_detail',
       component: ProjectDetail,
     },
     {
+      // 案件編集
       path: '/projects/edit',
       name: 'project_editor',
       component: ProjectEditor,
     },
     {
-      path: '/activities/list',
+      // 活動
+      path: '/activity',
       name: 'activity',
+      component: ActivitySubstrate,
+    },
+    {
+      // 活動検索結果一覧
+      path: '/activities/list',
+      name: 'activity/list',
       component: ActivityList,
     },
     {
+      // 活動詳細
       path: '/activities/detail',
       name: 'activity_detail',
       component: ActivityDetail,
     },
     {
+      // 活動編集
       path: '/activities/edit',
       name: 'activity_editor',
       component: ActivityEditor,
+    },
+    {
+      //
+      path: '/employees',
+      name: 'adminSubstrate',
+      component: AdminSubstrate,
     },
     {
       path: '/employees/list',
@@ -123,9 +157,18 @@ export default new Router({
       component: AdminEditor,
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: '/csv',
+      name: 'csv',
+      component: CsvScreen,
     },
+
+    {
+      // CSVエクスポート用のパス
+      path: '/sample',
+      // リダイレクト先のパス
+      redirect: '/',
+      component: login,
+    },
+
   ]
 })

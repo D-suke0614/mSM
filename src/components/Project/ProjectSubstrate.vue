@@ -19,52 +19,57 @@
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
-            <v-text-field class="input" placeholder="案件名"></v-text-field>
-            <v-text-field class="input" placeholder="案件ID"></v-text-field>
-            <v-text-field class="input" placeholder="顧客名"></v-text-field>
-            <v-text-field class="input" placeholder="登録者"></v-text-field>
-            <v-text-field class="input" placeholder="編集者"></v-text-field>
+            <v-text-field class="input" placeholder="案件名" v-model="title"></v-text-field>
+            <v-text-field class="input" placeholder="案件ID" v-model="project_id"></v-text-field>
+            <v-text-field class="input" placeholder="顧客名" v-model="client_name"></v-text-field>
+            <v-text-field class="input" placeholder="登録者" v-model="created_by"></v-text-field>
+            <v-text-field class="input" placeholder="編集者" v-model="updated_by"></v-text-field>
             <!-- 一覧画面に遷移し、検索結果が表示される -->
-            <router-link to="/projects/list">
-              <v-btn class="button" color="primary" @click="search">検索</v-btn>
-            </router-link>
+            <v-btn class="button" color="primary" @click="search">検索</v-btn>
           </v-form>
         </v-tab-item>
 
 
       <!-- 登録タブ -->
         <v-tab-item>
-          <form >
-            <!-- 案件名 -->
-            <v-text-field
-            class="input"
-              v-model="pjName"
-              :error-messages="pjNameErrors"
-              :counter="255"
-              label="案件名"
-              required
-              @input="$v.pjName.$touch()"
-              @blur="$v.pjName.$touch()"
-            ></v-text-field>
-            <!-- 案件内容 -->
-            <v-textarea
-              rows="7"
+          <validation-observer
+              ref="observer"
+              >
+            <form >
+              <!-- 案件名 -->
+              <v-text-field
               class="input"
-              v-model="pjContent"
-              :error-messages="pjContentErrors"
-              label="内容"
-              required
-              @input="$v.pjContent.$touch()"
-              @blur="$v.pjContent.$touch()"
-            ></v-textarea>
-            <v-btn
-              class="mr-4 button"
-              color="primary"
-              @click="submit"
-            >
-              登録
-            </v-btn>
-          </form>
+                v-model="pjName"
+                :error-messages="pjNameErrors"
+                :counter="255"
+                label="案件名"
+                required
+                @input="$v.pjName.$touch()"
+                @blur="$v.pjName.$touch()"
+              ></v-text-field>
+              <!-- 案件内容 -->
+              <v-textarea
+                rows="7"
+                class="input"
+                v-model="pjContent"
+                :error-messages="pjContentErrors"
+                label="内容"
+                required
+                @input="$v.pjContent.$touch()"
+                @blur="$v.pjContent.$touch()"
+              ></v-textarea>
+              <!-- <router-link to="/projects/list"> -->
+                <v-btn
+                :disabled="invalid"
+                  class="mr-4 button"
+                  color="primary"
+                  @click="submit"
+                >
+                  登録
+                </v-btn>
+              <!-- </router-link> -->
+            </form>
+          </validation-observer>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -74,10 +79,19 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, maxLength } from 'vuelidate/lib/validators'
+  import axios from 'axios'
+  import { ValidationObserver } from 'vee-validate'
+
+const url = "http://localhost:7773/msm_project/api/projects/"
+
 
   export default {
     name: 'ProjectSearch',
     mixins: [validationMixin],
+
+    components: {
+      ValidationObserver,
+    },
 
     validations: {
       // 案件名：必須入力、２５５文字以内
@@ -97,6 +111,14 @@
       // v-model
       pjName: '',
       pjContent: '',
+
+      // 検索用v-model
+      project_id: '',
+      title: '',
+      created_by: null,
+      updated_by: null,
+
+      projects: [],
     }),
 
     computed: {
@@ -122,7 +144,37 @@
       submit () {
         this.$v.$touch()
         // console.log(this.name)
+        axios.post(url,{
+          created_by: 1, // ログインした人のid
+          updated_by: 1,
+          title: this.pjName,
+          content: this.pjContent,
+          client_id: 2
+        }).then((res) => {
+          console.log(res)
+          this.$router.push({
+            path: '/projects/detail',
+            query: {
+              project: res.data
+            }
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
       },
+      search() {
+        this.$router.push({
+          path: '/projects/list',
+          query: {
+            id: this.project_id,
+            // project_id: this.project_name,
+            client_id: this.client_id,
+            title: this.title,
+            // created_by: this.created_by,
+            // updated_by: this.updated_by
+          }
+        })
+      }
     },
   }
 </script>

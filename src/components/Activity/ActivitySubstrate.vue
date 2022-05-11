@@ -1,9 +1,9 @@
 <template>
-  <v-sheet elevation="6">
+  <v-sheet>
     <v-tabs
           v-model="tab"
           align-with-title
-        >
+    >
           <v-tabs-slider color="yellow"></v-tabs-slider>
 
           <v-tab
@@ -13,32 +13,26 @@
           >
             {{ item.tab }}
           </v-tab>
-        </v-tabs>
+      </v-tabs>
+      <h2>Activity</h2>
+      <v-tabs-items v-model="tab">
+        <!-- 検索タブ -->
+        <v-tab-item>
+          <v-form v-on:submit.prevent="onSubmit">
+            <v-text-field class="input" placeholder="活動名" v-model="title"></v-text-field>
+            <v-text-field class="input" placeholder="活動ID" v-model="id"></v-text-field>
+            <!-- <v-text-field class="input" placeholder="顧客名"></v-text-field> -->
+            <!-- <v-text-field class="input" placeholder="顧客ID"></v-text-field> -->
+            <v-text-field class="input" placeholder="商品名" v-model="item_name"></v-text-field>
+            <v-text-field class="input" placeholder="商品個数" v-model="item_amount"></v-text-field>
+            <v-text-field class="input" placeholder="商品価格" v-model="item_price"></v-text-field>
+            <!-- <v-text-field class="input" placeholder="登録者"></v-text-field>
+            <v-text-field class="input" placeholder="編集者"></v-text-field> -->
+            <!-- 一覧画面に遷移し、検索結果が表示される -->
+            <v-btn class="button" color="primary" @click="search">検索</v-btn>
+          </v-form>
+        </v-tab-item>
 
-        <v-tabs-items v-model="tab">
-      <v-tab-item>
-        <v-card flat>
-          <div class="list">
-            <!-- <h1>This is Project list display</h1> -->
-            <p v-if="errored" v-cloak>{{ error }}</p>
-            <p v-if="loading" v-cloak>Loading...</p>
-
-            <div v-else>
-              <v-data-table
-                :headers="headers"
-                :items="activities"
-                :items-per-page="10"
-                class="elevation-5"
-                v-for="todo in sa" :key="todo.id"
-                v-cloak
-                @click:row="showActivityDetail"
-                >
-                {{todo.title}}
-              </v-data-table>
-            </div>
-          </div>
-        </v-card>
-      </v-tab-item>
 
       <!-- 登録タブ -->
         <v-tab-item>
@@ -117,15 +111,15 @@
 
 
 <script>
-import axios from 'axios'
-import { validationMixin } from 'vuelidate'
+  import { validationMixin } from 'vuelidate'
   import { required, maxLength } from 'vuelidate/lib/validators'
   import { ValidationObserver } from 'vee-validate'
+import axios from 'axios'
 
 const url = "http://localhost:7775/msm_activity/api/activities/"
 
   export default {
-    name: 'ActivityList',
+    name: 'ProjectSearch',
     mixins: [validationMixin],
 
     components: {
@@ -142,47 +136,28 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
       // 商品価格：バリデーションなし
     },
 
-    data () {
-      return {
-        tab: null,
-        loading: true,
-        errored: false,
-        error: null,
-        sa: 1,
+    data: () => ({
+      // tab
+      tab: null,
         items: [
-          { id: 0 , tab: '検索結果'},
+          { id: 0 , tab: '検索'},
           { id: 1 , tab: '登録'},
         ],
-        headers: [
-          {
-            text: '活動名',
-            align: 'start',
-            value: 'id',
-          },
-          { text: '案件ID', value: 'project_id' },
-          { text: '登録者ID', value: 'created_by' },
-          { text: '更新者ID', value: 'updated_by' },
-          { text: '活動名', value: 'title' },
-          { text: '内容', value: 'content' },
-          { text: '開始日時', value: 'startd_at' },
-          { text: '終了日時', value: 'finished_at' },
-          { text: '商品名', value: 'item_name' },
-          { text: '商品価格', value: 'item_price' },
-          { text: '商品個数', value: 'item_amount' },
-          { text: '登録日', value: 'created_at' },
-          { text: '更新日', value: 'updated_at' },
-        ],
 
-          // v-model
-        ActivityName: '',
-        ActivityContents: '',
-        itemName: '',
-        itemAmount: '',
-        itemPrice: '',
+      // v-model
+      ActivityName: '',
+      ActivityContents: '',
+      itemName: '',
+      itemAmount: '',
+      itemPrice: '',
 
-        activities: null,
-      }
-    },
+      // 検索用v-model
+      title: '',
+      id: '',
+      item_name: '',
+      item_amount: '',
+      item_price: '',
+    }),
 
     computed: {
       // エラーメッセージ
@@ -209,37 +184,15 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
         return errors
       },
       // 住所
-      AddressErrors () {
+      itemAmountErrors () {
         const errors = []
-        if (!this.$v.Address.$dirty) return errors
-        !this.$v.Address.maxLength && errors.push('住所は２５５文字以内で入力してください！')
+        if (!this.$v.itemAmount.$dirty) return errors
+        !this.$v.itemAmount.maxLength && errors.push('住所は２５５文字以内で入力してください！')
         return errors
       },
     },
 
     methods: {
-      showActivityDetail(data) {
-        let resolvedRoute = this.$router.resolve({
-          name: 'activity_detail',
-          query: {
-            // APIと接続後に変更
-            id: data.id,
-            project_id: data.id,
-            created_by: data.id,
-            updated_by: data.id,
-            title: data.title,
-            content: data.title,
-            started_at: data.title,
-            finished_at: data.title,
-            item_name: data.title,
-            item_amount: data.title,
-            item_price: data.title,
-            created_at: data.title,
-            updated_at: data.title,
-          }
-        })
-        window.open( resolvedRoute.href, null, "_blank")
-      },
       submit () {
         this.$v.$touch()
         axios.post(url, {
@@ -263,19 +216,19 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
           })
         })
       },
+      search(){
+        this.$router.push({
+          path: '/activities/list',
+          query: {
+            title: this.title,
+            id: this.id,
+            item_name: this.item_name,
+            item_amount: this.item_amount,
+            item_price: this.item_price,
+          }
+        })
+      },
     },
-    created() {
-      let qu = this.$route.query
-      axios
-        .get(url + `search?id=${qu.id}&title=${qu.title}&item_name=${qu.item_name}&item_amount=${qu.item_amount}&item_price=${qu.item_price}`)
-        .then(response => {
-          this.activities = response.data;
-        })
-        .catch(err => {
-          (this.errored = true), (this.error = err);
-        })
-        .finally(() => (this.loading = false));
-    }
   }
 </script>
 

@@ -1,18 +1,17 @@
 <template>
   <v-container>
-    
+
     <v-row class="my-2">
       <v-col cols="5" sm="4" align="center">
           <p class="text-h4 d-inline">Activity</p>
       </v-col>
       <v-col cols="3" sm="3"></v-col>
       <v-col cols="4" sm="5" align="center">
-          <!-- <v-btn color="green" class="ml-5 mx-2 white--text" @click="searchProject">案件一覧</v-btn> -->
           <v-btn color="primary" class="mx-2" @click="openEditor">編集</v-btn>
           <v-btn color="red" class="mx-2 white--text" @click="deleteActivity">削除</v-btn>
       </v-col>
     </v-row>
-        
+
     <v-row class="my-2">
       <v-col cols="12">
         <v-simple-table class="mx-auto">
@@ -32,15 +31,15 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
-// const url = "http:localhost:7777/msm_activity/api/"
+const url = "http://localhost:7775/msm_activity/api/activities/"
 
 export default {
   name: "ActivityIndex",
   data() {
     return {
-      th_list: { 
+      th_list: {
         id: "顧客ID",
         project_id: "案件名",
         created_by: "作成者",
@@ -55,47 +54,42 @@ export default {
         created_at: "登録日",
         updated_at: "更新日",
       },
-      activity: { 
-        id: this.$route.query.id,
-        project_id: this.$route.query.project_id,
-        created_by: this.$route.query.created_by,
-        updated_by: this.$route.query.updated_by,
-        title: this.$route.query.title,
-        content: this.$route.query.title,
-        started_at: this.$route.query.started_at,
-        finished_at: this.$route.query.finished_at,
-        item_name: this.$route.query.item_name,
-        item_amount: this.$route.query.item_amount,
-        item_price: this.$route.query.item_price,
-        created_at: this.$route.query.created_at,
-        updated_at: this.$route.query.updated_at,
-      },
+      activity: null,
     };
   },
   methods: {
-    // searchProject(){
-    //   this.$router.push({ path: '/projects/list'})
-
-    //   // 必要に応じて
-    //   // window.close()
-    // },
     openEditor() {
-      this.$router.push({ path: '/activitys/edit' })
+      this.$router.push({
+        path: '/activities/edit',
+        query: {
+          id: this.activity.id
+        }
+      })
     },
     deleteActivity() {
       if(confirm('本当に削除しますか？')){
-        // this.$router.back()
-
-        // 削除処理
-        // axios.delete(url + `activitys/${this.activity.id}/delete`)
-        //   .then((res) => {
-        //     console.log(res)
-        //   }).catch((err) => {
-        //     console.log(err)
-        //   })
         
-        window.close()
+        // 削除処理
+        axios.delete(url + `${this.activity.id}/delete`)
+          .then((res) => {
+            console.log(res)
+            window.close()
+            this.$router.back()
+          }).catch((err) => {
+            console.log(err)
+          })
+
       }
+    }
+  },
+  created() {
+    this.activity = this.$route.query.activity
+    if(this.activity == null){
+      console.log(url + this.$route.query.id)
+      axios.get(url + this.$route.query.id)
+        .then((res) => {
+          this.activity = res.data
+        })
     }
   }
 };

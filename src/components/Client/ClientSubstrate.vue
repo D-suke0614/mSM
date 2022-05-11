@@ -36,81 +36,81 @@
 
       <!-- 登録タブ -->
         <v-tab-item>
-          <form >
-            <!-- 顧客名 -->
-            <v-text-field
-            class="input"
-              v-model="CName"
-              :error-messages="CNameErrors"
-              :counter="255"
-              label="顧客名"
-              required
-              @input="$v.CName.$touch()"
-              @blur="$v.CName.$touch()"
-            ></v-text-field>
-            <!-- コキャクメイ -->
-            <v-text-field
-            class="input"
-              v-model="CKName"
-              :error-messages="CKNameErrors"
-              :counter="255"
-              label="コキャクメイ"
-              required
-              @input="$v.CKName.$touch()"
-              @blur="$v.CKName.$touch()"
-            ></v-text-field>
-            <!-- 郵便番号 -->
-            <v-text-field
-            class="input"
-              v-model="postalCode"
-              :error-messages="postalCode"
-              :counter="7"
-              label="郵便番号"
-              required
-              @input="$v.postalCode.$touch()"
-              @blur="$v.postalCode.$touch()"
-            ></v-text-field>
-            <!-- 住所 -->
-            <v-text-field
-            class="input"
-              v-model="Address"
-              :error-messages="Address"
-              :counter="255"
-              label="住所"
-              required
-              @input="$v.Address.$touch()"
-              @blur="$v.Address.$touch()"
-            ></v-text-field>
-            <!-- 電話番号 -->
-            <v-text-field
-            class="input"
-              v-model="PhoneNumber"
-              :error-messages="PhoneNumber"
-              :counter="11"
-              label="電話番号"
-              required
-              @input="$v.PhoneNumber.$touch()"
-              @blur="$v.PhoneNumber.$touch()"
-            ></v-text-field>
-            <!-- メールアドレス -->
-            <v-text-field
-            class="input"
-              v-model="email"
-              :error-messages="emailErrors"
-              label="E-mail"
-              required
-              @input="$v.email.$touch()"
-              @blur="$v.email.$touch()"
-            ></v-text-field>
-            <!-- 登録ボタンを押したら詳細画面に遷移する（現状は一覧画面に遷移） -->
-            <v-btn
-              class="mr-4 button"
-              color="primary"
-              @click="submit"
-            >
-              登録
-            </v-btn>
-          </form>
+          <validation-observer
+              ref="observer"
+              >
+            <form >
+              <!-- 顧客名 -->
+              <v-text-field
+              class="input"
+                v-model="CName"
+                :error-messages="CNameErrors"
+                :counter="255"
+                label="顧客名"
+                required
+                @input="$v.CName.$touch()"
+                @blur="$v.CName.$touch()"
+              ></v-text-field>
+              <!-- コキャクメイ -->
+              <v-text-field
+              class="input"
+                v-model="CKName"
+                :error-messages="CKNameErrors"
+                :counter="255"
+                label="コキャクメイ"
+                @input="$v.CKName.$touch()"
+                @blur="$v.CKName.$touch()"
+              ></v-text-field>
+              <!-- 郵便番号 -->
+              <v-text-field
+              class="input"
+                v-model="postalCode"
+                :error-messages="postalCode"
+                :counter="7"
+                label="郵便番号"
+                @input="$v.postalCode.$touch()"
+                @blur="$v.postalCode.$touch()"
+              ></v-text-field>
+              <!-- 住所 -->
+              <v-text-field
+              class="input"
+                v-model="Address"
+                :error-messages="Address"
+                :counter="255"
+                label="住所"
+                @input="$v.Address.$touch()"
+                @blur="$v.Address.$touch()"
+              ></v-text-field>
+              <!-- 電話番号 -->
+              <v-text-field
+              class="input"
+                v-model="PhoneNumber"
+                :error-messages="PhoneNumber"
+                :counter="11"
+                label="電話番号"
+                @input="$v.PhoneNumber.$touch()"
+                @blur="$v.PhoneNumber.$touch()"
+              ></v-text-field>
+              <!-- メールアドレス -->
+              <v-text-field
+              class="input"
+                v-model="email"
+                :error-messages="emailErrors"
+                label="E-mail"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
+              ></v-text-field>
+                <v-btn
+                :disabled="invalid"
+                  class="mr-4 button"
+                  color="primary"
+                  @click="createClient"
+                >
+                  登録
+                </v-btn>
+            </form>
+          </validation-observer>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -121,12 +121,18 @@
 import axios from 'axios'
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
+  import { ValidationObserver } from 'vee-validate'
+
 
 const url = "http://localhost:7777/msm_client/api/clients/"
 
   export default {
     name: 'ProjectSearch',
     mixins: [validationMixin],
+
+    components: {
+      ValidationObserver,
+    },
 
     validations: {
       // 顧客名：必須入力、２５５文字以内
@@ -213,16 +219,15 @@ const url = "http://localhost:7777/msm_client/api/clients/"
       emailErrors () {
         const errors = []
         if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
+        !this.$v.email.email && errors.push('正しい形式で入力してください！')
+        !this.$v.email.required && errors.push('メールアドレスを入力してください！')
         return errors
       },
     },
 
     methods: {
-      submit () {
+      createClient() {
         this.$v.$touch()
-        // console.log(this.name)
         axios
           .post(url, {
             company_name: this.CName,
@@ -233,6 +238,12 @@ const url = "http://localhost:7777/msm_client/api/clients/"
             email: this.email
           }).then((res) => {
             console.log(res)
+            this.$router.push({
+              path: '/clients/detail',
+              query: {
+                client: res.data
+              }
+            })
           }).catch((err) => {
             console.log(err)
           })
