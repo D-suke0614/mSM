@@ -129,50 +129,47 @@ const router = new Router({
       component: ActivityEditor,
     },
     {
-      //
+      // 社員
       path: '/employees',
       name: 'adminSubstrate',
       component: AdminSubstrate,
     },
     {
+      // 社員検索結果一覧（一般ユーザー用）
       path: '/employees/list',
       name: 'employee',
       component: EmployeeList,
     },
     {
+      // 社員詳細（一般ユーザー用）
       path: '/employees/detail',
       name: 'employee_detail',
       component: EmployeeDetail,
     },
     {
+      // 社員検索結果一覧（Adminユーザー用）
       path: '/admin/list',
       name: 'admin',
       component: AdminList,
     },
     {
+      // 社員編集（Adminユーザー用）
       path: '/admin/detail',
       name: 'admin_detail',
       component: AdminDetail,
     },
     {
+      // 社員編集（Adminユーザーのみ）
       path: '/admin/edit',
       name: 'admin_editor',
       component: AdminEditor,
     },
     {
+      // CSV
       path: '/csv',
       name: 'csv',
       component: CsvScreen,
     },
-
-    {
-      // CSVエクスポート用のパス
-      path: '/sample',
-      // リダイレクト先のパス
-      redirect: '/',
-      component: login,
-    },
-
   ]
 })
 

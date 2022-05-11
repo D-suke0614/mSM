@@ -18,46 +18,54 @@
       <v-tabs-items v-model="tab">
         <!-- インポートタブ -->
         <v-tab-item>
-          <v-file-input
-          v-model="im_activ"
-          class="input"
-          label="顧客・案件・活動"
-          ></v-file-input>
-          <v-file-input
-          v-model="im_emp"
-          class="input"
-          label="社員"
-          ></v-file-input>
-          <v-btn
-          type="submit"
-          class="mr-4 button"
-          color="primary"
+          <v-form
+          method="post"
+          action="http://localhost:7780/mSM_CSV/CSVtoDBforActive"
+          enctype="multipart/form-data"
           >
-            読み込み
-          </v-btn>
+            <v-file-input
+            v-model="im_activ"
+            class="input"
+            label="顧客・案件・活動"
+            ></v-file-input>
+            <v-file-input
+            v-model="im_emp"
+            class="input"
+            label="社員"
+            ></v-file-input>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <v-btn
+            type="submit"
+            class="mr-4 button"
+            color="primary"
+            >
+              読み込み
+            </v-btn>
+          </v-form>
         </v-tab-item>
 
       <!-- エクスポートタブ -->
         <v-tab-item>
-          <v-checkbox
-          class="input"
-          v-model="ex_activ"
-          :label="`顧客・案件・活動：${ex_activ.toString()}`"
-          ></v-checkbox>
-          <v-checkbox
-          class="input"
-          v-model="ex_emp"
-          :label="`社員：${ex_emp.toString()}`"
-          ></v-checkbox>
-          <!-- エクスポートに使用するパス：to="URL"指定（その後指定のURLへリダイレクトする） -->
+          <v-radio-group
+          v-model="radioGroup"
+          column
+          ><v-radio
+            class="input"
+            value="ex_activ"
+            label="顧客・案件・活動"
+            ></v-radio>
+            <v-radio
+            class="input"
+            value="ex_emp"
+            label="社員"
+            ></v-radio>
+          </v-radio-group>
             <v-btn
+            @click="exportCSV"
+            :href="url"
             class="mr-4 button"
             color="primary"
-            @click="exportCSV"
-            to=""
-            >
-              出力
-            </v-btn>
+            >出力</v-btn>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -75,28 +83,33 @@ export default {
           { id: 1 , tab: 'エクスポート'},
         ],
 
+        radioGroup: 0,
+
         // import
         im_activ: '',
         im_emp: '',
 
         // export
-        ex_activ: false,
-        ex_emp: false,
+        ex_activ: '',
+        ex_emp: '',
 
-        exportCSV() {
+        url: '',
+        ex_active_url: 'http://localhost:7780/mSM_CSV/DBtoCSVforActive',
+        ex_emp_url: 'http://localhost:7780/mSM_CSV/DBtoCSVforEmployees',
+}),
+
+methods: {
+  exportCSV() {
           console.log('マジ卍')
-          // eslint-disable-next-line no-undef
-          if (this.ex_activ == true) {
-            this.$router.push({
-              path: '/',
-            })
-          } else if (this.ex_emp == true) {
-            this.$router.push({
-              path: '7780/mSM_CSV/DBtoCSVforEmployees'
-            })
+
+          if (this.radioGroup === 'ex_activ') {
+            this.url = this.ex_active_url;
+          } else if (this.radioGroup === 'ex_emp') {
+            this.url = this.ex_emp_url;
           }
         },
-})
+}
+
 }
 
 </script>
@@ -114,5 +127,10 @@ export default {
   }
   .tab {
     height: 8vh;
+  }
+  .button {
+    border: 1px solid blue;
+    padding: 10px 6px;
+    text-decoration: none;
   }
 </style>
