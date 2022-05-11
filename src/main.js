@@ -4,6 +4,7 @@ import Vue from 'vue'
 // import { use } from 'vue/types/umd'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
+import store from './store'
 // import axios from 'axios' //追記
 // import VueAxios from 'vue-axios' //追記
 
@@ -17,5 +18,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')

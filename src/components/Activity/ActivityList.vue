@@ -245,8 +245,8 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
         this.$v.$touch()
         axios.post(url, {
           project_id: 1,
-          created_by: 1,// ログインしている人
-          updated_by: 1,
+          created_by: this.$store.state.my_employee.id,
+          updated_by: this.$store.state.my_employee.id,
           title: this.ActivityName,
           content: this.ActivityContents,
           item_name: this.itemName,

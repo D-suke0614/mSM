@@ -7,6 +7,7 @@
 
       <v-spacer></v-spacer>
 
+      <v-btn variant="text" icon="mdi-domain" @click="openLoginForm" class="white--text"></v-btn>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" temporary absolute clipped>
@@ -75,9 +76,19 @@
 <script>
 export default {
   name: 'App',
+  computed: {
+    my_employee() {
+      return this.$state.store.my_employee
+    }
+  },
 
   data: () => ({
     drawer: null,
   }),
+  methods: {
+    openLoginForm(){
+      this.$router.push({ path: '/login' })
+    }
+  }
 };
 </script>

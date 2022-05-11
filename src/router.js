@@ -24,9 +24,12 @@ import AdminEditor from './components/Employee/Admin/AdminEditor.vue'
 import CsvScreen from './components/CSV/CsvScreen.vue'
 import login from './components/login/LoginScreen.vue'
 
+import axios from './util/axios.js'
+import store from './store'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -169,3 +172,24 @@ export default new Router({
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // ログイン画面は許可
+  if(to.name == 'login'){
+    next();
+  }
+
+  axios.get("http://localhost:7770/msm_employee/api/employees/login/check")
+    .then(res => {
+      const employee = res.data
+      store.commit('setMyEmployee', employee)
+      
+      if(employee != ''){
+        next();
+      }else{
+        next({ path: '/' })
+      }
+    })
+})
+
+export default router;

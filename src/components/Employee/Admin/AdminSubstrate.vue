@@ -401,7 +401,12 @@
     methods: {
       openEditor() {
       // 管理者
-      this.$router.push({ path: '/admin/edit'})
+        this.$router.push({
+          path: '/admin/edit',
+          query: {
+            id: this.$store.state.my_employee.id
+          }
+        })
       },
       submit () {
         this.$v.$touch()
@@ -449,7 +454,7 @@
       }
     },
     created() {
-      const user_id = 1; // ログインしているユーザー
+      const user_id = this.$store.state.my_employee.id; // ログインしているユーザー
       axios.get(url + `${user_id}`)
         .then((res) => {
           console.log(res.data)

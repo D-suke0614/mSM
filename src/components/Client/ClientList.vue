@@ -272,7 +272,9 @@ const url = "http://localhost:7777/msm_client/api/clients/"
             postal_code: this.postalCode,
             address: this.Address,
             phone_number: this.PhoneNumber,
-            email: this.e_mail
+            email: this.e_mail,
+            created_by: this.$store.state.my_employee.id,
+            updated_by: this.$store.state.my_employee.id,
           }).then((res) => {
             console.log(res)
             this.$router.push({
