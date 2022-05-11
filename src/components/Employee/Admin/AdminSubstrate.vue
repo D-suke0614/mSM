@@ -25,7 +25,7 @@
               </v-col>
               <v-col cols="3" sm="3"></v-col>
               <v-col cols="4" sm="5" align="center">
-                  <v-btn color="primary" class="mx-2" @click="openEditor">編集</v-btn>
+                  <v-btn v-if="this.employee.id_admin" color="primary" class="mx-2" @click="openEditor">編集</v-btn>
               </v-col>
             </v-row>
 
@@ -66,7 +66,7 @@
 
       <!-- 登録タブ -->
         <v-tab-item
-        v-if="th_list.is_admin"
+        v-if="employee.is_admin"
         >
           <validation-observer
               ref="observer"
@@ -250,11 +250,7 @@
     data: () => ({
       // tab
       tab: null,
-        items: [
-          { id: 0 , tab: '社員情報'},
-          { id: 1 , tab: '検索'},
-          { id: 2 , tab: '登録'},
-        ],
+        items: [],
 
         // 社員情報用
         th_list: {
@@ -462,6 +458,19 @@
         }).catch((err) =>{
           console.log(err)
         })
+      
+      console.log(this.employee)
+        this.items = this.$store.state.my_employee.is_admin ?
+          [
+            { id: 0 , tab: '社員情報'},
+            { id: 1 , tab: '検索'},
+            { id: 2 , tab: '登録'},
+          ] :
+          [
+            { id: 0 , tab: '社員情報'},
+            { id: 1 , tab: '検索'},
+
+          ]
     },
 
   }
