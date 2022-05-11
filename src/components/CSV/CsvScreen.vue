@@ -19,10 +19,12 @@
         <!-- インポートタブ -->
         <v-tab-item>
           <v-file-input
+          v-model="im_activ"
           class="input"
           label="顧客・案件・活動"
           ></v-file-input>
           <v-file-input
+          v-model="im_emp"
           class="input"
           label="社員"
           ></v-file-input>
@@ -39,20 +41,20 @@
         <v-tab-item>
           <v-checkbox
           class="input"
-          v-model="activ"
-          :label="`顧客・案件・活動：${activ.toString()}`"
+          v-model="ex_activ"
+          :label="`顧客・案件・活動：${ex_activ.toString()}`"
           ></v-checkbox>
           <v-checkbox
           class="input"
-          v-model="emp"
-          :label="`社員：${emp.toString()}`"
+          v-model="ex_emp"
+          :label="`社員：${ex_emp.toString()}`"
           ></v-checkbox>
           <!-- エクスポートに使用するパス：to="URL"指定（その後指定のURLへリダイレクトする） -->
             <v-btn
             class="mr-4 button"
             color="primary"
-            @click="submit"
-            to="/sample"
+            @click="exportCSV"
+            to=""
             >
               出力
             </v-btn>
@@ -63,7 +65,6 @@
 
 
 <script>
-console.log(1);
 export default {
   name: 'CsvScreen',
 
@@ -74,8 +75,27 @@ export default {
           { id: 1 , tab: 'エクスポート'},
         ],
 
-        activ: false,
-        emp: false,
+        // import
+        im_activ: '',
+        im_emp: '',
+
+        // export
+        ex_activ: false,
+        ex_emp: false,
+
+        exportCSV() {
+          console.log('マジ卍')
+          // eslint-disable-next-line no-undef
+          if (this.ex_activ == true) {
+            this.$router.push({
+              path: '/',
+            })
+          } else if (this.ex_emp == true) {
+            this.$router.push({
+              path: '7780/mSM_CSV/DBtoCSVforEmployees'
+            })
+          }
+        },
 })
 }
 

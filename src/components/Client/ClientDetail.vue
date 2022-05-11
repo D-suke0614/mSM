@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    
+
     <v-row class="my-2">
       <v-col cols="5" sm="4" align="center">
           <p class="text-h4 d-inline">Client</p>
@@ -12,7 +12,7 @@
           <v-btn color="red" class="mx-2 white--text" @click="deleteClient">削除</v-btn>
       </v-col>
     </v-row>
-        
+
     <v-row class="my-2">
       <v-col cols="12">
         <v-simple-table class="mx-auto">
@@ -40,7 +40,7 @@ export default {
   name: "ClientDetail",
   data() {
     return {
-      th_list: { 
+      th_list: {
         id: "顧客ID",
         company_name: "顧客名",
         company_name_kana: "コキャクメイ",
@@ -81,7 +81,7 @@ export default {
           }).catch((err) => {
             console.log(err)
           })
-        
+
         window.close()
         this.$router.back()
         // this.$router.push({
