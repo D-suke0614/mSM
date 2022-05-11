@@ -39,19 +39,23 @@
         <v-tab-item>
           <v-checkbox
           class="input"
-          label="顧客・案件・活動"
+          v-model="activ"
+          :label="`顧客・案件・活動：${activ.toString()}`"
           ></v-checkbox>
           <v-checkbox
           class="input"
-          label="社員"
+          v-model="emp"
+          :label="`社員：${emp.toString()}`"
           ></v-checkbox>
-          <v-btn
-          type="submit"
-          class="mr-4 button"
-          color="primary"
-          >
-            出力
-          </v-btn>
+          <!-- エクスポートに使用するパス：to="URL"指定（その後指定のURLへリダイレクトする） -->
+            <v-btn
+            class="mr-4 button"
+            color="primary"
+            @click="submit"
+            to="/sample"
+            >
+              出力
+            </v-btn>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -59,7 +63,7 @@
 
 
 <script>
-console.log(9);
+console.log(1);
 export default {
   name: 'CsvScreen',
 
@@ -69,6 +73,9 @@ export default {
           { id: 0 , tab: 'インポート'},
           { id: 1 , tab: 'エクスポート'},
         ],
+
+        activ: false,
+        emp: false,
 })
 }
 

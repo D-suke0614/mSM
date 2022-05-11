@@ -64,7 +64,9 @@
         </v-tab-item>
 
       <!-- 登録タブ -->
-        <v-tab-item>
+        <v-tab-item
+        v-if="th_list.is_admin"
+        >
           <validation-observer
               ref="observer"
               >

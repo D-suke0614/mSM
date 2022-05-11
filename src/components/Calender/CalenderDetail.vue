@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    
+
     <v-row class="my-2">
       <v-col cols="5" sm="4" align="center">
           <p class="text-h4 d-inline">Calender</p>
@@ -8,10 +8,10 @@
       <v-col cols="3" sm="3"></v-col>
       <v-col cols="4" sm="5" align="center">
           <v-btn color="primary" class="mx-2" @click="openEditor">編集</v-btn>
-          <v-btn color="red" class="mx-2 white--text" @click="deleteCalender">削除</v-btn>
+          <v-btn color="red" class="mx-2 white--text" @click="deleteCalendar">削除</v-btn>
       </v-col>
     </v-row>
-        
+
     <v-row class="my-2">
       <v-col cols="12">
         <v-simple-table class="mx-auto">
@@ -39,7 +39,7 @@ export default {
   name: "CalenderDetail",
   data() {
     return {
-      th_list: { 
+      th_list: {
         id: "予定ID",
         employee_id: "社員ID",
         title: "予定名",
@@ -49,7 +49,7 @@ export default {
         created_at: "作成者",
         updated_at: "更新者",
       },
-      calender: { 
+      calender: {
         id: this.$route.query.id,
         employee_id: this.$route.query.employee_id,
         title: this.$route.query.title,
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     openEditor() {
-      this.$router.push({ path: '/calenders/edit' })
+      this.$router.push({ path: '/calendars/edit' })
     },
     deleteCalender() {
       if(confirm('本当に削除しますか？')){
@@ -76,7 +76,7 @@ export default {
         //   }).catch((err) => {
         //     console.log(err)
         //   })
-        
+
         window.close()
       }
     }

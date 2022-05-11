@@ -1,5 +1,5 @@
 <template>
-  <v-card width="400px" class="mx-auto mt-5">
+  <v-card width="400px" class="mx-auto mt-5 login">
     <v-card-title>
       <h1 class="display-1">ログイン</h1>
     </v-card-title>
@@ -42,4 +42,7 @@ export default {
 </script>
 
 <style>
+.login {
+  margin-top: 50vh;
+}
 </style>

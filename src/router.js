@@ -30,91 +30,112 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      // ログイン画面
       path: '/',
+      name: 'login',
+      component: login,
+    },
+    {
+      // カレンダー画面
+      path: '/calendar',
       name: 'calender',
       component: Calender
     },
     {
-      path: '/calenders/detail',
+      // カレンダー詳細
+      path: '/calendars/detail',
       name: 'calender_detail',
       component: CalenderDetail,
     },
     {
-      path: '/calenders/edit',
+      // カレンダー編集
+      path: '/calendars/edit',
       name: 'calender_editor',
       component: CalenderEditor,
     },
     {
-      path: '/clients/list',
-      name: "clientList",
-      component: ClientList,
-    },
-    {
+      // 顧客
       path: '/clients',
       name: "client",
       component: ClientSubstrate,
     },
     {
+      // 顧客検索結果一覧
+      path: '/clients/list',
+      name: "clientList",
+      component: ClientList,
+    },
+    {
+      // 顧客詳細
       path: '/clients/detail',
       name: 'client_detail',
       component: ClientDetail,
     },
     {
+      // 顧客編集
       path: '/clients/edit',
       name: 'client_editor',
       component: ClientEditor,
     },
     {
-      path: '/projects/list',
-      name: 'projectList',
-      component: ProjectList,
-    },
-    {
+      // 案件
       path: '/projects',
       name: 'project',
       component: ProjectSubstrate,
     },
     {
+      // 案件検結果一覧
+      path: '/projects/list',
+      name: 'projectList',
+      component: ProjectList,
+    },
+    {
+      // 案件詳細
       path: '/projects/detail',
       name: 'project_detail',
       component: ProjectDetail,
     },
     {
+      // 案件編集
       path: '/projects/edit',
       name: 'project_editor',
       component: ProjectEditor,
     },
     {
+      // 活動
       path: '/activity',
       name: 'activity',
       component: ActivitySubstrate,
     },
     {
+      // 活動検索結果一覧
       path: '/activities/list',
       name: 'activity/list',
       component: ActivityList,
     },
     {
+      // 活動詳細
       path: '/activities/detail',
       name: 'activity_detail',
       component: ActivityDetail,
     },
     {
+      // 活動編集
       path: '/activities/edit',
       name: 'activity_editor',
       component: ActivityEditor,
+    },
+    {
+      //
+      path: '/employees',
+      name: 'adminSubstrate',
+      component: AdminSubstrate,
     },
     {
       path: '/employees/list',
       name: 'employee',
       component: EmployeeList,
     },
-    {
-      path: '/employees',
-      name: 'adminSubstrate',
-      component: AdminSubstrate,
-    },
-
     {
       path: '/employees/detail',
       name: 'employee_detail',
@@ -140,9 +161,12 @@ export default new Router({
       name: 'csv',
       component: CsvScreen,
     },
+
     {
-      path: '/login',
-      name: 'login',
+      // CSVエクスポート用のパス
+      path: '/sample',
+      // リダイレクト先のパス
+      redirect: '/',
       component: login,
     },
 
