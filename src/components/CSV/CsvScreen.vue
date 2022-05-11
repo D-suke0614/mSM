@@ -39,22 +39,24 @@
 
       <!-- エクスポートタブ -->
         <v-tab-item>
-          <v-checkbox
-          class="input"
-          v-model="ex_activ"
-          :label="`顧客・案件・活動：${ex_activ.toString()}`"
-          ></v-checkbox>
-          <v-checkbox
-          class="input"
-          v-model="ex_emp"
-          :label="`社員：${ex_emp.toString()}`"
-          ></v-checkbox>
-          <!-- エクスポートに使用するパス：to="URL"指定（その後指定のURLへリダイレクトする） -->
+          <v-radio-group
+          v-model="radioGroup"
+          column
+          ><v-radio
+            class="input"
+            value="ex_activ"
+            label="顧客・案件・活動"
+            ></v-radio>
+            <v-radio
+            class="input"
+            value="ex_emp"
+            label="社員"
+            ></v-radio>
+          </v-radio-group>
             <v-btn
             class="mr-4 button"
             color="primary"
             @click="exportCSV"
-            to=""
             >
               出力
             </v-btn>
@@ -75,28 +77,33 @@ export default {
           { id: 1 , tab: 'エクスポート'},
         ],
 
+        radioGroup: 0,
+
         // import
         im_activ: '',
         im_emp: '',
 
         // export
-        ex_activ: false,
-        ex_emp: false,
+        ex_activ: '',
+        ex_emp: '',
+}),
 
-        exportCSV() {
+methods: {
+  exportCSV() {
           console.log('マジ卍')
-          // eslint-disable-next-line no-undef
-          if (this.ex_activ == true) {
+
+          if (this.radioGroup === 'ex_activ') {
             this.$router.push({
-              path: '/',
-            })
-          } else if (this.ex_emp == true) {
+              path: '/sample'
+              })
+          } else if (this.radioGroup === 'ex_emp') {
             this.$router.push({
               path: '7780/mSM_CSV/DBtoCSVforEmployees'
             })
           }
         },
-})
+}
+
 }
 
 </script>

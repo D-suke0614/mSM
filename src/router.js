@@ -163,11 +163,18 @@ export default new Router({
     },
 
     {
-      // CSVエクスポート用のパス
+      // 顧客、案件、活動CSVエクスポート用のパス
       path: '/sample',
       // リダイレクト先のパス
-      redirect: '/',
-      component: login,
+      redirect: '/csv',
+      component: CsvScreen,
+    },
+    {
+      // 社員CSVエクスポート用のパス
+      path: '/7780/mSM_CSV/DBtoCSVforEmployees',
+      // リダイレクト先のパス
+      redirect: '/csv',
+      component: CsvScreen,
     },
 
   ]

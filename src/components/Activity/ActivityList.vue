@@ -16,6 +16,7 @@
         </v-tabs>
 
         <v-tabs-items v-model="tab">
+        <!-- 検索結果一覧表示タブ -->
       <v-tab-item>
         <v-card flat>
           <div class="list">
