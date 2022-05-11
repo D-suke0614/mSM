@@ -12,11 +12,6 @@
 
     <v-navigation-drawer v-model="drawer" temporary absolute clipped>
       <v-list-item-group active-class="light-blue lighten-5 text--accent-4">
-          <router-link :to="{path: '/'}" class="text-decoration-none black--text">
-            <v-list-item>
-              <v-list-item-title>Login</v-list-item-title>
-            </v-list-item>
-          </router-link>
           <router-link :to="{path: '/calendar'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-icon>mdi-calendar-multiple-check</v-icon>
