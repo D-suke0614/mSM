@@ -94,7 +94,7 @@ methods: {
 
           if (this.radioGroup === 'ex_activ') {
             this.$router.push({
-              path: '/sample'
+              path: '/7780/mSM_CSV/DBtoCSVforActive'
               })
           } else if (this.radioGroup === 'ex_emp') {
             this.$router.push({

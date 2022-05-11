@@ -170,7 +170,7 @@ export default new Router({
 
     {
       // 顧客、案件、活動情報のCSVエクスポート
-      path: '/sample',
+      path: '/7780/mSM_CSV/DBtoCSVforActive',
       redirect: '/csv',
       component: CsvScreen,
     },
