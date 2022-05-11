@@ -18,23 +18,30 @@
       <v-tabs-items v-model="tab">
         <!-- インポートタブ -->
         <v-tab-item>
-          <v-file-input
-          v-model="im_activ"
-          class="input"
-          label="顧客・案件・活動"
-          ></v-file-input>
-          <v-file-input
-          v-model="im_emp"
-          class="input"
-          label="社員"
-          ></v-file-input>
-          <v-btn
-          type="submit"
-          class="mr-4 button"
-          color="primary"
+          <v-form
+          method="post"
+          action="http://localhost:7780/mSM_CSV/CSVtoDBforActive"
+          enctype="multipart/form-data"
           >
-            読み込み
-          </v-btn>
+            <v-file-input
+            v-model="im_activ"
+            class="input"
+            label="顧客・案件・活動"
+            ></v-file-input>
+            <v-file-input
+            v-model="im_emp"
+            class="input"
+            label="社員"
+            ></v-file-input>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <v-btn
+            type="submit"
+            class="mr-4 button"
+            color="primary"
+            >
+              読み込み
+            </v-btn>
+          </v-form>
         </v-tab-item>
 
       <!-- エクスポートタブ -->
