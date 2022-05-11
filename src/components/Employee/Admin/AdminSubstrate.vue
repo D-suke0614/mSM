@@ -44,7 +44,9 @@
               </v-col>
             </v-row>
           </v-container>
-        </v-tab-item> 
+        </v-tab-item>
+
+
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
@@ -62,9 +64,10 @@
           </v-form>
         </v-tab-item>
 
-
       <!-- 登録タブ -->
-        <v-tab-item>
+        <v-tab-item
+        v-if="th_list.is_admin"
+        >
           <validation-observer
               ref="observer"
               >
@@ -221,6 +224,7 @@
   const url = "http://localhost:7770/msm_employee/api/employees/"
 
   export default {
+    // eslint-disable-next-line
     name: 'ProjectSearch',
     mixins: [validationMixin],
 
@@ -450,7 +454,7 @@
         .then((res) => {
           console.log(res.data)
           this.employee = res.data
-        }).catch((err) =>{ 
+        }).catch((err) =>{
           console.log(err)
         })
     },

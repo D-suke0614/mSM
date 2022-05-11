@@ -13,24 +13,33 @@
       <v-list-item-group active-class="light-blue lighten-5 text--accent-4">
           <router-link :to="{path: '/'}" class="text-decoration-none black--text">
             <v-list-item>
+              <v-list-item-title>Login</v-list-item-title>
+            </v-list-item>
+          </router-link>
+          <router-link :to="{path: '/calendar'}" class="text-decoration-none black--text">
+            <v-list-item>
+              <v-icon>mdi-calendar-multiple-check</v-icon>
               <v-list-item-title>Calender</v-list-item-title>
             </v-list-item>
           </router-link>
 
           <router-link :to="{path: '/clients'}" class="text-decoration-none black--text">
             <v-list-item>
+              <v-icon>mdi-office-building-outline</v-icon>
               <v-list-item-title>Client</v-list-item-title>
             </v-list-item>
           </router-link>
 
           <router-link :to="{path: '/projects'}" class="text-decoration-none black--text">
             <v-list-item>
+              <v-icon>mdi-briefcase-outline</v-icon>
               <v-list-item-title>Project</v-list-item-title>
             </v-list-item>
           </router-link>
 
           <router-link :to="{path: '/activity'}" class="text-decoration-none black--text">
             <v-list-item>
+              <v-icon>mdi-note-edit-outline</v-icon>
               <v-list-item-title>Activities</v-list-item-title>
             </v-list-item>
           </router-link>
@@ -41,11 +50,19 @@
             <!-- </router-link> -->
           <router-link :to="{path: '/employees'}" class="text-decoration-none black--text">
             <v-list-item>
+              <v-icon>mdi-account</v-icon>
               <v-list-item-title>Employee</v-list-item-title>
             </v-list-item>
           </router-link>
 
-        </v-list-item-group>
+          <router-link :to="{path: '/csv'}" class="text-decoration-none black--text">
+            <v-list-item>
+              <v-icon>mdi-file-outline</v-icon>
+              <v-list-item-title>CSV</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
+      </v-list-item-group>
     </v-navigation-drawer>
 
       <v-main height="90vh">
