@@ -54,12 +54,11 @@
             ></v-radio>
           </v-radio-group>
             <v-btn
+            @click="exportCSV"
+            :href="url"
             class="mr-4 button"
             color="primary"
-            @click="exportCSV"
-            >
-              出力
-            </v-btn>
+            >出力</v-btn>
         </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -86,6 +85,10 @@ export default {
         // export
         ex_activ: '',
         ex_emp: '',
+
+        url: '',
+        ex_active_url: 'http://localhost:7780/mSM_CSV/DBtoCSVforActive',
+        ex_emp_url: 'http://localhost:7780/mSM_CSV/DBtoCSVforEmployees',
 }),
 
 methods: {
@@ -93,13 +96,9 @@ methods: {
           console.log('マジ卍')
 
           if (this.radioGroup === 'ex_activ') {
-            this.$router.push({
-              path: '/7780/mSM_CSV/DBtoCSVforActive'
-              })
+            this.url = this.ex_active_url;
           } else if (this.radioGroup === 'ex_emp') {
-            this.$router.push({
-              path: '7780/mSM_CSV/DBtoCSVforEmployees'
-            })
+            this.url = this.ex_emp_url;
           }
         },
 }
@@ -121,5 +120,10 @@ methods: {
   }
   .tab {
     height: 8vh;
+  }
+  .button {
+    border: 1px solid blue;
+    padding: 10px 6px;
+    text-decoration: none;
   }
 </style>

@@ -167,19 +167,5 @@ export default new Router({
       name: 'csv',
       component: CsvScreen,
     },
-
-    {
-      // 顧客、案件、活動情報のCSVエクスポート
-      path: '/7780/mSM_CSV/DBtoCSVforActive',
-      redirect: '/csv',
-      component: CsvScreen,
-    },
-    {
-      // 社員情報のCSVエクスポート
-      path: '/7780/mSM_CSV/DBtoCSVforEmployees',
-      redirect: '/csv',
-      component: CsvScreen,
-    },
-
   ]
 })
