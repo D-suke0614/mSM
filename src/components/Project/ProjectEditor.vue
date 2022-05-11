@@ -1,47 +1,167 @@
 <template>
-  <div>
-    <h1>保留で</h1>
-    <p>登録画面貼り付け</p>
-  </div>
+  <v-sheet>
+    <validation-observer
+        ref="observer"
+        >
+      <form >
+        <!-- 案件名 -->
+        <v-text-field
+        class="input"
+          v-model="pjName"
+          :error-messages="pjNameErrors"
+          :counter="255"
+          label="案件名"
+          required
+          @input="$v.pjName.$touch()"
+          @blur="$v.pjName.$touch()"
+        ></v-text-field>
+        <!-- 案件内容 -->
+        <v-textarea
+          rows="7"
+          class="input"
+          v-model="pjContent"
+          :error-messages="pjContentErrors"
+          label="内容"
+          required
+          @input="$v.pjContent.$touch()"
+          @blur="$v.pjContent.$touch()"
+        ></v-textarea>
+        <!-- <router-link to="/projects/list"> -->
+          <v-btn
+          :disabled="invalid"
+            class="mr-4 button"
+            color="primary"
+            @click="submit"
+          >
+            登録
+          </v-btn>
+        <!-- </router-link> -->
+      </form>
+    </validation-observer>
+  </v-sheet>
 </template>
 
-<script>
-export default {
-  name: 'ProjectEditor',
 
-  data () {
-      return {
-        tab: null,
+<script>
+  import { validationMixin } from 'vuelidate'
+  import { required, maxLength } from 'vuelidate/lib/validators'
+  import axios from 'axios'
+  import { ValidationObserver } from 'vee-validate'
+
+const url = "http://localhost:7773/msm_project/api/projects/"
+
+
+  export default {
+    name: 'ProjectSearch',
+    mixins: [validationMixin],
+
+    components: {
+      ValidationObserver,
+    },
+
+    validations: {
+      // 案件名：必須入力、２５５文字以内
+      pjName: { required, maxLength: maxLength(255) },
+      // 案件内容：必須入力
+      pjContent: { required },
+    },
+
+    data: () => ({
+      // tab
+      tab: null,
         items: [
           { id: 0 , tab: '検索'},
           { id: 1 , tab: '登録'},
         ],
-        headers: [
-          {
-            text: '案件ID',
-            align: 'start',
-            value: 'id',
-          },
-          { text: '案件名', value: 'title' },
-          { text: '顧客名', value: 'title' },
-          { text: '内容', value: 'title' },
-          { text: '登録者', value: 'title' },
-          { text: '更新者', value: 'title' },
-          { text: '登録日', value: 'title' },
-          { text: '更新日', value: 'title' },
-        ],
+
+      // v-model
+      pjName: '',
+      pjContent: '',
+
+      // 検索用v-model
+      project_id: '',
+      title: '',
+      created_by: null,
+      updated_by: null,
+
+      projects: [],
+    }),
+
+    computed: {
+      // エラーメッセージ
+      // 案件名
+      pjNameErrors () {
+        const errors = []
+        if (!this.$v.pjName.$dirty) return errors
+        !this.$v.pjName.maxLength && errors.push('案件名は２５５文字以内で入力してください！')
+        !this.$v.pjName.required && errors.push('案件名を入力してください！')
+        return errors
+      },
+      // 案件内容
+      pjContentErrors () {
+        const errors = []
+        if (!this.$v.pjContent.$dirty) return errors
+        !this.$v.pjContent.required && errors.push('案件名を入力してください！')
+        return errors
+      },
+    },
+
+    methods: {
+      submit () {
+        this.$v.$touch()
+        // console.log(this.name)
+        axios.post(url,{
+          updated_by: 1,
+          title: this.pjName,
+          content: this.pjContent,
+        }).then((res) => {
+          console.log(res)
+          this.$router.push({
+            path: '/projects/detail',
+            query: {
+              project: res.data
+            }
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+      search() {
+        this.$router.push({
+          path: '/projects/list',
+          query: {
+            id: this.project_id,
+            // project_id: this.project_name,
+            client_id: this.client_id,
+            title: this.title,
+            // created_by: this.created_by,
+            // updated_by: this.updated_by
+          }
+        })
       }
     },
-}
+    created() {
+      const project_id = this.$route.query.id
+      axios.get(url + `${project_id}`)
+        .then((res) => {
+          console.log(res.data)
+          let a = res.data
+          this.pjName = a.title
+          this.pjContent = a.content
+        }).catch((err) =>{ 
+          console.log(err)
+        })
+    },
+  }
 </script>
 
 <style>
-  .search {
+  .input {
     margin-left: 25%;
     margin-right: 25%;
     margin-top: 5vh;
   }
-  .searchButton {
+  .button {
     margin-left: 25%;
     margin-bottom: 8vh;
     margin-top: 6vh;

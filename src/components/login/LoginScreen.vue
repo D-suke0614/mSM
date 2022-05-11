@@ -19,6 +19,7 @@
         />
         <v-card-actions>
           <v-btn
+          to="/calendar"
           class="info"
           @click="submit"
           >

@@ -142,7 +142,7 @@ export default new Router({
       component: EmployeeDetail,
     },
     {
-      path: '/admins/list',
+      path: '/admin/list',
       name: 'admin',
       component: AdminList,
     },

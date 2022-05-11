@@ -174,7 +174,6 @@
               <!-- <router-link to="/admins/list"> -->
                 <v-btn
                 :disabled="invalid"
-                type="submit"
                   class="mr-4 button"
                   color="primary"
                   @click="submit"
@@ -388,19 +387,39 @@ export default {
       })
       window.open( resolvedRoute.href, null, "_blank")
     },
+    submit () {
+      this.$v.$touch()
+      // console.log(this.name)
+      axios
+        .post(url, {
+          last_name: this.lastName,
+          first_name: this.firstName,
+          last_name_kana: this.KlastName,
+          first_name_kana: this.KfirstName,
+          password: this.password,
+          profile_image_url: this.profilePic,
+          email: this.email,
+          department: this.department,
+          position: this.position,
+          birthday: this.birthday,
+          hiredate: this.hiredate
+        }).then((res) => {
+          console.log(res)
+          this.$router.push({
+            path: '/admin/detail',
+            query: {
+              employee: res.data
+            }
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
   },
   created() {
-    // axios
-    //   .get("https://jsonplaceholder.typicode.com/todos")
-    //   .then(response => {
-    //     this.todos = response.data;
-    //   })
-    //   .catch(err => {
-    //     (this.errored = true), (this.error = err);
-    //   })
-    //   .finally(() => (this.loading = false));
+    let qu = this.$route.query
     axios
-      .get(url + "search?id=&first_name=&last_name=&first_name_kana=&last_name_kana=&phone_number=&email=te&department=&position=")
+      .get(url + `search?id=${qu.id}&first_name=${qu.first_name}&last_name=${qu.last_name}&first_name_kana=${qu.first_name_kana}&last_name_kana=${qu.last_name_kana}&phone_number=${qu.phone_number}&email=${qu.email}&department=${qu.department}&position=${qu.position}`)
       .then(response => {
         console.log(response)
         this.employees = response.data

@@ -26,14 +26,14 @@
             <div v-else>
               <v-data-table
                 :headers="headers"
-                :items="todos"
+                :items="projects"
                 :items-per-page="10"
                 class="elevation-5"
-                v-for="todo in sa" :key="todo.id"
+                v-for="project in sa" :key="project.id"
                 v-cloak
                 @click:row="showProjectDetail"
                 >
-                {{todo.title}}
+                {{project.title}}
               </v-data-table>
             </div>
           </div>
@@ -89,10 +89,12 @@
 
 <script>
 import axios from 'axios'
+
 import { validationMixin } from 'vuelidate'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { ValidationObserver } from 'vee-validate'
 
+const url = "http://localhost:7773/msm_project/api/projects/"
   export default {
     name: 'PrijectList',
     mixins: [validationMixin],
@@ -114,7 +116,7 @@ import { ValidationObserver } from 'vee-validate'
         loading: true,
         errored: false,
         error: null,
-        todos: null,
+        projects: null,
         sa: 1,
         items: [
           { id: 0 , tab: '検索結果'},
@@ -127,12 +129,13 @@ import { ValidationObserver } from 'vee-validate'
             value: 'id',
           },
           { text: '案件名', value: 'title' },
-          { text: '顧客名', value: 'title' },
-          { text: '内容', value: 'title' },
-          { text: '登録者', value: 'title' },
-          { text: '更新者', value: 'title' },
-          { text: '登録日', value: 'title' },
-          { text: '更新日', value: 'title' },
+          { text: '内容', value: 'content' },
+          { text: '顧客ID', value: 'client_id' },
+          { text: '削除', value: 'is_deleted' },
+          { text: '登録者', value: 'created_by' },
+          { text: '更新者', value: 'updated_by' },
+          { text: '登録日', value: 'created_at' },
+          { text: '更新日', value: 'updated_at' },
         ],
 
       // 登録用v-model
@@ -162,18 +165,19 @@ import { ValidationObserver } from 'vee-validate'
 
     methods: {
       showProjectDetail(data){
+        console.log(data)
         let resolvedRoute = this.$router.resolve({
           name: 'project_detail',
           query: {
             // APIと接続後に変更
             id: data.id,
-            created_by: data.title,
-            updated_by: data.title,
-            cliend_id: data.title,
+            created_by: data.created_by,
+            updated_by: data.updated_by,
+            client_id: data.client_id,
             title: data.title,
-            content: data.title,
-            created_at: data.title,
-            updated_at: data.title,
+            content: data.content,
+            created_at: data.created_at,
+            updated_at: data.updated_at,
           }
         })
 
@@ -181,16 +185,17 @@ import { ValidationObserver } from 'vee-validate'
       }
     },
     created() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then(response => {
-        this.todos = response.data;
-      })
-      .catch(err => {
-        (this.errored = true), (this.error = err);
-      })
-      .finally(() => (this.loading = false));
-    },
+      let qu = this.$route.query
+      axios
+        .get(url + `search?id=${qu.id}&title=${qu.title}&client_id=`)
+        .then(response => {
+          this.projects = response.data;
+        })
+        .catch(err => {
+          (this.errored = true), (this.error = err);
+        })
+        .finally(() => (this.loading = false));
+      },
   }
 </script>
 
