@@ -33,7 +33,7 @@
             color="primary"
             @click="submit"
           >
-            登録
+            更新
           </v-btn>
         <!-- </router-link> -->
       </form>
@@ -110,7 +110,7 @@ const url = "http://localhost:7773/msm_project/api/projects/"
       submit () {
         this.$v.$touch()
         // console.log(this.name)
-        axios.post(url,{
+        axios.post(url + this.$route.query.id,{
           updated_by: this.$store.state.my_employee.id,
           title: this.pjName,
           content: this.pjContent,
@@ -119,7 +119,7 @@ const url = "http://localhost:7773/msm_project/api/projects/"
           this.$router.push({
             path: '/projects/detail',
             query: {
-              project: res.data
+              id: this.$route.query.id
             }
           })
         }).catch((err) => {

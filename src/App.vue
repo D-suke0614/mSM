@@ -7,6 +7,7 @@
 
       <v-spacer></v-spacer>
 
+      <p>{{ this.$store.state.my_employee.last_name + this.$store.state.my_employee.first_name }}</p>
       <v-btn variant="text" icon="mdi-domain" @click="openLoginForm" class="white--text"></v-btn>
     </v-app-bar>
 
@@ -36,7 +37,7 @@
           <router-link :to="{path: '/activity'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-icon>mdi-note-edit-outline</v-icon>
-              <v-list-item-title>Activities</v-list-item-title>
+              <v-list-item-title>Activity</v-list-item-title>
             </v-list-item>
           </router-link>
 

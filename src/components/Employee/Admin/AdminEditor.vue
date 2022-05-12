@@ -128,6 +128,12 @@
           @input="$v.hiredate.$touch()"
           @blur="$v.hiredate.$touch()"
         ></v-text-field>
+        <!-- is_admin -->
+        <v-checkbox
+          class="input"
+          v-model="is_admin"
+          :label="`管理者`"
+        ></v-checkbox>
         <!-- 登録ボタンをクリックで詳細画面に遷移（現状は一覧画面に遷移） -->
         <!-- <router-link to="/admins/list"> -->
           <v-btn
@@ -136,7 +142,7 @@
             color="primary"
             @click="submit"
           >
-            登録
+            更新
           </v-btn>
         <!-- </router-link> -->
       </form>
@@ -219,6 +225,7 @@
       position: '',
       birthday: '',
       hiredate: '',
+      is_admin: '',
 
       // 検索用v-model
       id: '',
@@ -332,7 +339,7 @@
         this.$v.$touch()
         // console.log(this.name)
         axios
-          .post(url, {
+          .post(url + this.$route.query.id, {
             last_name: this.lastName,
             first_name: this.firstName,
             last_name_kana: this.KlastName,
@@ -343,13 +350,14 @@
             department: this.department,
             position: this.position,
             birthday: this.birthday,
-            hiredate: this.hiredate
+            hiredate: this.hiredate,
+            is_admin: this.is_admin,
           }).then((res) => {
             console.log(res)
             this.$router.push({
               path: '/admin/detail',
               query: {
-                employee: res.data
+                id: this.$route.query.id
               }
             })
           }).catch((err) => {
@@ -358,8 +366,8 @@
       },
     },
     created() {
-      const user_id = this.$route.query.id
-      axios.get(url + `${user_id}`)
+      const employee_id = this.$route.query.id
+      axios.get(url + `${employee_id}`)
         .then((res) => {
           console.log(res.data)
           let a = res.data
@@ -374,6 +382,7 @@
           this.position = a.position
           this.birthday = a.position
           this.hiredate = a.hire_date
+          this.is_admin = a.is_admin
         }).catch((err) =>{ 
           console.log(err)
         })
