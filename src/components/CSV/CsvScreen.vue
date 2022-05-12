@@ -14,8 +14,12 @@
             {{ item.tab }}
           </v-tab>
       </v-tabs>
-      <h2>CSV</h2>
       <v-tabs-items v-model="tab">
+        <v-row class="my-2">
+          <v-col cols="5" sm="4" align="center">
+              <p class="text-h4 d-inline">CSV</p>
+          </v-col>
+        </v-row>
         <!-- インポートタブ -->
         <v-tab-item>
           <v-form
