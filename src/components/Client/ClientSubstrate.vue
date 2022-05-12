@@ -19,7 +19,7 @@
               <v-col cols="5" sm="4" align="center">
                   <p class="text-h4 d-inline">Client</p>
               </v-col>
-            </v-row>  
+            </v-row>
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
@@ -100,7 +100,7 @@
               class="input"
                 v-model="email"
                 :error-messages="emailErrors"
-                label="E-mail"
+                label="メールアドレス"
                 required
                 @input="$v.email.$touch()"
                 @blur="$v.email.$touch()"
