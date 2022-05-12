@@ -14,18 +14,18 @@
             {{ item.tab }}
           </v-tab>
       </v-tabs>
-      <h2>Admin</h2>
+      <!-- <h2>Admin</h2> -->
       <v-tabs-items v-model="tab">
       <!-- 社員情報タブ -->
         <v-tab-item>
           <v-container>
             <v-row class="my-2">
               <v-col cols="5" sm="4" align="center">
-                  <p class="text-h4 d-inline">Admin</p>
+                  <p class="text-h4 d-inline">Employee</p>
               </v-col>
               <v-col cols="3" sm="3"></v-col>
               <v-col cols="4" sm="5" align="center">
-                  <v-btn color="primary" class="mx-2" @click="openEditor">編集</v-btn>
+                  <v-btn v-if="this.employee.id_admin" color="primary" class="mx-2" @click="openEditor">編集</v-btn>
               </v-col>
             </v-row>
 
@@ -49,24 +49,31 @@
 
         <!-- 検索タブ -->
         <v-tab-item>
-          <v-form v-on:submit.prevent="onSubmit">
-            <v-text-field class="input" placeholder="ID" v-model="id"></v-text-field>
-            <v-text-field class="input" placeholder="姓" v-model="last_name"></v-text-field>
-            <v-text-field class="input" placeholder="名" v-model="first_name"></v-text-field>
-            <v-text-field class="input" placeholder="セイ" v-model="last_name_kana"></v-text-field>
-            <v-text-field class="input" placeholder="メイ" v-model="first_name_kana"></v-text-field>
-            <v-text-field class="input" placeholder="電話番号" v-model="phone_number"></v-text-field>
-            <v-text-field class="input" placeholder="メールアドレス" v-model="email"></v-text-field>
-            <v-text-field class="input" placeholder="部署" v-model="department"></v-text-field>
-            <v-text-field class="input" placeholder="役職" v-model="position"></v-text-field>
-            <!-- 一覧画面に遷移し、検索結果が表示される -->
-            <v-btn class="button" color="primary" @click="search">検索</v-btn>
-          </v-form>
+          <v-container>
+            <v-row class="my-2">
+              <v-col cols="5" sm="4" align="center">
+                  <p class="text-h4 d-inline">Employee</p>
+              </v-col>
+            </v-row>
+            <v-form v-on:submit.prevent="onSubmit">
+              <v-text-field class="input" placeholder="ID" v-model="id"></v-text-field>
+              <v-text-field class="input" placeholder="姓" v-model="last_name"></v-text-field>
+              <v-text-field class="input" placeholder="名" v-model="first_name"></v-text-field>
+              <v-text-field class="input" placeholder="セイ" v-model="last_name_kana"></v-text-field>
+              <v-text-field class="input" placeholder="メイ" v-model="first_name_kana"></v-text-field>
+              <v-text-field class="input" placeholder="電話番号" v-model="phone_number"></v-text-field>
+              <v-text-field class="input" placeholder="メールアドレス" v-model="email"></v-text-field>
+              <v-text-field class="input" placeholder="部署" v-model="department"></v-text-field>
+              <v-text-field class="input" placeholder="役職" v-model="position"></v-text-field>
+              <!-- 一覧画面に遷移し、検索結果が表示される -->
+              <v-btn class="button" color="primary" @click="search">検索</v-btn>
+            </v-form>
+          </v-container>
         </v-tab-item>
 
       <!-- 登録タブ -->
         <v-tab-item
-        v-if="th_list.is_admin"
+        v-if="employee.is_admin"
         >
           <validation-observer
               ref="observer"
@@ -250,11 +257,7 @@
     data: () => ({
       // tab
       tab: null,
-        items: [
-          { id: 0 , tab: '社員情報'},
-          { id: 1 , tab: '検索'},
-          { id: 2 , tab: '登録'},
-        ],
+        items: [],
 
         // 社員情報用
         th_list: {
@@ -462,6 +465,19 @@
         }).catch((err) =>{
           console.log(err)
         })
+      
+      console.log(this.employee)
+        this.items = this.$store.state.my_employee.is_admin ?
+          [
+            { id: 0 , tab: '社員情報'},
+            { id: 1 , tab: '検索'},
+            { id: 2 , tab: '登録'},
+          ] :
+          [
+            { id: 0 , tab: '社員情報'},
+            { id: 1 , tab: '検索'},
+
+          ]
     },
 
   }
