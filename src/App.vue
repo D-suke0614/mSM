@@ -36,7 +36,7 @@
           <router-link :to="{path: '/activity'}" class="text-decoration-none black--text">
             <v-list-item>
               <v-icon>mdi-note-edit-outline</v-icon>
-              <v-list-item-title>Activities</v-list-item-title>
+              <v-list-item-title>Activity</v-list-item-title>
             </v-list-item>
           </router-link>
 
