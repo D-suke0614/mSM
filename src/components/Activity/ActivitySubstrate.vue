@@ -14,8 +14,12 @@
             {{ item.tab }}
           </v-tab>
       </v-tabs>
-      <h2>Activity</h2>
       <v-tabs-items v-model="tab">
+        <v-row class="my-2">
+          <v-col cols="5" sm="4" align="center">
+              <p class="text-h4 d-inline">Activity</p>
+          </v-col>
+        </v-row>
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
