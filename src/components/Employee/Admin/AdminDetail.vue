@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="my-2">
       <v-col cols="5" sm="4" align="center">
-          <p class="text-h4 d-inline">Admin</p>
+          <p class="text-h4 d-inline">Employee</p>
       </v-col>
       <v-col cols="3" sm="3"></v-col>
       <v-col v-if="this.$store.state.my_employee.is_admin" cols="4" sm="5" align="center">
