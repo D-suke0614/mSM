@@ -207,7 +207,7 @@ const url = "http://localhost:7773/msm_project/api/projects/"
     created() {
       let qu = this.$route.query
       axios
-        .get(url + `search?id=${qu.id}&title=${qu.title}&client_id=`)
+        .get(url + `search?id=${qu.id}&title=${qu.title}&client_id=${qu.client_id}`)
         .then(response => {
 
           let client_name = []

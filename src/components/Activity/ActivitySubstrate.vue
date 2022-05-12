@@ -24,7 +24,7 @@
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
             <v-text-field class="input" placeholder="活動名" v-model="title"></v-text-field>
-            <v-text-field class="input" placeholder="活動ID" v-model="id"></v-text-field>
+            <!-- <v-text-field class="input" placeholder="活動ID" v-model="id"></v-text-field> -->
             <!-- <v-text-field class="input" placeholder="顧客名"></v-text-field> -->
             <!-- <v-text-field class="input" placeholder="顧客ID"></v-text-field> -->
             <v-text-field class="input" placeholder="商品名" v-model="item_name"></v-text-field>
@@ -226,6 +226,7 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
           query: {
             title: this.title,
             id: this.id,
+            client_id: '',
             item_name: this.item_name,
             item_amount: this.item_amount,
             item_price: this.item_price,

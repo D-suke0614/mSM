@@ -55,10 +55,17 @@ export default {
   },
   methods: {
     searchActivity(){
-      this.$router.push({ path: '/activities/list'})
-
-      // 必要に応じて
-      // window.close()
+      this.$router.push({
+        path: '/activities/list',
+        query: {
+          title: '',
+          id: '',
+          project_id: this.project.id,
+          item_name: '',
+          item_amount: '',
+          item_price: '',
+        }
+      })
     },
     openEditor() {
       this.$router.push({

@@ -269,7 +269,7 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
     created() {
       let qu = this.$route.query
       axios
-        .get(url + `search?id=${qu.id}&title=${qu.title}&item_name=${qu.item_name}&item_amount=${qu.item_amount}&item_price=${qu.item_price}`)
+        .get(url + `search?id=${qu.id}&project_id=${qu.project_id}&title=${qu.title}&item_name=${qu.item_name}&item_amount=${qu.item_amount}&item_price=${qu.item_price}`)
         .then(response => {
 
           let client_name = []

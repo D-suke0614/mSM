@@ -171,11 +171,8 @@ const url = "http://localhost:7773/msm_project/api/projects/"
           path: '/projects/list',
           query: {
             id: this.project_id,
-            // project_id: this.project_name,
-            client_id: this.client_id,
+            client_id: '',
             title: this.title,
-            // created_by: this.created_by,
-            // updated_by: this.updated_by
           }
         })
       }

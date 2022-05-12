@@ -56,13 +56,17 @@ export default {
   },
   methods: {
     searchProject(){
-      this.$router.push({ path: '/projects/list'})
-
-      // 必要に応じて
-      // window.close()
+      this.$router.push({
+        path: '/projects/list',
+        query: {
+          id: '',
+          client_id: this.client.id,
+          title: '',
+        }
+      })
     },
     openEditor() {
-      console.log("客家")
+      console.log(this.client)
       this.$router.push({
         path: '/clients/edit',
         query: {
@@ -93,12 +97,11 @@ export default {
   created() {
     this.client = this.$route.query.client
     if(this.client == null){
-      console.log("アクセス開始")
-      console.log(url + this.$route.query.id)
       axios.get(url + this.$route.query.id)
         .then((res) => {
           this.client = res.data
         })
+    console.log(this.client)
     }
   }
 };
