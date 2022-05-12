@@ -144,7 +144,7 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
     methods: {
       submit () {
         this.$v.$touch()
-        axios.post(url, {
+        axios.post(url + this.$route.query.id, {
           project_id: 1,
           updated_by: this.$store.state.my_employee.id,
           title: this.ActivityName,
@@ -157,7 +157,7 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
           this.$router.push({
             path: '/activities/detail',
             query: {
-              activity: res.data
+              id: this.$route.query.id
             }
           }).catch((err) =>{
             console.log(err)

@@ -25,7 +25,7 @@
               </v-col>
               <v-col cols="3" sm="3"></v-col>
               <v-col cols="4" sm="5" align="center">
-                  <v-btn v-if="this.employee.id_admin" color="primary" class="mx-2" @click="openEditor">編集</v-btn>
+                  <v-btn v-if="this.$store.state.my_employee.is_admin" color="primary" class="mx-2" @click="openEditor">編集</v-btn>
               </v-col>
             </v-row>
 
@@ -203,6 +203,12 @@
                 @input="$v.hiredate.$touch()"
                 @blur="$v.hiredate.$touch()"
               ></v-text-field>
+              <!-- is_admin -->
+              <v-checkbox
+                class="input"
+                v-model="is_admin"
+                :label="`管理者`"
+              ></v-checkbox>
               <!-- 登録ボタンをクリックで詳細画面に遷移（現状は一覧画面に遷移） -->
               <!-- <router-link to="/admins/list"> -->
                 <v-btn
@@ -293,6 +299,7 @@
       position: '',
       birthday: '',
       hiredate: '',
+      is_admin: false,
 
       // 検索用v-model
       id: '',
@@ -426,7 +433,8 @@
             department: this.department,
             position: this.position,
             birthday: this.birthday,
-            hiredate: this.hiredate
+            hiredate: this.hiredate,
+            is_admin: this.is_admin,
           }).then((res) => {
             console.log(res)
             this.$router.push({
