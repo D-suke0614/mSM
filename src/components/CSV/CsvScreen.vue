@@ -47,11 +47,12 @@
             label="社員"
             name="im_emp"
             ></v-file-input>
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /><input type="submit" name="upload_file" value="ファイルをアップロード" class="input">
             <v-btn
             type="submit"
             class="mr-4 button"
             color="primary"
+            name="upload_file"
             >
               読み込み
             </v-btn>
