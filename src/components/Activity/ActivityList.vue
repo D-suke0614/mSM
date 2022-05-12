@@ -160,16 +160,17 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
             align: 'start',
             value: 'id',
           },
-          { text: '案件ID', value: 'project_id' },
-          { text: '登録者ID', value: 'created_by' },
-          { text: '更新者ID', value: 'updated_by' },
           { text: '活動名', value: 'title' },
+          { text: '顧客名', value: 'client_name' },
+          { text: '案件名', value: 'project_name' },
           { text: '内容', value: 'content' },
           { text: '開始日時', value: 'startd_at' },
           { text: '終了日時', value: 'finished_at' },
           { text: '商品名', value: 'item_name' },
           { text: '商品価格', value: 'item_price' },
           { text: '商品個数', value: 'item_amount' },
+          { text: '登録者ID', value: 'created_by' },
+          { text: '更新者ID', value: 'updated_by' },
           { text: '登録日', value: 'created_at' },
           { text: '更新日', value: 'updated_at' },
         ],
@@ -270,7 +271,27 @@ const url = "http://localhost:7775/msm_activity/api/activities/"
       axios
         .get(url + `search?id=${qu.id}&title=${qu.title}&item_name=${qu.item_name}&item_amount=${qu.item_amount}&item_price=${qu.item_price}`)
         .then(response => {
-          this.activities = response.data;
+
+          let client_name = []
+          let project_name = []
+          let activity_list = []
+          const n = response.data.length
+
+          for(let i = 0; i < n; i += 3){
+            client_name.push(response.data[i])
+            project_name.push(response.data[i+1])
+            activity_list.push(response.data[i+2])
+          }
+
+          let result = []
+          for(let i = 0; i < n/3; i++){
+            let array = activity_list[i]
+            array["client_name"] = client_name[i]
+            array["project_name"] = project_name[i]
+            result.push(array)
+          }
+          this.activities = result
+
         })
         .catch(err => {
           (this.errored = true), (this.error = err);

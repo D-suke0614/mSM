@@ -129,7 +129,7 @@ const url = "http://localhost:7773/msm_project/api/projects/"
           },
           { text: '案件名', value: 'title' },
           { text: '内容', value: 'content' },
-          { text: '顧客ID', value: 'client_id' },
+          { text: '顧客名', value: 'client_name' },
           { text: '削除', value: 'is_deleted' },
           { text: '登録者', value: 'created_by' },
           { text: '更新者', value: 'updated_by' },
@@ -209,7 +209,23 @@ const url = "http://localhost:7773/msm_project/api/projects/"
       axios
         .get(url + `search?id=${qu.id}&title=${qu.title}&client_id=`)
         .then(response => {
-          this.projects = response.data;
+
+          let client_name = []
+          let project_list = []
+          const n = response.data.length
+
+          for(let i = 0; i < n; i += 2){
+            client_name.push(response.data[i])
+            project_list.push(response.data[i+1])
+          }
+
+          let result = []
+          for(let i = 0; i < n/2; i++){
+            let array = project_list[i]
+            array["client_name"] = client_name[i]
+            result.push(array)
+          }
+          this.projects = result
         })
         .catch(err => {
           (this.errored = true), (this.error = err);
