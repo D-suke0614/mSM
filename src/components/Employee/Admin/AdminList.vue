@@ -1,21 +1,49 @@
 <template>
   <v-sheet elevation="6">
     <v-tabs
-          v-model="tab"
-          align-with-title
+      v-model="tab"
+      align-with-title
+    >
+    <v-tabs-slider color="yellow"></v-tabs-slider>
+
+    <v-tab
+      v-for="item in items"
+        :key="item.id"
+        class="tab"
         >
-          <v-tabs-slider color="yellow"></v-tabs-slider>
+        {{ item.tab }}
+      </v-tab>
+    </v-tabs>
 
-          <v-tab
-          v-for="item in items"
-            :key="item.id"
-            class="tab"
-            >
-            {{ item.tab }}
-          </v-tab>
-        </v-tabs>
+      <v-tabs-items v-model="tab">
+      <v-tab-item>
+        <v-container>
+          <v-row class="my-2">
+            <v-col cols="5" sm="4" align="center">
+                <p class="text-h4 d-inline">Employee</p>
+            </v-col>
+            <v-col cols="3" sm="3"></v-col>
+            <v-col cols="4" sm="5" align="center">
+                <v-btn v-if="this.$store.state.my_employee.is_admin" color="primary" class="mx-2" @click="openEditor">編集</v-btn>
+            </v-col>
+          </v-row>
 
-        <v-tabs-items v-model="tab">
+          <v-row class="my-2">
+            <v-col cols="12">
+              <v-simple-table class="mx-auto">
+                <template>
+                  <tbody>
+                    <tr v-for="(key, value) in th_list" :key="value.id" >
+                      <th class="text-center text-h5">{{ key }}</th>
+                      <td class="text-center text-h6">{{ employee[value] }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <div class="list">
@@ -222,16 +250,13 @@ export default {
 
   data () {
     return {
-      tab: null,
+      tab: 1,
       loading: true,
       errored: false,
       error: null,
       todos: null,
       sa: 1,
-      items: [
-        { id: 0 , tab: '検索結果'},
-          { id: 1 , tab: '登録'},
-      ],
+      items: [],
       headers: [
         { text: '社員ID', align: 'start', value: 'id',},
         { text: '姓', value: 'last_name' },
@@ -249,6 +274,26 @@ export default {
         { text: '更新日', value: 'updated_at' },
       ],
 
+        // 社員情報用
+      th_list: {
+        id: "社員ID",
+        first_name: "名",
+        last_name: "姓",
+        first_name_kana: "メイ",
+        last_name_kana: "セイ",
+        profile_image_url: "画像",
+        phone_number: "電話番号",
+        email: "メールアドレス",
+        department: "部署",
+        position: "役職",
+        birthday: "生年月日",
+        hire_date: "入社日",
+        password: "パスワード",
+        is_admin: "管理者",
+        is_deleted: "削除",
+        created_at: "作成日",
+        updated_at: "更新日",
+      },
       // 登録用v-model
       lastName: '',
       firstName: '',
@@ -266,6 +311,7 @@ export default {
       showPassword: false,
 
       employees: [],
+      employee: null,
     }
   },
 
@@ -426,6 +472,26 @@ export default {
       }).catch(err => {
         console.log(err)
       }).finally(() => (this.loading = false));
+
+      const user_id = this.$store.state.my_employee.id; // ログインしているユーザー
+      axios.get(url + `${user_id}`)
+        .then((res) => {
+          console.log(res.data)
+          this.employee = res.data
+        }).catch((err) =>{
+          console.log(err)
+        })
+
+    this.items = this.$store.state.my_employee.is_admin ?
+      [
+        { id: 0 , tab: '社員情報'},
+        { id: 1 , tab: '検索'},
+        { id: 2 , tab: '登録'},
+      ] :
+      [
+        { id: 0 , tab: '社員情報'},
+        { id: 1 , tab: '検索'},
+      ]
   }
 }
 </script>

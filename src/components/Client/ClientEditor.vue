@@ -191,7 +191,7 @@ const url = "http://localhost:7777/msm_client/api/clients/"
       updateClient() {
         this.$v.$touch()
         axios
-          .post(url, {
+          .post(url + this.$route.query.id, {
             company_name: this.CName,
             company_name_kana: this.CKName,
             postal_code: this.postalCode,
@@ -204,7 +204,7 @@ const url = "http://localhost:7777/msm_client/api/clients/"
             this.$router.push({
               path: '/clients/detail',
               query: {
-                client: res.data
+                id: this.$route.query.id
               }
             })
           }).catch((err) => {
