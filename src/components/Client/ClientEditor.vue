@@ -71,7 +71,7 @@
             color="primary"
             @click="updateClient"
           >
-            登録
+            更新
           </v-btn>
       </form>
     </validation-observer>
