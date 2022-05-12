@@ -18,21 +18,34 @@
       <v-tabs-items v-model="tab">
         <!-- インポートタブ -->
         <v-tab-item>
+          <form method="post" action="http://localhost:7780/mSM_CSV/CSVtoDBforActive" enctype="multipart/form-data">
+          <input
+          class="input"
+          type="file" name="file"
+          >
+          <input type="submit" name="upload_file" value="ファイルをアップロード" class="input">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        </form>
+
           <v-form
           method="post"
           action="http://localhost:7780/mSM_CSV/CSVtoDBforActive"
           enctype="multipart/form-data"
           >
-          <input type="file" name="file" class="input">
             <v-file-input
             v-model="im_activ"
             class="input"
             label="顧客・案件・活動"
             ></v-file-input>
+
             <v-file-input
             v-model="im_emp"
+            show-size
+            counter
+            multiple
             class="input"
             label="社員"
+            name="im_emp"
             ></v-file-input>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <v-btn
