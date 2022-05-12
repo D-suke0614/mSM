@@ -23,6 +23,7 @@
           action="http://localhost:7780/mSM_CSV/CSVtoDBforActive"
           enctype="multipart/form-data"
           >
+          <input type="file" name="file" class="input">
             <v-file-input
             v-model="im_activ"
             class="input"
