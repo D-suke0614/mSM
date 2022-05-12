@@ -33,7 +33,7 @@
             color="primary"
             @click="submit"
           >
-            登録
+            更新
           </v-btn>
         <!-- </router-link> -->
       </form>
