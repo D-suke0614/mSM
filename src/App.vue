@@ -7,8 +7,8 @@
 
       <v-spacer></v-spacer>
 
-      <p>{{ this.$store.state.my_employee.last_name + this.$store.state.my_employee.first_name }}</p>
-      <v-btn variant="text" icon="mdi-domain" @click="openLoginForm" class="white--text"></v-btn>
+      <p v-if="this.$store.state.my_employee" @click="confirmLogout">{{ this.$store.state.my_employee.last_name + this.$store.state.my_employee.first_name }}</p>
+      <!-- <v-btn variant="text" icon="mdi-domain"  @click="confirmLogout" class="white--text"></v-btn> -->
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" temporary absolute clipped>
@@ -70,6 +70,7 @@
 
 
 <script>
+import axios from './util/axios.js';
 export default {
   name: 'App',
   computed: {
@@ -84,6 +85,20 @@ export default {
   methods: {
     openLoginForm(){
       this.$router.push({ path: '/login' })
+    },
+    confirmLogout(){
+      if(window.confirm("ログアウトしますか？")){
+        this.logout()
+      }
+    },
+    logout() {
+      axios
+        .get(`http://localhost:7770/msm_employee/api/employees/${this.$store.state.my_employee.id}/logout`)
+        .then(res => {
+          console.log(res)
+          this.$store.commit('setMyEmployee', null)
+          this.$router.push({ path: '/' })
+        })
     }
   }
 };
