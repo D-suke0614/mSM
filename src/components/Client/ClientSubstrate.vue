@@ -19,7 +19,7 @@
               <v-col cols="5" sm="4" align="center">
                   <p class="text-h4 d-inline">Client</p>
               </v-col>
-            </v-row>  
+            </v-row>
         <!-- 検索タブ -->
         <v-tab-item>
           <v-form v-on:submit.prevent="onSubmit">
@@ -69,7 +69,7 @@
               <v-text-field
               class="input"
                 v-model="postalCode"
-                :error-messages="postalCode"
+                :error-messages="postalCodeErrors"
                 :counter="7"
                 label="郵便番号"
                 @input="$v.postalCode.$touch()"
@@ -79,7 +79,7 @@
               <v-text-field
               class="input"
                 v-model="Address"
-                :error-messages="Address"
+                :error-messages="AddressErrors"
                 :counter="255"
                 label="住所"
                 @input="$v.Address.$touch()"
@@ -89,7 +89,7 @@
               <v-text-field
               class="input"
                 v-model="PhoneNumber"
-                :error-messages="PhoneNumber"
+                :error-messages="PhoneNumberErrors"
                 :counter="11"
                 label="電話番号"
                 @input="$v.PhoneNumber.$touch()"
@@ -100,7 +100,7 @@
               class="input"
                 v-model="email"
                 :error-messages="emailErrors"
-                label="E-mail"
+                label="メールアドレス"
                 required
                 @input="$v.email.$touch()"
                 @blur="$v.email.$touch()"
