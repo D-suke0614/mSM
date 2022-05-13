@@ -23,9 +23,6 @@
         <!-- インポートタブ -->
         <v-tab-item>
           <v-form
-          method="post"
-          action="http://localhost:7780/mSM_CSV/CSVtoDBforActive"
-          enctype="multipart/form-data"
           >
             <v-file-input
             v-model="im_activ"
