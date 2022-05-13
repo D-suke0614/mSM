@@ -139,7 +139,7 @@ const url = "http://localhost:7773/msm_project/api/projects/"
       pjContentErrors () {
         const errors = []
         if (!this.$v.pjContent.$dirty) return errors
-        !this.$v.pjContent.required && errors.push('案件名を入力してください！')
+        !this.$v.pjContent.required && errors.push('案件内容を入力してください！')
         return errors
       },
     },
